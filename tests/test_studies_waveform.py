@@ -19,3 +19,9 @@ def test_timing():
     r = m.timing()
     assert 0 <= r["summary"]["ber"] <= 1
     assert np.isfinite(r["arrays"]["recovered_symbols"]).all()
+
+
+def test_iq():
+    r = m.iq()
+    assert 0 <= r["summary"]["ber"] <= 1
+    assert np.isfinite(r["arrays"]["recovered_symbols"]).all()

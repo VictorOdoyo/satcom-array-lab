@@ -118,3 +118,7 @@ def uncalibrated(scale=1, seed=42):
 
 def timing(scale=1, seed=42):
     return solve("fractional-timing-acquisition", scale, seed, fractional_samples=3.5)
+
+
+def iq(scale=1, seed=42):
+    return solve("severe-iq-calibration", scale, seed, quadrature_gain=0.4, iq_phase_rad=0.3, offset_hz=0)
