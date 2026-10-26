@@ -1,0 +1,5 @@
+{
+  "rolloff": 0.25,
+  "samples_per_symbol": 8,
+  "span_symbols": 10
+}
