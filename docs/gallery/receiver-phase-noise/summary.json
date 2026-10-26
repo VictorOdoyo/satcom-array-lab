@@ -1,0 +1,9 @@
+{
+  "ber": 0.4091796875,
+  "bit_errors": 419,
+  "bits": 1024,
+  "clipped_samples": 0,
+  "estimated_lag_samples": 352.875,
+  "estimated_offset_hz": 41.89076430795875,
+  "evm_rms": 1.428305445966507
+}
