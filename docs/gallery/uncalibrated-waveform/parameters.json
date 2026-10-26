@@ -1,0 +1,8 @@
+{
+  "calibrated": false,
+  "pilot_symbols": 128,
+  "rrc_rolloff": 0.25,
+  "samples_per_symbol": 8,
+  "seed": 42,
+  "symbol_rate_s": 10000
+}
