@@ -100,3 +100,15 @@ def response(weights_value, unit_enu, model=None, frequency_hz=None):
         "snr_gain": signal / noise if noise > 1e-30 else np.zeros_like(signal),
         "available": bool(noise > 1e-30),
     }
+
+
+def quantize_phase(weights_value, bits=3):
+    from .core import finite, integer
+
+    w = finite(weights_value, ndim=1)
+    integer(bits)
+    if bits > 16:
+        raise ValueError("phase quantizer supports at most sixteen bits")
+    levels = 2**bits
+    code = np.rint((np.angle(w) % (2 * np.pi)) * levels / (2 * np.pi)).astype(np.int64) % levels
+    return abs(w) * np.exp(2j * np.pi * code / levels)

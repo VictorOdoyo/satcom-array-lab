@@ -39,3 +39,10 @@ def test_receiver_snr_gain_is_invariant_to_common_weight_scaling():
     b = m.response(3 * w, [0, 0, 1])
     assert a["snr_gain"] == pytest.approx(b["snr_gain"])
     assert b["noise_gain"] == pytest.approx(9 * a["noise_gain"])
+
+
+def test_phase_quantization_preserves_amplitude_and_respects_half_step_error():
+    w = m.weights(m.from_direction_cosines([0.3, 0.2]))
+    q = m.quantize_phase(w, 3)
+    error = np.angle(q * np.conj(w))
+    assert np.allclose(abs(w), abs(q)) and max(abs(error)) <= np.pi / 8 + 1e-12
