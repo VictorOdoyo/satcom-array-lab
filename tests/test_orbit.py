@@ -69,3 +69,8 @@ def test_j2_acceleration_matches_independent_potential_gradient():
         ]
     )
     assert np.allclose(m.acceleration(r, include_j2=True), numerical, rtol=1e-9)
+
+
+def test_cartesian_rk4_matches_independent_universal_two_body_solution():
+    x = m.from_elements(7e6, 0.05, 0.7, 0.3, 0.2, 0.1)
+    assert np.allclose(m.step(x, 1), m.propagate(x, 1), atol=1e-6)

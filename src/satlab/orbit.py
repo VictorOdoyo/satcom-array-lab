@@ -163,3 +163,24 @@ def potential(position, model=None, include_j2=False):
     if include_j2:
         value += p.mu_m3_s2 * p.j2 * p.radius_m**2 / (2 * radius**3) * (3 * r[2] ** 2 / radius**2 - 1)
     return float(value)
+
+
+def rhs(state, model=None, include_j2=False):
+    from .core import finite
+
+    x = finite(state, real=True)
+    if x.shape != (6,):
+        raise ValueError("Cartesian orbital state required")
+    return np.r_[x[3:], acceleration(x[:3], model, include_j2)]
+
+
+def step(state, dt_s, model=None, include_j2=False):
+    from .core import finite
+
+    x = finite(state, real=True)
+    dt = float(finite(dt_s, real=True))
+    k1 = rhs(x, model, include_j2)
+    k2 = rhs(x + dt * k1 / 2, model, include_j2)
+    k3 = rhs(x + dt * k2 / 2, model, include_j2)
+    k4 = rhs(x + dt * k3, model, include_j2)
+    return x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6
