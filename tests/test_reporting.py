@@ -123,3 +123,22 @@ def test_report_verification_detects_changed_tables_and_incomplete_manifests(tmp
     (tmp_path / "manifest.json").write_text(json.dumps({"fields.npz": "0" * 64}), encoding="utf-8")
     with pytest.raises(ValueError, match="complete"):
         m.verify_report(tmp_path)
+
+
+def test_explicit_constellation_markers_override_reference_line_heuristic(tmp_path, monkeypatch):
+    from matplotlib.axes import Axes
+
+    original = Axes.plot
+    styles = []
+
+    def record(self, *args, **kwargs):
+        if len(args) > 2:
+            styles.append(args[2])
+        return original(self, *args, **kwargs)
+
+    monkeypatch.setattr(Axes, "plot", record)
+    result = _example()
+    result["plots"][0]["style"] = "."
+    result["plots"][0]["series"][0]["label"] = "Reference symbols"
+    m.plot_result(result, tmp_path / "constellation.png")
+    assert styles[0] == "."

@@ -207,7 +207,9 @@ def plot_result(result, path):
                 usable = selected & series_valid
                 shown = np.where(usable, y, np.nan)
                 style = plot.get("style", "o-" if len(x) <= 12 else "-")
-                if any(word in series["label"].lower() for word in ("exact", "analytic", "reference")):
+                if "style" not in plot and any(
+                    word in series["label"].lower() for word in ("exact", "analytic", "reference")
+                ):
                     style = "--"
                 ax.plot(
                     x,
