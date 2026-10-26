@@ -96,3 +96,11 @@ def test_rain_degrades_service():
     rain = m.simulate(m.Config(duration_s=80, rain_mm_h=20))
     assert np.mean(rain["cn0_dbhz"]) < np.mean(clear["cn0_dbhz"])
     assert rain["delivered_bits"][-1] < clear["delivered_bits"][-1]
+
+
+def test_seed_reproduction():
+    a = m.simulate(m.Config(duration_s=10, phase_std_rad=0.2, seed=22))
+    b = m.simulate(m.Config(duration_s=10, phase_std_rad=0.2, seed=22))
+    c = m.simulate(m.Config(duration_s=10, phase_std_rad=0.2, seed=23))
+    assert np.array_equal(a["weights"], b["weights"])
+    assert not np.array_equal(a["weights"], c["weights"])
