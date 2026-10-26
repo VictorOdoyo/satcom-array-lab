@@ -78,8 +78,8 @@ def stumpff(z):
     value = float(finite(z, real=True))
     if abs(value) < 1e-5:
         return (
-            0.5 - value / 24 + value** 2 / 720 - value** 3 / 40320,
-            1 / 6 - value / 120 + value** 2 / 5040 - value** 3 / 362880,
+            0.5 - value / 24 + value**2 / 720 - value**3 / 40320,
+            1 / 6 - value / 120 + value**2 / 5040 - value**3 / 362880,
         )
     if value > 0:
         root = np.sqrt(value)
@@ -88,3 +88,46 @@ def stumpff(z):
     if root > 500:
         raise ValueError("hyperbolic universal argument exceeds supported finite range")
     return (np.cosh(root) - 1) / (-value), (np.sinh(root) - root) / root**3
+
+
+def propagate(state, dt_s, model=None):
+    from scipy.optimize import brentq
+
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    x = finite(state, real=True)
+    dt = float(finite(dt_s, real=True))
+    if x.shape != (6,) or np.linalg.norm(x[:3]) < 1:
+        raise ValueError("noncentral Cartesian orbit state required")
+    if dt == 0:
+        return x.copy()
+    r0, v0 = x[:3], x[3:]
+    radius = np.linalg.norm(r0)
+    root_mu = np.sqrt(p.mu_m3_s2)
+    alpha = 2 / radius - (v0 @ v0) / p.mu_m3_s2
+    coefficient = (r0 @ v0) / root_mu
+
+    def equation(chi):
+        c, s = stumpff(alpha * chi * chi)
+        return coefficient * chi * chi * c + (1 - alpha * radius) * chi**3 * s + radius * chi - root_mu * dt
+
+    direction = np.sign(dt)
+    bound = direction * max(1, abs(root_mu * dt / radius))
+    for _ in range(60):
+        if direction * equation(bound) >= 0:
+            break
+        bound *= 2
+    else:
+        raise ValueError("universal anomaly could not be bracketed")
+    low, high = sorted([0.0, bound])
+    chi = brentq(equation, low, high, xtol=1e-10, rtol=1e-14)
+    c, s = stumpff(alpha * chi * chi)
+    f = 1 - chi * chi * c / radius
+    g = dt - chi**3 * s / root_mu
+    r = f * r0 + g * v0
+    rn = np.linalg.norm(r)
+    fdot = root_mu / (rn * radius) * (alpha * chi**3 * s - chi)
+    gdot = 1 - chi * chi * c / rn
+    return np.r_[r, fdot * r0 + gdot * v0]
