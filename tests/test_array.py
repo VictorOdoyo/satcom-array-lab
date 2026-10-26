@@ -55,3 +55,10 @@ def test_element_failure_reduces_receive_gain_by_active_count():
     q = m.impair(w, healthy=health)
     assert m.response(q, [0, 0, 1])["snr_gain"] == pytest.approx(32)
     assert not m.response(m.impair(w, healthy=np.zeros(64, bool)), [0, 0, 1])["available"]
+
+
+def test_element_scan_pattern_has_declared_broadside_gain_and_suppressed_back_hemisphere():
+    p = m.Aperture()
+    assert m.element_gain([0, 0, 1], p) == pytest.approx(10 ** (0.4))
+    assert m.element_gain([0, 0, -1], p) == 0
+    assert m.element_gain([np.sqrt(0.75), 0, 0.5], p) == pytest.approx(10 ** (0.4) * 0.25)

@@ -131,3 +131,14 @@ def impair(weights_value, amplitude_gain=None, phase_error_rad=None, healthy=Non
     ):
         raise ValueError("aligned nonnegative receiver gains phases and boolean health required")
     return normalize(w * amplitude * np.exp(1j * phase) * health, allow_zero=True)
+
+
+def element_gain(unit_enu, model=None):
+    from .core import finite
+
+    p = Aperture() if model is None else model
+    u = finite(unit_enu, real=True)
+    if u.shape[-1] != 3 or not np.allclose(np.linalg.norm(u, axis=-1), 1, atol=1e-8):
+        raise ValueError("unit ENU direction required")
+    up = u[..., 2]
+    return np.where(up > 0, 10 ** (p.element_peak_dbi / 10) * np.maximum(up, 0) ** p.element_exponent, 0.0)
