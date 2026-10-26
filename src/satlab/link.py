@@ -50,3 +50,24 @@ def atmosphere(
     transmission = 10 ** (-attenuation / 10)
     sky = 2.725 * transmission + positive(temperature_k) * (1 - transmission)
     return {"attenuation_db": attenuation, "sky_temperature_k": sky}
+
+
+def budget(eirp_dbw, receive_gain_dbi, range_m, frequency_hz, system_temperature_k, total_loss_db=0):
+    from .core import finite
+    from .earth import K_B
+
+    eirp = finite(eirp_dbw, real=True)
+    gain = finite(receive_gain_dbi, real=True)
+    temperature = finite(system_temperature_k, real=True)
+    loss = finite(total_loss_db, real=True)
+    if np.any(temperature <= 0) or np.any(loss < 0):
+        raise ValueError("positive system temperature and nonnegative propagation losses required")
+    path = free_space_loss(range_m, frequency_hz)
+    received = eirp + gain - path - loss
+    noise = 10 * np.log10(K_B * temperature)
+    return {
+        "received_dbw": received,
+        "noise_density_dbw_hz": noise,
+        "cn0_dbhz": received - noise,
+        "free_space_loss_db": path,
+    }

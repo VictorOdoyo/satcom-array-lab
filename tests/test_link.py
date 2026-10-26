@@ -22,3 +22,12 @@ def test_atmospheric_loss_also_increases_sky_noise_and_slant_path():
     low = m.atmosphere(np.pi / 6)
     assert rain["sky_temperature_k"] > clear["sky_temperature_k"]
     assert low["attenuation_db"] == pytest.approx(2 * clear["attenuation_db"])
+
+
+def test_link_budget_matches_independent_boltzmann_power_accounting():
+    from satlab.earth import K_B
+
+    r = m.budget(30, 22, 600000, 20e9, 500, 2)
+    power = 10 ** ((30 + 22 - 2) / 10) / (4 * np.pi * 600000 * 20e9 / 299792458) ** 2
+    assert 10 ** (r["received_dbw"] / 10) == pytest.approx(power, rel=1e-12, abs=0)
+    assert r["cn0_dbhz"] == pytest.approx(10 * np.log10(power / (K_B * 500)))
