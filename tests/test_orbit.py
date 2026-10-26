@@ -33,3 +33,11 @@ def test_osculating_elements_roundtrip_non_degenerate_orbit_and_label_circular_c
     )
     assert np.allclose(restored, x, rtol=1e-12, atol=1e-6)
     assert m.elements(m.from_elements(7e6, 0, 0))["circular"]
+
+
+def test_stumpff_zero_limits_and_positive_negative_identities():
+    assert np.allclose(m.stumpff(0), [0.5, 1 / 6])
+    c, s = m.stumpff(1.0)
+    assert c == pytest.approx(1 - np.cos(1)) and s == pytest.approx(1 - np.sin(1))
+    c, s = m.stumpff(-1.0)
+    assert c == pytest.approx(np.cosh(1) - 1) and s == pytest.approx(np.sinh(1) - 1)

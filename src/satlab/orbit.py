@@ -70,3 +70,21 @@ def elements(state, model=None):
         "circular": bool(circular),
         "equatorial": bool(equatorial),
     }
+
+
+def stumpff(z):
+    from .core import finite
+
+    value = float(finite(z, real=True))
+    if abs(value) < 1e-5:
+        return (
+            0.5 - value / 24 + value** 2 / 720 - value** 3 / 40320,
+            1 / 6 - value / 120 + value** 2 / 5040 - value** 3 / 362880,
+        )
+    if value > 0:
+        root = np.sqrt(value)
+        return (1 - np.cos(root)) / value, (root - np.sin(root)) / root**3
+    root = np.sqrt(-value)
+    if root > 500:
+        raise ValueError("hyperbolic universal argument exceeds supported finite range")
+    return (np.cosh(root) - 1) / (-value), (np.sinh(root) - root) / root**3
