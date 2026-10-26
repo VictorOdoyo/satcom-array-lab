@@ -89,3 +89,29 @@ def burst(scale=1, seed=42):
             "A separate unmodulated tone preamble estimates CFO; known pilots fit one complex gain."
         ],
     )
+
+
+def coherent(scale=1, seed=42):
+    from . import link
+
+    offset = np.linspace(-3000, 3000, 601 * scale)
+    duration = 0.001
+    n = 1000
+    sampled = abs(np.mean(np.exp(2j * np.pi * offset[:, None] * np.arange(n) * duration / n), axis=1)) ** 2
+    analytic = link.coherent_gain(offset, duration)
+    return make(
+        "coherent-frequency-loss",
+        {"integration_s": duration, "samples": n},
+        {"max_power_difference": float(max(abs(sampled - analytic)))},
+        {"offset_hz": offset, "analytic_db": link.db(analytic), "discrete_db": link.db(sampled)},
+        [
+            curve(
+                "Residual carrier coherent loss",
+                "offset_hz",
+                [("analytic_db", "Continuous sinc"), ("discrete_db", "Discrete tone sum")],
+                "Residual frequency (Hz)",
+                "Coherent power gain (dB)",
+                ylim=(-70, 1),
+            )
+        ],
+    )

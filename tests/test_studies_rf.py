@@ -9,3 +9,8 @@ def test_ber():
 def test_burst():
     r = m.burst()
     assert r["summary"]["ber"] < 0.01
+
+
+def test_coherent():
+    r = m.coherent()
+    assert r["summary"]["max_power_difference"] < 1e-5
