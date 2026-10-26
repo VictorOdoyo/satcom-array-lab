@@ -48,3 +48,9 @@ def test_required_eirp_closes_the_forward_budget_without_hidden_gain_terms():
 def test_capacity_matches_independent_awgn_formula_and_increases_with_carrier_power():
     assert m.capacity(60, 1e6) == pytest.approx(1e6)
     assert m.capacity(63, 1e6) > m.capacity(60, 1e6)
+
+
+def test_qpsk_symbol_energy_reference_matches_bpsk_information_bit_energy():
+    es = np.array([0.0, 4, 10])
+    assert np.allclose(m.qpsk_ber(es), m.bpsk_ber(es - 10 * np.log10(2)))
+    assert m.qpsk_ber(10) == pytest.approx(0.000782701129, rel=1e-8)

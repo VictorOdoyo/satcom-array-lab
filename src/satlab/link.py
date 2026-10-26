@@ -104,3 +104,15 @@ def capacity(cn0_dbhz, bandwidth_hz):
 
     bandwidth = positive(bandwidth_hz)
     return bandwidth * np.log2(1 + linear(cn0_dbhz) / bandwidth)
+
+
+def bpsk_ber(ebn0_db):
+    from scipy.special import erfc
+
+    return 0.5 * erfc(np.sqrt(linear(ebn0_db)))
+
+
+def qpsk_ber(esn0_db):
+    from scipy.special import erfc
+
+    return 0.5 * erfc(np.sqrt(linear(esn0_db) / 2))
