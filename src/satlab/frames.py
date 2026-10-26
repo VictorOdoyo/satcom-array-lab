@@ -25,3 +25,29 @@ def ecef_to_eci(position, angle_rad):
     if r.shape[-1] != 3:
         raise ValueError("Cartesian position triples required")
     return r @ rz(angle_rad).T
+
+
+def state_to_ecef(state, angle_rad, model=None):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    x = finite(state, real=True)
+    if x.shape != (6,):
+        raise ValueError("inertial position and velocity required")
+    r = eci_to_ecef(x[:3], angle_rad)
+    velocity = eci_to_ecef(x[3:] - np.cross([0, 0, p.rotation_rad_s], x[:3]), angle_rad)
+    return np.r_[r, velocity]
+
+
+def state_to_eci(state, angle_rad, model=None):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    x = finite(state, real=True)
+    if x.shape != (6,):
+        raise ValueError("Earth-fixed position and velocity required")
+    r = ecef_to_eci(x[:3], angle_rad)
+    velocity = ecef_to_eci(x[3:], angle_rad) + np.cross([0, 0, p.rotation_rad_s], r)
+    return np.r_[r, velocity]
