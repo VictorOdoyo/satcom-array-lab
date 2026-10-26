@@ -116,3 +116,7 @@ def outage(scale=1, seed=42):
 
 def gap(scale=1, seed=42):
     return solve("beacon-gap-pass", scale, seed, beacon_gap_s=[-30, 30])
+
+
+def outlier(scale=1, seed=42):
+    return solve("beacon-outlier-pass", scale, seed, inject_outlier=True)

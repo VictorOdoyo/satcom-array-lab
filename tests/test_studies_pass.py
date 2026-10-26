@@ -57,3 +57,10 @@ def test_gap():
     assert r["name"] == "beacon-gap-pass"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_outlier():
+    r = m.outlier()
+    assert r["name"] == "beacon-outlier-pass"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
