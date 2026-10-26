@@ -95,3 +95,28 @@ def wilson(errors, trials, z=1.959963984540054):
     center = (p + zz / (2 * n)) / den
     radius = np.sqrt(zz * (p * (1 - p) / n + zz / (4 * n * n))) / den
     return (max(0.0, center - radius), min(1.0, center + radius))
+
+
+def burst(esn0_db=10, offset_hz=1200, seed=0, payload_symbols=4096):
+    from .core import integer, stream
+
+    rng = stream(seed, "qpsk-burst")
+    fs = 20000.0
+    preamble = 1024
+    pilots = 128
+    bits = rng.integers(0, 2, 2 * (pilots + integer(payload_symbols)))
+    symbols = qpsk(bits)
+    tx = np.r_[np.ones(preamble), symbols]
+    rx = awgn(carrier(tx, fs, offset_hz, 0.6), esn0_db, rng)
+    estimate = acquire_tone(rx[:preamble], fs, 4000)["offset_hz"]
+    corrected = carrier(rx, fs, -estimate)
+    gain = pilot_fit(corrected[preamble : preamble + pilots], symbols[:pilots])["gain"]
+    equalized = corrected[preamble + pilots :] / gain
+    result = quality(equalized, symbols[pilots:], bits[2 * pilots :])
+    return {
+        **result,
+        "estimated_offset_hz": estimate,
+        "residual_offset_hz": offset_hz - estimate,
+        "received": equalized,
+        "reference": symbols[pilots:],
+    }

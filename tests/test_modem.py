@@ -56,3 +56,10 @@ def test_wilson_zero_errors():
     assert 0.03 < hi < 0.04
     with pytest.raises(ValueError):
         m.wilson(2, 1)
+
+
+def test_burst_recovery():
+    result = m.burst(18, 1200, 3, 1024)
+    assert result["ber"] < 0.005
+    assert abs(result["residual_offset_hz"]) < 1
+    assert result["evm_rms"] < 0.2
