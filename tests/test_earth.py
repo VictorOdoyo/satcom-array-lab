@@ -30,3 +30,9 @@ def test_enu_basis_is_orthonormal_right_handed_and_matches_equator():
     r = m.enu_matrix(0.4, 0.7)
     assert np.allclose(r @ r.T, np.eye(3)) and np.linalg.det(r) == pytest.approx(1)
     assert np.allclose(m.enu_matrix(0, 0), [[0, 1, 0], [0, 0, 1], [1, 0, 0]])
+
+
+def test_julian_date_matches_j2000_and_rejects_implicit_host_timezone():
+    assert m.julian_date("2000-01-01T12:00:00Z") == 2451545.0
+    with pytest.raises(ValueError):
+        m.julian_date("2000-01-01T12:00:00")

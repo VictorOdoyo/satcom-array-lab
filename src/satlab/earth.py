@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import UTC
 
 import numpy as np
 
@@ -89,3 +90,12 @@ def enu_matrix(latitude_rad, longitude_rad):
     sl, cl = np.sin(lon), np.cos(lon)
     sp, cp = np.sin(lat), np.cos(lat)
     return np.array([[-sl, cl, 0], [-sp * cl, -sp * sl, cp], [cp * cl, cp * sl, sp]])
+
+
+def julian_date(epoch):
+    from datetime import datetime
+
+    value = datetime.fromisoformat(epoch.replace("Z", "+00:00")) if isinstance(epoch, str) else epoch
+    if not isinstance(value, datetime) or value.tzinfo is None:
+        raise ValueError("timezone-aware civil epoch required")
+    return value.astimezone(UTC).timestamp() / 86400 + 2440587.5
