@@ -13,3 +13,23 @@ def test_classical_elements_recover_circular_speed_and_orbit_inclination():
     assert np.linalg.norm(x[3:]) == pytest.approx(np.sqrt(p.mu_m3_s2 / 7e6))
     h = np.cross(x[:3], x[3:])
     assert np.arccos(h[2] / np.linalg.norm(h)) == pytest.approx(0.7)
+
+
+def test_osculating_elements_roundtrip_non_degenerate_orbit_and_label_circular_case():
+    x = m.from_elements(8e6, 0.2, 0.8, 0.3, 0.4, 0.7)
+    e = m.elements(x)
+    restored = m.from_elements(
+        **{
+            k: e[k]
+            for k in (
+                "semimajor_m",
+                "eccentricity",
+                "inclination_rad",
+                "raan_rad",
+                "argument_rad",
+                "true_anomaly_rad",
+            )
+        }
+    )
+    assert np.allclose(restored, x, rtol=1e-12, atol=1e-6)
+    assert m.elements(m.from_elements(7e6, 0, 0))["circular"]
