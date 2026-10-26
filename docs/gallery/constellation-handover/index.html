@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>constellation-handover | Satellite Array Stack</title>
+<style>body{font:16px system-ui;max-width:1300px;margin:3rem auto;padding:0 1rem;color:#172033}
+img{width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{padding:.55rem;border-bottom:1px solid #dce1ea;text-align:left}
+code{overflow-wrap:anywhere}a{color:#164ac4}</style>
+<h1>constellation-handover</h1><p>Reproducible satellite orbit, array and receiver. Units and field components are printed on the
+scientific axes. peak d-q quantities use exp(+i omega t); terminal currents point into the protected line.</p>
+<p><a href="fields.npz">Sealed numeric archive</a> | <a href="summary.csv">Summary CSV</a> |
+<a href="parameters.json">Physical parameters</a> | <a href="configuration.json">Run request</a> |
+<a href="provenance.json">Source and environment</a></p>
+<img src="figure.png" alt="Scientific curves and electromagnetic field maps for constellation-handover">
+<table><tr><th>delivered_mbit</th><td>3440.9</td></tr><tr><th>handovers</th><td>2</td></tr><tr><th>locked_carrier_rms_hz</th><td>17.66850654463934</td></tr><tr><th>locked_point_rms_deg</th><td>0.07124959699462807</td></tr><tr><th>locked_samples</th><td>850</td></tr><tr><th>offered_mbit</th><td>3459.9</td></tr></table><h2>Data tables</h2><ul></ul>
+<h2>Assumptions and interpretation</h2><ul><li>Synthetic circular ephemerides, UTC approximates UT1, fixed Earth rotation after GMST epoch.</li><li>Station uses Nairobi coordinates at zero ellipsoidal height; no surveyed terminal or live orbit data.</li><li>Idealized noisy beacon observations update bias filters only after current service decisions.</li><li>Illustrative ACM thresholds and rain law; no FEC decoder or ITU availability claim.</li></ul>
+<p>These are simulations, not hardware measurements. Network-model, measurement, timing and statistical
+uncertainty require distinct convergence checks. Singular or unilluminated data use explicit masks.</p>
+<p>Source revision: <code>9a21824463bee585d4ba8354070cc9108436346d</code>.
+Dirty checkout: <code>False</code>.
+Configuration SHA-256: <code>c1ed8c66f6644c7484a43669bfd4174ab99993493bb29d017c3ec31a967c4d0b</code>.</p>
+<p>Replay preserves original source and parameter provenance. SHA-256 manifests detect changed bytes;
+they are unsigned integrity records, not certificates of physical validity.</p></html>
