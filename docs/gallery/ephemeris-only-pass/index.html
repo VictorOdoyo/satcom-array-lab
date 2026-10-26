@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>ephemeris-only-pass | Satellite Array Stack</title>
+<style>body{font:16px system-ui;max-width:1300px;margin:3rem auto;padding:0 1rem;color:#172033}
+img{width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{padding:.55rem;border-bottom:1px solid #dce1ea;text-align:left}
+code{overflow-wrap:anywhere}a{color:#164ac4}</style>
+<h1>ephemeris-only-pass</h1><p>Reproducible satellite orbit, array and receiver. Units and field components are printed on the
+scientific axes. peak d-q quantities use exp(+i omega t); terminal currents point into the protected line.</p>
+<p><a href="fields.npz">Sealed numeric archive</a> | <a href="summary.csv">Summary CSV</a> |
+<a href="parameters.json">Physical parameters</a> | <a href="configuration.json">Run request</a> |
+<a href="provenance.json">Source and environment</a></p>
+<img src="figure.png" alt="Scientific curves and electromagnetic field maps for ephemeris-only-pass">
+<table><tr><th>delivered_mbit</th><td>55.1</td></tr><tr><th>handovers</th><td>0</td></tr><tr><th>locked_carrier_rms_hz</th><td>2794.9405610440667</td></tr><tr><th>locked_point_rms_deg</th><td>3.190864729331987</td></tr><tr><th>locked_samples</th><td>376</td></tr><tr><th>offered_mbit</th><td>66.5</td></tr></table><h2>Data tables</h2><ul></ul>
+<h2>Assumptions and interpretation</h2><ul><li>Synthetic circular ephemerides, UTC approximates UT1, fixed Earth rotation after GMST epoch.</li><li>Station uses Nairobi coordinates at zero ellipsoidal height; no surveyed terminal or live orbit data.</li><li>Idealized noisy beacon observations update bias filters only after current service decisions.</li><li>Illustrative ACM thresholds and rain law; no FEC decoder or ITU availability claim.</li></ul>
+<p>These are simulations, not hardware measurements. Network-model, measurement, timing and statistical
+uncertainty require distinct convergence checks. Singular or unilluminated data use explicit masks.</p>
+<p>Source revision: <code>9a21824463bee585d4ba8354070cc9108436346d</code>.
+Dirty checkout: <code>False</code>.
+Configuration SHA-256: <code>683bf4f019ecf341fffbf0b50e96a2ffefe67ae5d9e144b1960dc430efc0f82a</code>.</p>
+<p>Replay preserves original source and parameter provenance. SHA-256 manifests detect changed bytes;
+they are unsigned integrity records, not certificates of physical validity.</p></html>
