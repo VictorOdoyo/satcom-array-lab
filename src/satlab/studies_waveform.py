@@ -221,3 +221,37 @@ def image_rejection(scale=1, seed=42):
             "Noiseless synthetic calibration benchmark; extremely small residual image is numerical cancellation, not hardware performance."
         ],
     )
+
+
+def noise(scale=1, seed=42):
+    from .core import stream
+    from .modem import awgn
+    from .waveform import matched, rrc
+
+    n = 50000 * scale
+    raw = awgn(np.zeros(n, complex), 10, stream(seed, "matched-noise"))
+    filtered = matched(raw, rrc())
+    samples = filtered[100 : n - 100 : 8]
+    estimate = float(np.mean(abs(samples) ** 2))
+    return make(
+        "matched-filter-noise",
+        {"esn0_db": 10, "expected_complex_noise_variance": 0.1},
+        {"observed_variance": estimate},
+        {
+            "sample": np.arange(min(1000, len(samples))),
+            "real_noise": samples[:1000].real,
+            "imag_noise": samples[:1000].imag,
+        },
+        [
+            curve(
+                "Decimated matched noise",
+                "sample",
+                [("real_noise", "In-phase"), ("imag_noise", "Quadrature")],
+                "Symbol sample",
+                "Noise amplitude",
+            )
+        ],
+        assumptions=[
+            "Complex sample noise variance N0=0.1 and unit-energy matched pulse; oversampling does not multiply N0 by samples per symbol."
+        ],
+    )

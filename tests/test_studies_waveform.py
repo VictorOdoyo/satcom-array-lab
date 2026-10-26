@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from satlab import studies_waveform as m
 
@@ -58,3 +59,7 @@ def test_nyquist():
 def test_image_rejection():
     s = m.image_rejection()["summary"]
     assert s["image_rejection_after_db"] > s["image_rejection_before_db"] + 60
+
+
+def test_noise():
+    assert m.noise()["summary"]["observed_variance"] == pytest.approx(0.1, rel=0.06)
