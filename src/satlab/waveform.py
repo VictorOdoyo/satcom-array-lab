@@ -220,3 +220,74 @@ def periodogram(samples, sample_rate_hz):
         "power_per_hz": power,
         "integrated_power": float(sum(power) * fs / len(x)),
     }
+
+
+def burst(
+    seed=42,
+    esn0_db=20,
+    offset_hz=40,
+    fractional_samples=0.35,
+    quadrature_gain=0.8,
+    iq_phase_rad=0.1,
+    dc=0.03 + 0.02j,
+    linewidth_hz=0,
+    clock_ppm=0,
+    amplifier_saturation=10,
+    adc_bits=12,
+    adc_rail=1,
+    calibrated=True,
+    payload_symbols=512,
+):
+    from . import modem
+    from .core import stream
+
+    rng = stream(seed, "waveform-burst")
+    sps = 8
+    rate = 10000.0
+    guard = 32
+    pilot_count = 128
+    payload = integer(payload_symbols, 16)
+    bits = rng.integers(0, 2, 2 * (2 * guard + pilot_count + payload))
+    symbols = modem.qpsk(bits)
+    pulse = rrc(sps, 10, 0.25)
+    tx = shape(symbols, pulse, sps)
+    compressed = rapp(tx, amplifier_saturation)
+    delayed = fractional_delay(compressed, fractional_samples)
+    clocked = clock_drift(delayed["samples"], clock_ppm)["samples"]
+    shifted = modem.carrier(clocked, rate * sps, offset_hz, 0.4)
+    noisy_phase = phase_noise(shifted, rate * sps, linewidth_hz, rng)["samples"]
+    imperfect = iq_imbalance(noisy_phase, quadrature_gain, iq_phase_rad, dc)
+    quantized = quantize(modem.awgn(imperfect, esn0_db, rng), adc_bits, adc_rail)
+    filtered = matched(quantized["samples"], pulse)
+    pilots = symbols[guard : guard + pilot_count]
+    nominal = 10 * sps + delayed["integer_delay"] + guard * sps
+    timing = acquire_timing(filtered, pilots, sps, nominal - sps / 2, nominal + sps / 2)
+    observed = sample(filtered, timing["lag_samples"] + np.arange(pilot_count + payload) * sps)
+    if calibrated:
+        fit = joint_calibration(observed[:pilot_count], pilots, rate)
+        recovered = correct_iq(observed, fit["coefficients"]) * np.exp(
+            -2j * np.pi * fit["offset_hz"] * np.arange(len(observed)) / rate
+        )
+        frequency = fit["offset_hz"]
+    else:
+        gain = modem.pilot_fit(observed[:pilot_count], pilots)["gain"]
+        recovered = observed / gain
+        frequency = 0.0
+    data = recovered[pilot_count:]
+    reference = symbols[guard + pilot_count : guard + pilot_count + payload]
+    payload_bits = bits[2 * (guard + pilot_count) : 2 * (guard + pilot_count + payload)]
+    quality = modem.quality(data, reference, payload_bits)
+    return {
+        **quality,
+        "estimated_offset_hz": frequency,
+        "estimated_lag_samples": timing["lag_samples"],
+        "clipped_samples": int(sum(quantized["clipped"])),
+        "received_symbols": data,
+        "reference_symbols": reference,
+        "transmit_waveform": tx,
+        "receiver_waveform": quantized["samples"],
+        "matched_waveform": filtered,
+        "timing_lags": timing["lags"],
+        "timing_score": timing["score"],
+        "sample_rate_hz": rate * sps,
+    }

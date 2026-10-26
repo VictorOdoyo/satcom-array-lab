@@ -133,3 +133,14 @@ def test_joint_carrier_iq_fit():
 def test_periodogram_parseval():
     x = np.random.default_rng(8).normal(size=1000) + 1j * np.random.default_rng(9).normal(size=1000)
     assert m.periodogram(x, 80000)["integrated_power"] == pytest.approx(np.mean(abs(x) ** 2))
+
+
+def test_end_to_end_waveform_receiver():
+    r = m.burst()
+    assert r["ber"] < 0.01
+    assert abs(r["estimated_offset_hz"] - 40) < 3
+    assert r["evm_rms"] < 0.3
+
+
+def test_uncalibrated_waveform_retains_carrier_error():
+    assert m.burst(calibrated=False)["ber"] > 0.1
