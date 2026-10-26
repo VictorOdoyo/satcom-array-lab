@@ -80,3 +80,12 @@ def test_open_loop_exposes_bias():
     opened = m.simulate(m.Config(duration_s=80, closed_loop=False))
     assert closed["delivered_bits"][-1] > opened["delivered_bits"][-1]
     assert np.median(abs(closed["residual_hz"])[20:]) < np.median(abs(opened["residual_hz"])[20:]) / 10
+
+
+def test_outlier_gating():
+    r = m.simulate(m.Config(duration_s=80, inject_outlier=True))
+    k = np.flatnonzero(r["time_s"] == 0)[0]
+    assert r["beacon"][k] == 1
+    assert r["accepted"][k] == 0
+    assert r["nis"][k] > 9
+    assert r["locked"][k + 1] == 1
