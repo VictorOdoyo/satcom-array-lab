@@ -40,3 +40,11 @@ def test_cli_data_capture_render_and_replay_preserve_original_source(tmp_path):
     with pytest.raises(SystemExit) as error:
         main(["verify", str(replayed)])
     assert error.value.code == 2
+
+
+def test_cli_help_exposes_supported_satellite_commands_only(capsys):
+    from satlab.cli import parser
+
+    text = parser().format_help()
+    assert "satellite" in text
+    assert "record-replay" not in text and "iq-audit" not in text

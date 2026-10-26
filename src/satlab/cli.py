@@ -9,7 +9,9 @@ from .experiments import CASES, ExperimentConfig, load_config, run
 
 
 def parser():
-    root = argparse.ArgumentParser(prog="satlab", description="Reproducible radar perception studies")
+    root = argparse.ArgumentParser(
+        prog="satlab", description="Reproducible satellite orbit array and receiver studies"
+    )
     root.add_argument("--version", action="version", version=__version__)
     commands = root.add_subparsers(dest="command", required=True)
     commands.add_parser("list", help="list available physical studies")
@@ -33,11 +35,6 @@ def parser():
     replay.add_argument("--output", type=Path, required=True)
     verify = commands.add_parser("verify", help="verify report or catalog integrity")
     verify.add_argument("directory", type=Path)
-    record = commands.add_parser("record-replay", help="track strict SI polar-detection CSV")
-    record.add_argument("path", type=Path)
-    record.add_argument("--output", type=Path, required=True)
-    iq = commands.add_parser("iq-audit", help="inspect pickle-free raw IQ records")
-    iq.add_argument("path", type=Path)
     return root
 
 
@@ -86,35 +83,6 @@ def main(argv=None):
 
                 verify_report(args.directory)
                 print("Verified report")
-        elif args.command == "record-replay":
-            import hashlib
-
-            from .detections_io import read_csv, report
-            from .reporting import provenance, stamp, write_report
-
-            config = {
-                "command": "record-replay",
-                "input_sha256": hashlib.sha256(args.path.read_bytes()).hexdigest(),
-            }
-            source = provenance(config)
-            result = report(read_csv(args.path))
-            result["parameters"]["input_sha256"] = config["input_sha256"]
-            print(write_report(stamp(result, config, source), args.output))
-        elif args.command == "iq-audit":
-            from .records import read_npz
-
-            record = read_npz(args.path)
-            print(
-                json.dumps(
-                    {
-                        "frames": len(record.time_s),
-                        "valid_frames": int(sum(record.valid)),
-                        "shape": record.iq.shape,
-                        "radar": record.model.__dict__,
-                    },
-                    indent=2,
-                )
-            )
     except (ValueError, OSError, RuntimeError, KeyError) as error:
         root.error(str(error))
     return 0
