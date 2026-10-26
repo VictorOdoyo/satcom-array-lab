@@ -65,3 +65,13 @@ def test_iq_real_matrix():
     y = m.iq_imbalance(x, 0.5, 0.2, 0.1 + 0.2j)
     assert y[0] == pytest.approx(1 + 0.1 + 1j * (0.5 * np.sin(0.2) + 0.2))
     assert y[1] == pytest.approx(0.1 + 1j * (0.5 * np.cos(0.2) + 0.2))
+
+
+def test_iq_pilot_fit():
+    from satlab.modem import qpsk
+
+    p = qpsk(np.tile([0, 0, 0, 1, 1, 0, 1, 1], 10))
+    r = m.iq_imbalance(p, 0.8, 0.1, 0.04 + 0.02j)
+    fit = m.fit_iq(r, p)
+    assert max(abs(fit["residual"])) < 1e-12
+    assert fit["coefficients"][2] == pytest.approx(0.04 + 0.02j)

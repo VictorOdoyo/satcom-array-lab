@@ -108,3 +108,15 @@ def iq_imbalance(samples, quadrature_gain=0.8, phase_error_rad=0.1, dc=0j):
     phase = float(finite(phase_error_rad, real=True))
     offset = complex(finite(dc))
     return x.real + 1j * gain * (np.cos(phase) * x.imag + np.sin(phase) * x.real) + offset
+
+
+def fit_iq(received, pilots):
+    r = finite(received, ndim=1)
+    p = finite(pilots, ndim=1)
+    if r.shape != p.shape or len(p) < 4:
+        raise ValueError("aligned nonempty known pilots required")
+    design = np.column_stack([p, p.conj(), np.ones(len(p))])
+    if np.linalg.matrix_rank(design) < 3:
+        raise ValueError("pilot constellation cannot identify IQ and DC")
+    coefficients = np.linalg.lstsq(design, r, rcond=None)[0]
+    return {"coefficients": coefficients, "residual": r - design @ coefficients}
