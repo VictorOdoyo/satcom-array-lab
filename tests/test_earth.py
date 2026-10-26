@@ -24,3 +24,9 @@ def test_geodetic_inverse_recovers_arbitrary_altitude_and_polar_height():
     assert np.allclose(a[:2], target[:2], atol=1e-12) and a[2] == pytest.approx(target[2], abs=1e-6)
     p = m.Earth()
     assert m.ecef_to_geodetic([0, 0, p.minor_m + 100])[2] == pytest.approx(100)
+
+
+def test_enu_basis_is_orthonormal_right_handed_and_matches_equator():
+    r = m.enu_matrix(0.4, 0.7)
+    assert np.allclose(r @ r.T, np.eye(3)) and np.linalg.det(r) == pytest.approx(1)
+    assert np.allclose(m.enu_matrix(0, 0), [[0, 1, 0], [0, 0, 1], [1, 0, 0]])

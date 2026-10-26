@@ -78,3 +78,14 @@ def ecef_to_geodetic(position, model=None):
     n = p.radius_m / np.sqrt(1 - p.eccentricity_squared * np.sin(latitude) ** 2)
     height = horizontal / np.cos(latitude) - n
     return np.array([latitude, longitude, height])
+
+
+def enu_matrix(latitude_rad, longitude_rad):
+    from .core import finite
+
+    lat, lon = finite([latitude_rad, longitude_rad], real=True)
+    if abs(lat) > np.pi / 2:
+        raise ValueError("geodetic station latitude required")
+    sl, cl = np.sin(lon), np.cos(lon)
+    sp, cp = np.sin(lat), np.cos(lat)
+    return np.array([[-sl, cl, 0], [-sp * cl, -sp * sl, cp], [cp * cl, cp * sl, sp]])
