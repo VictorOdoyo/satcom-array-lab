@@ -29,3 +29,10 @@ def test_one_bit():
     assert r["name"] == "one-bit-phase-pass"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_calibration():
+    r = m.calibration()
+    assert r["name"] == "calibration-error-pass"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])

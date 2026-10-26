@@ -100,3 +100,7 @@ def rain(scale=1, seed=42):
 
 def one_bit(scale=1, seed=42):
     return solve("one-bit-phase-pass", scale, seed, phase_bits=1)
+
+
+def calibration(scale=1, seed=42):
+    return solve("calibration-error-pass", scale, seed, phase_std_rad=0.8)
