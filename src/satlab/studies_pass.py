@@ -124,3 +124,7 @@ def outlier(scale=1, seed=42):
 
 def handover(scale=1, seed=42):
     return solve("constellation-handover", scale, seed, duration_s=1100, pass_centers_s=[-240, 0, 240])
+
+
+def interference(scale=1, seed=42):
+    return solve("spatial-interference-pass", scale, seed, interference_inr=100)

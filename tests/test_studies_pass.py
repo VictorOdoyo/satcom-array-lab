@@ -71,3 +71,10 @@ def test_handover():
     assert r["name"] == "constellation-handover"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_interference():
+    r = m.interference()
+    assert r["name"] == "spatial-interference-pass"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
