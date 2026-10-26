@@ -206,3 +206,17 @@ def joint_calibration(received, pilots, symbol_rate_s, search_hz=300):
         "coefficients": cal["coefficients"],
         "pilot_residual_power": objective(frequency) / len(p),
     }
+
+
+def periodogram(samples, sample_rate_hz):
+    x = finite(samples, ndim=1)
+    fs = positive(sample_rate_hz)
+    if len(x) < 2:
+        raise ValueError("nonempty spectral record required")
+    power = abs(np.fft.fftshift(np.fft.fft(x))) ** 2 / (fs * len(x))
+    frequency = np.fft.fftshift(np.fft.fftfreq(len(x), 1 / fs))
+    return {
+        "frequency_hz": frequency,
+        "power_per_hz": power,
+        "integrated_power": float(sum(power) * fs / len(x)),
+    }

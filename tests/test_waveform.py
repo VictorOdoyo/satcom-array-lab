@@ -128,3 +128,8 @@ def test_joint_carrier_iq_fit():
     )
     assert abs(fit["offset_hz"] - 47) < 1e-4
     assert np.allclose(corrected, p, atol=1e-6)
+
+
+def test_periodogram_parseval():
+    x = np.random.default_rng(8).normal(size=1000) + 1j * np.random.default_rng(9).normal(size=1000)
+    assert m.periodogram(x, 80000)["integrated_power"] == pytest.approx(np.mean(abs(x) ** 2))
