@@ -190,3 +190,13 @@ def interference_covariance(unit_enu, inr_linear, model=None):
     if a.ndim != 1:
         raise ValueError("one interferer direction required")
     return np.eye(p.count) + positive(inr_linear, allow_zero=True) * np.outer(a, a.conj())
+
+
+def polarization_overlap(transmit_jones, receive_jones):
+    from .core import finite
+
+    tx = finite(transmit_jones)
+    rx = finite(receive_jones)
+    if tx.shape != (2,) or rx.shape != (2,) or min(np.linalg.norm(tx), np.linalg.norm(rx)) < 1e-12:
+        raise ValueError("nonzero complex Jones vectors required")
+    return float(abs(np.vdot(rx / np.linalg.norm(rx), tx / np.linalg.norm(tx))) ** 2)

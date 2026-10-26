@@ -79,3 +79,9 @@ def test_spatial_null_reduces_interference_noise_without_changing_covariance_law
     null = m.normalize(m.constrained_weights([desired, interferer], [1, 0]))
     assert m.noise_gain(null, r) < m.noise_gain(conventional, r)
     assert m.noise_gain(null, r) == pytest.approx(1, abs=1e-10)
+
+
+def test_polarization_overlap_matches_linear_and_circular_references():
+    assert m.polarization_overlap([1, 0], [0, 1]) == pytest.approx(0)
+    assert m.polarization_overlap([1, 0], [1, 1j]) == pytest.approx(0.5)
+    assert m.polarization_overlap([1, 1j], [1, -1j]) == pytest.approx(0)
