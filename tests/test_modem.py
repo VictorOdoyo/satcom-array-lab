@@ -33,3 +33,11 @@ def test_tone_acquisition():
     s = m.carrier(np.ones(1024), 20000, 1732.3, 0.7)
     noisy = m.awgn(s, 0, np.random.default_rng(2))
     assert abs(m.acquire_tone(noisy, 20000, 4000)["offset_hz"] - 1732.3) < 3
+
+
+def test_pilot_gain_phase():
+    p = m.qpsk([0, 0, 0, 1, 1, 0, 1, 1])
+    gain = 0.4 * np.exp(0.7j)
+    fit = m.pilot_fit(gain * p, p)
+    assert fit["gain"] == pytest.approx(gain)
+    assert np.allclose(fit["equalized"], p)

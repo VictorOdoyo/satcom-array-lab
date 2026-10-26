@@ -54,3 +54,14 @@ def acquire_tone(samples, sample_rate_hz, search_hz):
         if den != 0:
             delta = float(np.clip(0.5 * (y[0] - y[2]) / den, -0.5, 0.5))
     return {"offset_hz": float(freq[k] + delta * fs / nfft), "frequency_hz": freq, "power": power}
+
+
+def pilot_fit(received, known):
+    r = finite(received, ndim=1)
+    p = finite(known, ndim=1)
+    if r.shape != p.shape or not len(p) or np.vdot(p, p).real <= 0:
+        raise ValueError("aligned nonzero reference pilots required")
+    gain = np.vdot(p, r) / np.vdot(p, p)
+    if abs(gain) < 1e-15:
+        raise ValueError("unobservable pilot channel")
+    return {"gain": complex(gain), "equalized": r / gain}
