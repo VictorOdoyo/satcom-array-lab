@@ -99,3 +99,9 @@ def test_adc_rails():
     assert r["samples"][0] == pytest.approx(-1 - 1j)
     assert r["samples"][-1] == pytest.approx(1 + 1j)
     assert np.array_equal(r["clipped"], [True, False, True])
+
+
+def test_phase_increment_variance():
+    r = m.phase_noise(np.ones(100000), 80000, 5, np.random.default_rng(5))
+    assert np.var(np.diff(r["phase_rad"])) == pytest.approx(2 * np.pi * 5 / 80000, rel=0.02)
+    assert np.allclose(abs(r["samples"]), 1)

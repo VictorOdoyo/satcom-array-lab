@@ -153,3 +153,11 @@ def quantize(samples, bits=12, full_scale=1):
     i = -rail + np.rint((np.clip(x.real, -rail, rail) + rail) / step) * step
     q = -rail + np.rint((np.clip(x.imag, -rail, rail) + rail) / step) * step
     return {"samples": i + 1j * q, "clipped": clipped, "lsb": step}
+
+
+def phase_noise(samples, sample_rate_hz, linewidth_hz, rng):
+    x = finite(samples, ndim=1)
+    fs = positive(sample_rate_hz)
+    linewidth = positive(linewidth_hz, allow_zero=True)
+    phase = np.r_[0, np.cumsum(rng.normal(0, np.sqrt(2 * np.pi * linewidth / fs), max(0, len(x) - 1)))]
+    return {"samples": x * np.exp(1j * phase), "phase_rad": phase}
