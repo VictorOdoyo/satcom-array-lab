@@ -110,3 +110,7 @@ def solve(name, scale, seed, **changes):
 
 def nominal(scale=1, seed=42):
     return solve("oversampled-qpsk-receiver", scale, seed)
+
+
+def uncalibrated(scale=1, seed=42):
+    return solve("uncalibrated-waveform", scale, seed, calibrated=False)
