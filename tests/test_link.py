@@ -54,3 +54,9 @@ def test_qpsk_symbol_energy_reference_matches_bpsk_information_bit_energy():
     es = np.array([0.0, 4, 10])
     assert np.allclose(m.qpsk_ber(es), m.bpsk_ber(es - 10 * np.log10(2)))
     assert m.qpsk_ber(10) == pytest.approx(0.000782701129, rel=1e-8)
+
+
+def test_frequency_residual_has_analytic_rectangular_integration_nulls():
+    assert m.coherent_gain(0, 0.001) == 1
+    assert m.coherent_gain(1000, 0.001) < 1e-20
+    assert m.coherent_gain(500, 0.001) == pytest.approx((2 / np.pi) ** 2)

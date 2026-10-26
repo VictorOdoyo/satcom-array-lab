@@ -116,3 +116,11 @@ def qpsk_ber(esn0_db):
     from scipy.special import erfc
 
     return 0.5 * erfc(np.sqrt(linear(esn0_db) / 2))
+
+
+def coherent_gain(residual_hz, integration_s):
+    from .core import finite, positive
+
+    frequency = finite(residual_hz, real=True)
+    duration = positive(integration_s)
+    return np.sinc(frequency * duration) ** 2
