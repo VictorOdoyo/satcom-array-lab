@@ -138,3 +138,46 @@ def phase(scale=1, seed=42):
 
 def clock(scale=1, seed=42):
     return solve("receiver-clock-drift", scale, seed, clock_ppm=1500)
+
+
+def nyquist(scale=1, seed=42):
+    from .waveform import rrc
+
+    h = rrc(8, 10, 0.25)
+    combined = np.convolve(h, h[::-1])
+    center = len(h) - 1
+    time = (np.arange(len(combined)) - center) / 8
+    sample_index = np.arange(-5, 6) * 8 + center
+    isi = combined[sample_index].copy()
+    isi[5] = 0
+    return make(
+        "rrc-nyquist-pulse",
+        {"rolloff": 0.25, "span_symbols": 10, "samples_per_symbol": 8},
+        {"maximum_off_center_isi": float(max(abs(isi)))},
+        {
+            "symbol_time": time,
+            "combined": combined,
+            "sample_time": (sample_index - center) / 8,
+            "nyquist_samples": combined[sample_index],
+        },
+        [
+            curve(
+                "Finite-span matched pulse",
+                "symbol_time",
+                [("combined", "Tx RRC convolved with Rx RRC")],
+                "Symbol intervals from pulse center",
+                "Pulse amplitude",
+            ),
+            curve(
+                "Symbol-spaced matched samples",
+                "sample_time",
+                [("nyquist_samples", "Samples")],
+                "Symbol offset",
+                "Amplitude",
+                style="o",
+            ),
+        ],
+        assumptions=[
+            "Finite pulse truncation retains small residual ISI rather than asserting ideal infinite-span zeros."
+        ],
+    )

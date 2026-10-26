@@ -49,3 +49,7 @@ def test_clock():
     r = m.clock()
     assert 0 <= r["summary"]["ber"] <= 1
     assert np.isfinite(r["arrays"]["recovered_symbols"]).all()
+
+
+def test_nyquist():
+    assert m.nyquist()["summary"]["maximum_off_center_isi"] < 0.02
