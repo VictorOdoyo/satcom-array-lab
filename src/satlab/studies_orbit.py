@@ -131,3 +131,44 @@ def precession(scale=1, seed=42):
         ],
         assumptions=["First-order secular formula is approximate; osculating node includes periodic terms."],
     )
+
+
+def doppler(scale=1, seed=42):
+    from .earth import C
+    from .passmodel import Config, geometry
+
+    t, s = geometry(Config(duration_s=600, step_s=0.25 / scale))
+    ranges = np.array([x["range_m"] for x in s[0]["true"]])
+    truth = np.array([x["doppler_hz"] for x in s[0]["true"]])
+    derived = -np.gradient(ranges, t, edge_order=2) * 20e9 / C
+    interior = np.zeros(len(t), bool)
+    interior[1:-1] = True
+    error = derived - truth
+    return make(
+        "doppler-range-derivative",
+        {"carrier_hz": 20e9},
+        {"interior_max_error_hz": float(max(abs(error[interior])))},
+        {
+            "time_s": t,
+            "analytic_hz": truth,
+            "difference_hz": derived,
+            "error_hz": error,
+            "interior": interior,
+        },
+        [
+            curve(
+                "Geometric Doppler",
+                "time_s",
+                [("analytic_hz", "Velocity projection"), ("difference_hz", "Range derivative")],
+                "Time (s)",
+                "Frequency (Hz)",
+            ),
+            curve(
+                "Independent derivative discrepancy",
+                "time_s",
+                [("error_hz", "Finite difference", "interior")],
+                "Time (s)",
+                "Error (Hz)",
+            ),
+        ],
+    )
