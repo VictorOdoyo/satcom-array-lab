@@ -31,3 +31,11 @@ def test_uniform_receiver_weights_have_unit_noise_gain_and_coherent_signal_gain(
     a = m.steering([0, 0, 1])
     assert np.vdot(w, w).real == pytest.approx(1)
     assert abs(np.vdot(w, a)) ** 2 == pytest.approx(64)
+
+
+def test_receiver_snr_gain_is_invariant_to_common_weight_scaling():
+    w = m.weights([0, 0, 1])
+    a = m.response(w, [0, 0, 1])
+    b = m.response(3 * w, [0, 0, 1])
+    assert a["snr_gain"] == pytest.approx(b["snr_gain"])
+    assert b["noise_gain"] == pytest.approx(9 * a["noise_gain"])

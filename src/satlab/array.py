@@ -82,3 +82,21 @@ def weights(unit_enu, model=None, taper="uniform"):
     if a.ndim != 1:
         raise ValueError("one commanded beam direction required")
     return normalize(a * amplitude)
+
+
+def response(weights_value, unit_enu, model=None, frequency_hz=None):
+    from .core import finite
+
+    p = Aperture() if model is None else model
+    w = finite(weights_value, ndim=1)
+    if w.shape != (p.count,):
+        raise ValueError("one receive weight per element required")
+    a = steering(unit_enu, p, frequency_hz)
+    noise = float(np.vdot(w, w).real)
+    signal = abs(a @ w.conj()) ** 2
+    return {
+        "signal_gain": signal,
+        "noise_gain": noise,
+        "snr_gain": signal / noise if noise > 1e-30 else np.zeros_like(signal),
+        "available": bool(noise > 1e-30),
+    }
