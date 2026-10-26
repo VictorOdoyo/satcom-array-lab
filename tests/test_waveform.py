@@ -115,3 +115,16 @@ def test_pilot_frequency_fit():
     fit = m.pilot_frequency(r, p, 10000)
     assert fit["offset_hz"] == pytest.approx(123)
     assert fit["phase_rad"] == pytest.approx(0.4)
+
+
+def test_joint_carrier_iq_fit():
+    from satlab.modem import carrier, qpsk
+
+    p = qpsk(np.random.default_rng(12).integers(0, 2, 256))
+    r = m.iq_imbalance(carrier(p, 10000, 47, 0.4), 0.7, 0.2, 0.04j)
+    fit = m.joint_calibration(r, p, 10000)
+    corrected = m.correct_iq(r, fit["coefficients"]) * np.exp(
+        -2j * np.pi * fit["offset_hz"] * np.arange(len(p)) / 10000
+    )
+    assert abs(fit["offset_hz"] - 47) < 1e-4
+    assert np.allclose(corrected, p, atol=1e-6)

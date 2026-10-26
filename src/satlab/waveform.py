@@ -173,3 +173,36 @@ def pilot_frequency(received, pilots, symbol_rate_s):
     time = np.arange(len(p)) / rate
     slope, intercept = np.polyfit(time, phase, 1)
     return {"offset_hz": float(slope / (2 * np.pi)), "phase_rad": float(intercept)}
+
+
+def joint_calibration(received, pilots, symbol_rate_s, search_hz=300):
+    from scipy.optimize import minimize_scalar
+
+    r = finite(received, ndim=1)
+    p = finite(pilots, ndim=1)
+    rate = positive(symbol_rate_s)
+    span = positive(search_hz)
+    if r.shape != p.shape or span >= rate / 2:
+        raise ValueError("aligned pilots and sub-Nyquist carrier search required")
+    t = np.arange(len(p)) / rate
+
+    def fit(frequency):
+        return fit_iq(r, p * np.exp(2j * np.pi * frequency * t))
+
+    def objective(frequency):
+        residual = fit(frequency)["residual"]
+        return float(np.vdot(residual, residual).real)
+
+    grid = np.linspace(-span, span, 81)
+    cost = np.array([objective(value) for value in grid])
+    index = int(np.argmin(cost))
+    low = grid[max(0, index - 1)]
+    high = grid[min(len(grid) - 1, index + 1)]
+    result = minimize_scalar(objective, bounds=(low, high), method="bounded", options={"xatol": 1e-9})
+    frequency = min([float(result.x), float(grid[index])], key=objective)
+    cal = fit(frequency)
+    return {
+        "offset_hz": frequency,
+        "coefficients": cal["coefficients"],
+        "pilot_residual_power": objective(frequency) / len(p),
+    }
