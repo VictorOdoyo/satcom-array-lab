@@ -1,0 +1,8 @@
+metric,value
+ber,0.0
+bit_errors,0
+bits,1024
+clipped_samples,0
+estimated_lag_samples,352.75
+estimated_offset_hz,39.715359599039786
+evm_rms,0.15287737309706723

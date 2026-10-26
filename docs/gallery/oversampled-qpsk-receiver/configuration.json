@@ -1,0 +1,5 @@
+{
+  "case": "oversampled-qpsk-receiver",
+  "resolution_scale": 1,
+  "seed": 42
+}
