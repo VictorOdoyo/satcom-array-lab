@@ -105,3 +105,13 @@ def test_phase_increment_variance():
     r = m.phase_noise(np.ones(100000), 80000, 5, np.random.default_rng(5))
     assert np.var(np.diff(r["phase_rad"])) == pytest.approx(2 * np.pi * 5 / 80000, rel=0.02)
     assert np.allclose(abs(r["samples"]), 1)
+
+
+def test_pilot_frequency_fit():
+    from satlab.modem import carrier, qpsk
+
+    p = qpsk(np.random.default_rng(2).integers(0, 2, 256))
+    r = carrier(p, 10000, 123, 0.4)
+    fit = m.pilot_frequency(r, p, 10000)
+    assert fit["offset_hz"] == pytest.approx(123)
+    assert fit["phase_rad"] == pytest.approx(0.4)

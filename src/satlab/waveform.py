@@ -161,3 +161,15 @@ def phase_noise(samples, sample_rate_hz, linewidth_hz, rng):
     linewidth = positive(linewidth_hz, allow_zero=True)
     phase = np.r_[0, np.cumsum(rng.normal(0, np.sqrt(2 * np.pi * linewidth / fs), max(0, len(x) - 1)))]
     return {"samples": x * np.exp(1j * phase), "phase_rad": phase}
+
+
+def pilot_frequency(received, pilots, symbol_rate_s):
+    r = finite(received, ndim=1)
+    p = finite(pilots, ndim=1)
+    rate = positive(symbol_rate_s)
+    if r.shape != p.shape or len(p) < 8 or np.any(abs(p) < 1e-12):
+        raise ValueError("aligned observable pilot symbols required")
+    phase = np.unwrap(np.angle(r * p.conj()))
+    time = np.arange(len(p)) / rate
+    slope, intercept = np.polyfit(time, phase, 1)
+    return {"offset_hz": float(slope / (2 * np.pi)), "phase_rad": float(intercept)}
