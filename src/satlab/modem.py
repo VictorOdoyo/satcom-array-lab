@@ -14,3 +14,11 @@ def qpsk(bits):
 def detect(symbols):
     s = finite(symbols, ndim=1)
     return np.column_stack([s.real < 0, s.imag < 0]).astype(np.uint8).ravel()
+
+
+def awgn(symbols, esn0_db, rng):
+    from .link import linear
+
+    s = finite(symbols, ndim=1)
+    sigma = np.sqrt(1 / (2 * linear(esn0_db)))
+    return s + sigma * (rng.normal(size=s.shape) + 1j * rng.normal(size=s.shape))
