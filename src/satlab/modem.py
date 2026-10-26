@@ -32,3 +32,25 @@ def carrier(samples, sample_rate_hz, offset_hz, phase_rad=0, start_s=0):
     return s * np.exp(
         1j * (2 * np.pi * float(finite(offset_hz, real=True)) * t + float(finite(phase_rad, real=True)))
     )
+
+
+def acquire_tone(samples, sample_rate_hz, search_hz):
+    from .core import positive
+
+    s = finite(samples, ndim=1)
+    fs = positive(sample_rate_hz)
+    span = positive(search_hz)
+    if len(s) < 16 or span >= fs / 2 or np.linalg.norm(s) == 0:
+        raise ValueError("nonzero tone and sub-Nyquist search required")
+    nfft = 4 * len(s)
+    power = abs(np.fft.fftshift(np.fft.fft(s * np.hanning(len(s)), nfft))) ** 2
+    freq = np.fft.fftshift(np.fft.fftfreq(nfft, 1 / fs))
+    eligible = np.flatnonzero(abs(freq) <= span)
+    k = int(eligible[np.argmax(power[eligible])])
+    delta = 0.0
+    if 0 < k < nfft - 1:
+        y = np.log(np.maximum(power[k - 1 : k + 2], np.finfo(float).tiny))
+        den = y[0] - 2 * y[1] + y[2]
+        if den != 0:
+            delta = float(np.clip(0.5 * (y[0] - y[2]) / den, -0.5, 0.5))
+    return {"offset_hz": float(freq[k] + delta * fs / nfft), "frequency_hz": freq, "power": power}

@@ -27,3 +27,9 @@ def test_carrier_clock():
     s = m.carrier(np.ones(4), 8, 2, np.pi / 2)
     assert np.allclose(s, [1j, -1, -1j, 1])
     assert np.allclose(m.carrier(np.ones(2), 8, 2, start_s=0.5), s[:2] / 1j)
+
+
+def test_tone_acquisition():
+    s = m.carrier(np.ones(1024), 20000, 1732.3, 0.7)
+    noisy = m.awgn(s, 0, np.random.default_rng(2))
+    assert abs(m.acquire_tone(noisy, 20000, 4000)["offset_hz"] - 1732.3) < 3
