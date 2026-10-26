@@ -1,0 +1,752 @@
+{
+  "experiments": [
+    {
+      "archive": "closed-loop-pass/fields.npz",
+      "case": "closed-loop-pass",
+      "configuration": {
+        "case": "closed-loop-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "a9276dd566e986684d2bc6e3103b05d4751bc065f563374670495c9c908c27f6",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "638d29a6a6fc61d95f27e01b594f27e89960c4da94642d35c98f83315949d3b6",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 1210.3,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 22.623149945659108,
+        "locked_point_rms_deg": 0.09623416048934756,
+        "locked_samples": 376,
+        "offered_mbit": 1235.0
+      }
+    },
+    {
+      "archive": "ephemeris-only-pass/fields.npz",
+      "case": "ephemeris-only-pass",
+      "configuration": {
+        "case": "ephemeris-only-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "683bf4f019ecf341fffbf0b50e96a2ffefe67ae5d9e144b1960dc430efc0f82a",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "28b5faec44e9fefac1b9b6bcd6666578c7a1b308e826e0f1c52d423f6dd607df",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 55.1,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 2794.9405610440667,
+        "locked_point_rms_deg": 3.190864729331987,
+        "locked_samples": 376,
+        "offered_mbit": 66.5
+      }
+    },
+    {
+      "archive": "rain-fade-pass/fields.npz",
+      "case": "rain-fade-pass",
+      "configuration": {
+        "case": "rain-fade-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "da0c547ea386a721db199660932845736dd30fa01a8ddaa189391a1f1359b715",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "4cdc08e04304f3bc733c0bb4d7d1f50d9a8c6967924edbf260495feca8178fec",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 271.7,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 25.94421807685656,
+        "locked_point_rms_deg": 0.09726559876721584,
+        "locked_samples": 180,
+        "offered_mbit": 273.6
+      }
+    },
+    {
+      "archive": "one-bit-phase-pass/fields.npz",
+      "case": "one-bit-phase-pass",
+      "configuration": {
+        "case": "one-bit-phase-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "aee1220a08971063d6dca81399ed88fb979d164512ccdd2fd8372b920f6beda2",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "9c2a7b3fefd6634c9d577092b0c2371a816ce1da95a90a0a0d344b23a5b112a6",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 813.2,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 27.10136771975295,
+        "locked_point_rms_deg": 0.08905781899223407,
+        "locked_samples": 325,
+        "offered_mbit": 818.9
+      }
+    },
+    {
+      "archive": "calibration-error-pass/fields.npz",
+      "case": "calibration-error-pass",
+      "configuration": {
+        "case": "calibration-error-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "2b5652a903534b05a4d8463e20d35051b9083d6b31da2976843064058ec49b73",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "82386197c785fc840a8881bd756d18cdd63ab591f6808da8056737882e540c2e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 896.8,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 24.072429012985808,
+        "locked_point_rms_deg": 0.0974957961927401,
+        "locked_samples": 338,
+        "offered_mbit": 898.7
+      }
+    },
+    {
+      "archive": "element-failure-pass/fields.npz",
+      "case": "element-failure-pass",
+      "configuration": {
+        "case": "element-failure-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "36eebe83128a5ffa3723eebb68c511b03d0905322b2ccc0313e7dc908ab9c605",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "f3d0ba6581f0676ef77730387cd278d1bd3beacfec862bb340ab16865d6802f6",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 917.7,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 23.886930394169767,
+        "locked_point_rms_deg": 0.0968020607528944,
+        "locked_samples": 338,
+        "offered_mbit": 917.7
+      }
+    },
+    {
+      "archive": "aperture-outage-pass/fields.npz",
+      "case": "aperture-outage-pass",
+      "configuration": {
+        "case": "aperture-outage-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "83efd4919017fc4319fffc03d51cf47959c800c175ef4f07f9d54833ea97f6b4",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "5ff2bc28101284ec32121283d28e7ebe38f0dcd90aa6ceb7b58ffa019574d774",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 0.0,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 0,
+        "locked_point_rms_deg": 0,
+        "locked_samples": 0,
+        "offered_mbit": 0.0
+      }
+    },
+    {
+      "archive": "beacon-gap-pass/fields.npz",
+      "case": "beacon-gap-pass",
+      "configuration": {
+        "case": "beacon-gap-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "8bd39f52fb46050c69bfb51a4cc53b958b60f0e141d8697cbd40cae56bf91cae",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "584d11f88486384cd7c7fd470b686e10c71ddcee557928725fd60d6a010dec59",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 883.5,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 23.502226379702368,
+        "locked_point_rms_deg": 0.0957051243499205,
+        "locked_samples": 317,
+        "offered_mbit": 896.8
+      }
+    },
+    {
+      "archive": "beacon-outlier-pass/fields.npz",
+      "case": "beacon-outlier-pass",
+      "configuration": {
+        "case": "beacon-outlier-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "6f27177e05bf8168d7cb28e7872950ef19a32b07c49d225abed8488618c08e4e",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "180988540ba3435facc3e3985d6d4ae129eadc8557586b5b2e9c8e38fa3ec680",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 1210.3,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 22.687168463290494,
+        "locked_point_rms_deg": 0.09621837674861779,
+        "locked_samples": 376,
+        "offered_mbit": 1235.0
+      }
+    },
+    {
+      "archive": "constellation-handover/fields.npz",
+      "case": "constellation-handover",
+      "configuration": {
+        "case": "constellation-handover",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "c1ed8c66f6644c7484a43669bfd4174ab99993493bb29d017c3ec31a967c4d0b",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "a2bc94184df21159317d9e4ed9f1440434e0d4822867d06a7f7d2c945f2d850d",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 3440.9,
+        "handovers": 2,
+        "locked_carrier_rms_hz": 17.66850654463934,
+        "locked_point_rms_deg": 0.07124959699462807,
+        "locked_samples": 850,
+        "offered_mbit": 3459.9
+      }
+    },
+    {
+      "archive": "spatial-interference-pass/fields.npz",
+      "case": "spatial-interference-pass",
+      "configuration": {
+        "case": "spatial-interference-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "311c4a0f17030236180131464f2adecfddb9bc659e58c2e549ffb4ccc0ae0270",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "338bc15064066d2bef16342317e94fdc839b0fda99728479633d538e614ce6a7",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 570.0,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 24.668675627090632,
+        "locked_point_rms_deg": 0.08146730313170131,
+        "locked_samples": 251,
+        "offered_mbit": 619.4
+      }
+    },
+    {
+      "archive": "null-steered-pass/fields.npz",
+      "case": "null-steered-pass",
+      "configuration": {
+        "case": "null-steered-pass",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "9fd49a27f02037c831e6c97f64d4cbc6c648fd8482989e9883c161fb2df78c6e",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "c934a85c1a24e668d5f72eff646d2283c7a9b14562ab66c474aaee550b002f46",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "delivered_mbit": 1206.5,
+        "handovers": 0,
+        "locked_carrier_rms_hz": 22.693332298971796,
+        "locked_point_rms_deg": 0.09649819997939883,
+        "locked_samples": 376,
+        "offered_mbit": 1227.4
+      }
+    },
+    {
+      "archive": "kepler-invariants/fields.npz",
+      "case": "kepler-invariants",
+      "configuration": {
+        "case": "kepler-invariants",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "13c180d8f6e349f178e2ad6059690bea8f8ba7eb14960213e1a661aa9c364f4a",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "bcce87493166fbe8c28a62e5d8c5bf54b733aad7ec8d9a72f38dbf14da4b1e60",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_energy_relative": 2.0134195582482426e-14,
+        "max_h_relative": 8.619556694985822e-15
+      }
+    },
+    {
+      "archive": "rk4-convergence/fields.npz",
+      "case": "rk4-convergence",
+      "configuration": {
+        "case": "rk4-convergence",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "b4d5c398723da419d4060f385d2986798c155eb5cc7ae00f77f4d490fb63332b",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "fe9b45d80fe574b0af1a8da7ef51ff8a46051d08ea4730fb42fd6b88c9156679",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "finest_position_error_m": 0.0009762462987902122,
+        "observed_order": 4.06458771314639
+      }
+    },
+    {
+      "archive": "j2-precession/fields.npz",
+      "case": "j2-precession",
+      "configuration": {
+        "case": "j2-precession",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "dcaa950fd67914bca53e051e4a3c794b4b4df5f1e4b21e9f0025ae9ae7e28fc9",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "a8a887d05d5332747a9e925fb8fd2bc448e790720703f442cf8cdd20e90146e4",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_energy_relative": 6.312734305861921e-10,
+        "max_hz_relative": 3.0999569368054737e-10,
+        "measured_raan_rad_s": -9.206833322719574e-07,
+        "secular_raan_rad_s": -9.135728245114195e-07
+      }
+    },
+    {
+      "archive": "doppler-range-derivative/fields.npz",
+      "case": "doppler-range-derivative",
+      "configuration": {
+        "case": "doppler-range-derivative",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "007ce2fb65e1bb646569a1a15a9a5061397d82394852b5464445131e64029b4e",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "b229bb203824e60587897d7d1a82ab2141b560cfdda88807e52391f9e642f759",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "interior_max_error_hz": 0.5565120328974444
+      }
+    },
+    {
+      "archive": "hohmann-transfer/fields.npz",
+      "case": "hohmann-transfer",
+      "configuration": {
+        "case": "hohmann-transfer",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "c7c93dffde24e22a3b82dd7bf8bb1558fd805a044e391810ebca3143e942d30c",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "98d190ae21ce8d4537945738110d6c5f62668907509713befea789624d460e62",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "largest_delta_v_m_s": 768.8477746883729
+      }
+    },
+    {
+      "archive": "beam-footprint/fields.npz",
+      "case": "beam-footprint",
+      "configuration": {
+        "case": "beam-footprint",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "d97175b445cb87cb56ccccef8f256625e7aac2915c1ae94c72a00f4b178b7fc0",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "1ba8d9e4c6d51577d4a7700003a7c06c72f90e1582ee64aee1fb6bcd6098294e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "peak_gain_dbi": 21.456992266025058
+      }
+    },
+    {
+      "archive": "beam-squint/fields.npz",
+      "case": "beam-squint",
+      "configuration": {
+        "case": "beam-squint",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "3b610a520983ce71f525a42556e85f790a82d43ece93bb2aef480026d9c0ced3",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "d8766755c309b2853f1f93321621451c9af45ee69f56cfddffe25bf9e1b6a433",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "16000000000.0": 0.625,
+        "20000000000.0": 0.4996,
+        "24000000000.0": 0.416
+      }
+    },
+    {
+      "archive": "aperture-tapers/fields.npz",
+      "case": "aperture-tapers",
+      "configuration": {
+        "case": "aperture-tapers",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "0b38cc851f21ca66baf82f11e73ba9170d16bdc09d9fce929d39f41e8807b8b3",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "5362815f0a758cad18660724443e5f7b45f45ba540e07823eb3b022fe5a6ced4",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "hamming_peak_dbi": 14.557013729619957,
+        "hann_peak_dbi": 13.380135619171513,
+        "uniform_peak_dbi": 18.06179973983887
+      }
+    },
+    {
+      "archive": "constrained-null/fields.npz",
+      "case": "constrained-null",
+      "configuration": {
+        "case": "constrained-null",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "071d4ca7966e54908bff132aa17cf42bc5d66340c6b9d7f15f19ef1626afaadb",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "42c861467cd21828a3a3f505cccc4a394464f1268fd2448f2d37c19a5ca05b0f",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "conventional_sinr": 0.17640408055287354,
+        "null_sinr": 60.38196601124884
+      }
+    },
+    {
+      "archive": "phase-quantization/fields.npz",
+      "case": "phase-quantization",
+      "configuration": {
+        "case": "phase-quantization",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "0893b75ad456e89e402918f46ef97b3d995b1add6531d4f681ef454d3f7ef52c",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "5362815f0a758cad18660724443e5f7b45f45ba540e07823eb3b022fe5a6ced4",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "worst_one_bit_loss_db": -5.487373272298802
+      }
+    },
+    {
+      "archive": "qpsk-ber/fields.npz",
+      "case": "qpsk-ber",
+      "configuration": {
+        "case": "qpsk-ber",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "d8ec5122e52483c65b7089b70c7ac573c471d15a674aa56aa34f0970715cdf89",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "20da77e2375f7548ce8b2248ec5b98543ab690fc00000c563d49fa4703aaba54",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_absolute_error": 0.0004897460685429345
+      }
+    },
+    {
+      "archive": "burst-acquisition/fields.npz",
+      "case": "burst-acquisition",
+      "configuration": {
+        "case": "burst-acquisition",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "2e1b00b0c43afb83520e39e846aed534aa68602831e29ddd9651a500dd39503c",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "e52c121d687425674e124afe12bda304217d4b0782b757dfed2d513456a93873",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.0,
+        "bit_errors": 0,
+        "bits": 4096,
+        "estimated_offset_hz": 1234.4258110816415,
+        "evm_rms": 0.18131551333153625,
+        "residual_offset_hz": 0.07418891835845898
+      }
+    },
+    {
+      "archive": "coherent-frequency-loss/fields.npz",
+      "case": "coherent-frequency-loss",
+      "configuration": {
+        "case": "coherent-frequency-loss",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "e71b62745bb34845fbfd7731586d12f37606b71819d6d61fd08479e3bca2b9da",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "3dee01b3573d3b1fcd5fa129c55d1b9d513d37c96b5b411762ce09c737f58445",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_power_difference": 3.3333744570152035e-07
+      }
+    },
+    {
+      "archive": "atmosphere-noise/fields.npz",
+      "case": "atmosphere-noise",
+      "configuration": {
+        "case": "atmosphere-noise",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "ba985abafc66a853edb28d16fa2749010c70678377a773a7aaabbe5fb33c2977",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "b1b6c693476089a31adeb98488bdecda86a0acf85a9fa6b959fc38c1faebb949",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "zenith_rain_attenuation_db": 6.976557668833106
+      }
+    },
+    {
+      "archive": "link-budget-tradeoff/fields.npz",
+      "case": "link-budget-tradeoff",
+      "configuration": {
+        "case": "link-budget-tradeoff",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "aca9993489ed9fd035954d3d8908e8493d1d0e8a4570cd3105e7818a45e7b33a",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "96587ac4bf43c4f7a4482efeeba71c7d618abc0038afd09700b468e7f9aa9006",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "near_range_eirp_dbw": 16.883221369760776
+      }
+    },
+    {
+      "archive": "adaptive-mode-hysteresis/fields.npz",
+      "case": "adaptive-mode-hysteresis",
+      "configuration": {
+        "case": "adaptive-mode-hysteresis",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "807dde9f174aeed1ba7dbf814ddd8e1f1301435e7043a9312f8134fff277e822",
+        "git_dirty": false,
+        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "bbd299488eae558d60c52d4e7754247c8446f88138d712c6182252564b31ec73",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "mode_changes": 5
+      }
+    }
+  ],
+  "schema_version": 1
+}
