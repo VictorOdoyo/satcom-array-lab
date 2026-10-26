@@ -112,3 +112,7 @@ def failures(scale=1, seed=42):
 
 def outage(scale=1, seed=42):
     return solve("aperture-outage-pass", scale, seed, failed_fraction=1)
+
+
+def gap(scale=1, seed=42):
+    return solve("beacon-gap-pass", scale, seed, beacon_gap_s=[-30, 30])
