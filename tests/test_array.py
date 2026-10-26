@@ -62,3 +62,10 @@ def test_element_scan_pattern_has_declared_broadside_gain_and_suppressed_back_he
     assert m.element_gain([0, 0, 1], p) == pytest.approx(10 ** (0.4))
     assert m.element_gain([0, 0, -1], p) == 0
     assert m.element_gain([np.sqrt(0.75), 0, 0.5], p) == pytest.approx(10 ** (0.4) * 0.25)
+
+
+def test_constrained_beam_has_desired_complex_response_and_interference_null():
+    directions = m.from_direction_cosines([[0.1, 0.1], [0.5, -0.2]])
+    w = m.constrained_weights(directions, [1j, 0])
+    a = m.steering(directions)
+    assert np.allclose(a @ w.conj(), [1j, 0], atol=1e-12)

@@ -142,3 +142,27 @@ def element_gain(unit_enu, model=None):
         raise ValueError("unit ENU direction required")
     up = u[..., 2]
     return np.where(up > 0, 10 ** (p.element_peak_dbi / 10) * np.maximum(up, 0) ** p.element_exponent, 0.0)
+
+
+def constrained_weights(directions, responses, model=None, noise_covariance=None):
+    from .core import finite
+
+    p = Aperture() if model is None else model
+    u = finite(directions, real=True, ndim=2)
+    target = finite(responses, ndim=1)
+    matrix = steering(u, p).T
+    if len(target) != len(u) or len(target) > p.count or np.linalg.matrix_rank(matrix) < len(target):
+        raise ValueError("independent beam constraints with aligned complex responses required")
+    if noise_covariance is None:
+        inverse_times = matrix
+    else:
+        covariance = finite(noise_covariance, ndim=2)
+        if (
+            covariance.shape != (p.count, p.count)
+            or not np.allclose(covariance, covariance.conj().T)
+            or np.min(np.linalg.eigvalsh(covariance)) <= 0
+        ):
+            raise ValueError("Hermitian positive definite receiver noise covariance required")
+        inverse_times = np.linalg.solve(covariance, matrix)
+    gram = matrix.conj().T @ inverse_times
+    return inverse_times @ np.linalg.solve(gram, target.conj())
