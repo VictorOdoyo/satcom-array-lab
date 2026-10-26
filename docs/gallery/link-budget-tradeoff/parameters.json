@@ -1,0 +1,6 @@
+{
+  "loss_db": 2,
+  "receive_gain_dbi": 22,
+  "symbol_rate_s": 2000000.0,
+  "temperature_k": 350
+}
