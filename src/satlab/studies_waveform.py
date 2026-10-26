@@ -255,3 +255,50 @@ def noise(scale=1, seed=42):
             "Complex sample noise variance N0=0.1 and unit-energy matched pulse; oversampling does not multiply N0 by samples per symbol."
         ],
     )
+
+
+def carrier_limit(scale=1, seed=42):
+    from .core import stream
+    from .modem import carrier, qpsk
+    from .waveform import joint_calibration
+
+    p = qpsk(stream(seed, "carrier-limit").integers(0, 2, 256))
+    frequency = np.linspace(-180, 180, 25)
+    estimated = []
+    residual = []
+    for value in frequency:
+        r = joint_calibration(carrier(p, 10000, value, 0.3), p, 10000, search_hz=100)
+        estimated.append(r["offset_hz"])
+        residual.append(r["pilot_residual_power"])
+    estimated = np.array(estimated)
+    inside = abs(frequency) < 90
+    return make(
+        "pilot-carrier-search-limit",
+        {"search_hz": 100, "pilot_symbols": len(p)},
+        {
+            "maximum_inside_error_hz": float(max(abs(estimated[inside] - frequency[inside]))),
+            "maximum_outside_error_hz": float(max(abs(estimated[~inside] - frequency[~inside]))),
+        },
+        {
+            "true_offset_hz": frequency,
+            "estimated_hz": estimated,
+            "reference_hz": frequency,
+            "pilot_residual": np.array(residual),
+        },
+        [
+            curve(
+                "Pilot-only finite carrier search",
+                "true_offset_hz",
+                [("estimated_hz", "Estimated"), ("reference_hz", "Synthesis reference")],
+                "True offset used for scoring (Hz)",
+                "Estimated offset (Hz)",
+            ),
+            curve(
+                "Pilot mismatch outside capture range",
+                "true_offset_hz",
+                [("pilot_residual", "Residual power")],
+                "True offset (Hz)",
+                "Mean residual symbol power",
+            ),
+        ],
+    )

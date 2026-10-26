@@ -63,3 +63,8 @@ def test_image_rejection():
 
 def test_noise():
     assert m.noise()["summary"]["observed_variance"] == pytest.approx(0.1, rel=0.06)
+
+
+def test_carrier_limit():
+    s = m.carrier_limit()["summary"]
+    assert s["maximum_inside_error_hz"] < 0.01 and s["maximum_outside_error_hz"] > 50
