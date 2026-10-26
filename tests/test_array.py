@@ -46,3 +46,12 @@ def test_phase_quantization_preserves_amplitude_and_respects_half_step_error():
     q = m.quantize_phase(w, 3)
     error = np.angle(q * np.conj(w))
     assert np.allclose(abs(w), abs(q)) and max(abs(error)) <= np.pi / 8 + 1e-12
+
+
+def test_element_failure_reduces_receive_gain_by_active_count():
+    p = m.Aperture()
+    w = m.weights([0, 0, 1])
+    health = np.arange(p.count) < 32
+    q = m.impair(w, healthy=health)
+    assert m.response(q, [0, 0, 1])["snr_gain"] == pytest.approx(32)
+    assert not m.response(m.impair(w, healthy=np.zeros(64, bool)), [0, 0, 1])["available"]

@@ -112,3 +112,22 @@ def quantize_phase(weights_value, bits=3):
     levels = 2**bits
     code = np.rint((np.angle(w) % (2 * np.pi)) * levels / (2 * np.pi)).astype(np.int64) % levels
     return abs(w) * np.exp(2j * np.pi * code / levels)
+
+
+def impair(weights_value, amplitude_gain=None, phase_error_rad=None, healthy=None):
+    from .core import finite
+
+    w = finite(weights_value, ndim=1)
+    n = len(w)
+    amplitude = np.ones(n) if amplitude_gain is None else finite(amplitude_gain, real=True)
+    phase = np.zeros(n) if phase_error_rad is None else finite(phase_error_rad, real=True)
+    health = np.ones(n, bool) if healthy is None else np.asarray(healthy)
+    if (
+        amplitude.shape != (n,)
+        or phase.shape != (n,)
+        or health.shape != (n,)
+        or health.dtype != bool
+        or np.any(amplitude < 0)
+    ):
+        raise ValueError("aligned nonnegative receiver gains phases and boolean health required")
+    return normalize(w * amplitude * np.exp(1j * phase) * health, allow_zero=True)
