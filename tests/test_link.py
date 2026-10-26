@@ -31,3 +31,9 @@ def test_link_budget_matches_independent_boltzmann_power_accounting():
     power = 10 ** ((30 + 22 - 2) / 10) / (4 * np.pi * 600000 * 20e9 / 299792458) ** 2
     assert 10 ** (r["received_dbw"] / 10) == pytest.approx(power, rel=1e-12, abs=0)
     assert r["cn0_dbhz"] == pytest.approx(10 * np.log10(power / (K_B * 500)))
+
+
+def test_energy_ratios_distinguish_symbols_from_information_bits():
+    r = m.energy_ratios(80, 1e6, 2e6)
+    assert r["esn0_db"] == 20
+    assert r["esn0_db"] - r["ebn0_db"] == pytest.approx(10 * np.log10(2))

@@ -71,3 +71,12 @@ def budget(eirp_dbw, receive_gain_dbi, range_m, frequency_hz, system_temperature
         "cn0_dbhz": received - noise,
         "free_space_loss_db": path,
     }
+
+
+def energy_ratios(cn0_dbhz, symbol_rate_s, information_bit_rate_s):
+    from .core import finite, positive
+
+    carrier = finite(cn0_dbhz, real=True)
+    symbols = positive(symbol_rate_s)
+    bits = positive(information_bit_rate_s)
+    return {"esn0_db": carrier - 10 * np.log10(symbols), "ebn0_db": carrier - 10 * np.log10(bits)}
