@@ -108,3 +108,22 @@ def command_direction(nominal, estimated_uv):
     if norm >= 0.999999:
         uv = uv * 0.999999 / norm
     return from_direction_cosines(uv)
+
+
+def forecast(look, config, aperture):
+    from . import array, link
+
+    if not look["visible"]:
+        return None
+    a = link.atmosphere(look["elevation_rad"], rain_rate_mm_h=config.rain_mm_h)
+    gain = aperture.count * array.element_gain(look["unit_enu"], aperture)
+    return float(
+        link.budget(
+            config.eirp_dbw,
+            link.db(gain),
+            look["range_m"],
+            config.carrier_hz,
+            config.receiver_k + a["sky_temperature_k"],
+            a["attenuation_db"] + 1,
+        )["cn0_dbhz"]
+    )

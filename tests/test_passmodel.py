@@ -24,3 +24,12 @@ def test_panel_coordinates():
     assert np.allclose(r.T @ r, np.eye(3))
     assert np.linalg.det(r) == pytest.approx(1)
     assert m.command_direction([1, 0, 0], [1, 1])[2] > 0
+
+
+def test_forecast_uses_nominal_geometry():
+    from satlab.array import Aperture
+
+    _, s = m.geometry(m.Config(duration_s=2))
+    score = m.forecast(s[0]["nominal"][1], m.Config(), Aperture())
+    assert 65 < score < 85
+    assert m.forecast({**s[0]["nominal"][1], "visible": False}, m.Config(), Aperture()) is None
