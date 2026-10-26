@@ -1,0 +1,12 @@
+{
+  "configuration_sha256": "c7c93dffde24e22a3b82dd7bf8bb1558fd805a044e391810ebca3143e942d30c",
+  "git_dirty": false,
+  "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "package_version": "0.1.0",
+  "parameters_sha256": "98d190ae21ce8d4537945738110d6c5f62668907509713befea789624d460e62",
+  "python": "3.13.15",
+  "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+  "scipy": "1.18.1"
+}
