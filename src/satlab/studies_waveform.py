@@ -106,3 +106,7 @@ def solve(name, scale, seed, **changes):
             "Payload references are used for BER/EVM scoring only. Fixed burst calibration does not track later clock or phase drift.",
         ],
     )
+
+
+def nominal(scale=1, seed=42):
+    return solve("oversampled-qpsk-receiver", scale, seed)
