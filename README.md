@@ -1,7 +1,7 @@
 # Satellite Array Lab
 [![Engineering checks](https://github.com/VictorOdoyo/satcom-array-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/VictorOdoyo/satcom-array-lab/actions/workflows/ci.yml)
 
-A reproducible electrical-engineering laboratory connecting satellite geometry, phased receive arrays, physical link budgets, noisy beacon tracking and adaptive service. Twenty-eight studies cover coupled synthetic passes and independent orbital, array and modem benchmarks.
+A reproducible electrical-engineering laboratory connecting satellite geometry, phased receive arrays, physical link budgets, noisy beacon tracking and adaptive service. Forty studies cover coupled synthetic passes and independent orbital, array and modem benchmarks.
 
 ```powershell
 uv sync --locked --extra dev
@@ -16,3 +16,7 @@ The receiver uses noisy beacon observations to correct ephemeris, panel and carr
 [Computed results and complete archives](docs/results.md) · [Architecture](docs/architecture.md) · [Equations and signs](docs/models.md) · [Receiver policy](docs/receiver.md) · [Experiments](docs/experiments.md) · [Reproduce](docs/reproduction.md) · [Validation](docs/validation.md) · [References](docs/references.md)
 
 This is a synthetic laboratory. Coded service is a declared threshold proxy; actual waveform BER uses uncoded QPSK. The illustrative rain law is not a full availability model. The main pass uses circular ephemerides and a synthetic station, while independent benches exercise universal-variable and J2 propagation. MIT licensed.
+
+## Oversampled receiver extension
+
+[Pulse-shaped receiver and pilot calibration](docs/oversampled-receiver.md) and [waveform validation](docs/waveform-validation.md) add twelve studies with actual decoded uncoded payloads and retained acquisition/impairment failures.
