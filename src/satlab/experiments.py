@@ -133,6 +133,66 @@ CASES = {
         "adaptation",
         "Exercise causal ACM upgrades downgrades and short pilot-estimate outages",
     ],
+    "oversampled-qpsk-receiver": [
+        "studies_waveform",
+        "nominal",
+        "Recover oversampled satellite QPSK with pilot-only timing carrier and IQ calibration",
+    ],
+    "uncalibrated-waveform": [
+        "studies_waveform",
+        "uncalibrated",
+        "Retain carrier and IQ errors when the oversampled receiver omits calibration",
+    ],
+    "fractional-timing-acquisition": [
+        "studies_waveform",
+        "timing",
+        "Acquire a large unknown fractional-sample offset from pilot correlation",
+    ],
+    "severe-iq-calibration": [
+        "studies_waveform",
+        "iq",
+        "Correct severe quadrature mismatch and DC offset from known pilots",
+    ],
+    "receiver-adc-clipping": [
+        "studies_waveform",
+        "clipping",
+        "Propagate ADC rail clipping through matched filtering and decoded payload",
+    ],
+    "amplifier-waveform-compression": [
+        "studies_waveform",
+        "amplifier",
+        "Retain nonlinear amplifier distortion and intersymbol interference",
+    ],
+    "receiver-phase-noise": [
+        "studies_waveform",
+        "phase",
+        "Expose fixed burst-calibration failure under sample-clocked Wiener phase noise",
+    ],
+    "receiver-clock-drift": [
+        "studies_waveform",
+        "clock",
+        "Expose payload timing drift after a single pilot-prefix acquisition",
+    ],
+    "rrc-nyquist-pulse": [
+        "studies_waveform",
+        "nyquist",
+        "Audit finite-span root-raised-cosine matched-filter intersymbol interference",
+    ],
+    "iq-image-rejection": [
+        "studies_waveform",
+        "image_rejection",
+        "Measure conjugate-image suppression after pilot-based IQ calibration",
+    ],
+    "matched-filter-noise": [
+        "studies_waveform",
+        "noise",
+        "Verify unit-energy pulse filtering preserves the declared symbol-noise variance",
+    ],
+    "pilot-carrier-search-limit": [
+        "studies_waveform",
+        "carrier_limit",
+        "Retain bounded carrier-search ambiguity instead of supplying true residual frequency",
+    ],
 }
 
 
