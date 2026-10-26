@@ -127,3 +127,45 @@ def forecast(look, config, aperture):
             a["attenuation_db"] + 1,
         )["cn0_dbhz"]
     )
+
+
+def channel(look, command, config, aperture, phase_errors, healthy):
+    from . import array, link
+
+    actual = panel_rotation().T @ look["unit_enu"]
+    interferer = array.from_direction_cosines([0.5, -0.2])
+    if config.null_interference:
+        w = array.constrained_weights(np.array([command, interferer]), [1, 0], aperture)
+    else:
+        w = array.weights(command, aperture)
+    w = array.impair(
+        array.quantize_phase(w, config.phase_bits), phase_error_rad=phase_errors, healthy=healthy
+    )
+    response = array.response(w, actual, aperture, config.carrier_hz)
+    gain = float(response["snr_gain"] * array.element_gain(actual, aperture))
+    if not look["visible"] or gain <= 0:
+        return {
+            "cn0_dbhz": -200.0,
+            "gain_dbi": float(link.db(gain)),
+            "available": False,
+            "weights": w,
+            "actual": actual,
+        }
+    atmos = link.atmosphere(look["elevation_rad"], rain_rate_mm_h=config.rain_mm_h)
+    budget = link.budget(
+        config.eirp_dbw,
+        link.db(gain),
+        look["range_m"],
+        config.carrier_hz,
+        config.receiver_k + atmos["sky_temperature_k"],
+        atmos["attenuation_db"] + 1,
+    )
+    a = array.steering(interferer, aperture)
+    ratio = 1 + config.interference_inr * abs(np.vdot(w, a)) ** 2 / response["noise_gain"]
+    return {
+        "cn0_dbhz": float(budget["cn0_dbhz"] - link.db(ratio)),
+        "gain_dbi": float(link.db(gain)),
+        "available": True,
+        "weights": w,
+        "actual": actual,
+    }

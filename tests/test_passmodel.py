@@ -33,3 +33,15 @@ def test_forecast_uses_nominal_geometry():
     score = m.forecast(s[0]["nominal"][1], m.Config(), Aperture())
     assert 65 < score < 85
     assert m.forecast({**s[0]["nominal"][1], "visible": False}, m.Config(), Aperture()) is None
+
+
+def test_failed_aperture_unavailable():
+    from satlab.array import Aperture
+
+    _, s = m.geometry(m.Config(duration_s=2))
+    p = Aperture()
+    result = m.channel(
+        s[0]["true"][1], np.array([0, 0, 1]), m.Config(), p, np.zeros(p.count), np.zeros(p.count, bool)
+    )
+    assert not result["available"]
+    assert not np.any(result["weights"])
