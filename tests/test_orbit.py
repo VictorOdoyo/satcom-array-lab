@@ -107,3 +107,12 @@ def test_hohmann_reverse_transfer_preserves_cost_and_changes_impulse_sign():
     assert a["total_delta_v_m_s"] == pytest.approx(b["total_delta_v_m_s"])
     assert a["first_tangential_m_s"] > 0 > b["first_tangential_m_s"]
     assert a["transfer_s"] == pytest.approx(b["transfer_s"])
+
+
+@pytest.mark.parametrize("speed", [10672.0, 12000.0])
+def test_unbound_universal_reversibility(speed):
+    x = np.array([7000000.0, 0, 0, 0, speed, 500.0])
+    forward = m.propagate(x, 600)
+    back = m.propagate(forward, -600)
+    assert np.linalg.norm(back[:3] - x[:3]) < 1e-5
+    assert np.linalg.norm(back[3:] - x[3:]) < 1e-7
