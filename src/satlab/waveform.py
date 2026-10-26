@@ -50,3 +50,13 @@ def matched(samples, pulse):
     if len(x) == 0 or len(h) == 0:
         raise ValueError("nonempty waveform and matched pulse required")
     return np.convolve(x, h.conj()[::-1])
+
+
+def sample(samples, positions):
+    from scipy.interpolate import CubicSpline
+
+    x = finite(samples, ndim=1)
+    t = finite(positions, real=True)
+    if len(x) < 4 or np.any(t < 0) or np.any(t > len(x) - 1):
+        raise ValueError("interpolation positions must remain inside the waveform")
+    return CubicSpline(np.arange(len(x)), x)(t)

@@ -24,3 +24,12 @@ def test_matched_peak_and_isi():
     center = len(h) - 1
     assert r[center] == pytest.approx(1)
     assert max(abs(r[center + np.arange(1, 5) * 8])) < 0.01
+
+
+def test_fractional_samples_of_polynomial():
+    t = np.arange(20.0)
+    x = t**3 + 1j * t**2
+    positions = np.array([2.25, 8.75, 15.5])
+    assert np.allclose(m.sample(x, positions), positions**3 + 1j * positions**2)
+    with pytest.raises(ValueError):
+        m.sample(x, [-1])
