@@ -166,3 +166,27 @@ def constrained_weights(directions, responses, model=None, noise_covariance=None
         inverse_times = np.linalg.solve(covariance, matrix)
     gram = matrix.conj().T @ inverse_times
     return inverse_times @ np.linalg.solve(gram, target.conj())
+
+
+def noise_gain(weights_value, covariance):
+    from .core import finite
+
+    w = finite(weights_value, ndim=1)
+    r = finite(covariance, ndim=2)
+    if (
+        r.shape != (len(w), len(w))
+        or not np.allclose(r, r.conj().T)
+        or np.min(np.linalg.eigvalsh(r)) < -1e-10
+    ):
+        raise ValueError("Hermitian PSD spatial noise covariance required")
+    return float(np.vdot(w, r @ w).real)
+
+
+def interference_covariance(unit_enu, inr_linear, model=None):
+    from .core import positive
+
+    p = Aperture() if model is None else model
+    a = steering(unit_enu, p)
+    if a.ndim != 1:
+        raise ValueError("one interferer direction required")
+    return np.eye(p.count) + positive(inr_linear, allow_zero=True) * np.outer(a, a.conj())

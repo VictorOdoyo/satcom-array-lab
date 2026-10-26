@@ -69,3 +69,13 @@ def test_constrained_beam_has_desired_complex_response_and_interference_null():
     w = m.constrained_weights(directions, [1j, 0])
     a = m.steering(directions)
     assert np.allclose(a @ w.conj(), [1j, 0], atol=1e-12)
+
+
+def test_spatial_null_reduces_interference_noise_without_changing_covariance_law():
+    desired = m.from_direction_cosines([0.1, 0.1])
+    interferer = m.from_direction_cosines([0.4, -0.2])
+    r = m.interference_covariance(interferer, 100)
+    conventional = m.weights(desired)
+    null = m.normalize(m.constrained_weights([desired, interferer], [1, 0]))
+    assert m.noise_gain(null, r) < m.noise_gain(conventional, r)
+    assert m.noise_gain(null, r) == pytest.approx(1, abs=1e-10)
