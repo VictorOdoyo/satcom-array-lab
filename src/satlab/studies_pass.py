@@ -104,3 +104,7 @@ def one_bit(scale=1, seed=42):
 
 def calibration(scale=1, seed=42):
     return solve("calibration-error-pass", scale, seed, phase_std_rad=0.8)
+
+
+def failures(scale=1, seed=42):
+    return solve("element-failure-pass", scale, seed, failed_fraction=0.5)

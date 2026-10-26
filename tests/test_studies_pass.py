@@ -36,3 +36,10 @@ def test_calibration():
     assert r["name"] == "calibration-error-pass"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_failures():
+    r = m.failures()
+    assert r["name"] == "element-failure-pass"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
