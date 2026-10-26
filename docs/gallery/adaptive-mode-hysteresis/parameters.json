@@ -1,0 +1,5 @@
+{
+  "dwell_s": 5,
+  "symbol_rate_s": 2000000.0,
+  "upgrade_margin_db": 1
+}
