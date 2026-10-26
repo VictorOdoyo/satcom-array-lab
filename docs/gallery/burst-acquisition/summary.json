@@ -1,0 +1,8 @@
+{
+  "ber": 0.0,
+  "bit_errors": 0,
+  "bits": 4096,
+  "estimated_offset_hz": 1234.4258110816415,
+  "evm_rms": 0.18131551333153625,
+  "residual_offset_hz": 0.07418891835845898
+}

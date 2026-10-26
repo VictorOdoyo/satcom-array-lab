@@ -1,0 +1,6 @@
+{
+  "esn0_db": 15,
+  "offset_hz": 1234.5,
+  "sample_rate_hz": 20000,
+  "seed": 42
+}
