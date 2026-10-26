@@ -43,3 +43,8 @@ def test_required_eirp_closes_the_forward_budget_without_hidden_gain_terms():
     e = m.required_eirp(10, 2e6, 22, 600000, 20e9, 500, 2)
     r = m.budget(e, 22, 600000, 20e9, 500, 2)
     assert m.energy_ratios(r["cn0_dbhz"], 2e6, 2e6)["esn0_db"] == pytest.approx(10)
+
+
+def test_capacity_matches_independent_awgn_formula_and_increases_with_carrier_power():
+    assert m.capacity(60, 1e6) == pytest.approx(1e6)
+    assert m.capacity(63, 1e6) > m.capacity(60, 1e6)

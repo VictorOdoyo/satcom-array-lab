@@ -97,3 +97,10 @@ def required_eirp(
     return (
         finite(required_esn0_db, real=True) + 10 * np.log10(positive(symbol_rate_s)) - reference["cn0_dbhz"]
     )
+
+
+def capacity(cn0_dbhz, bandwidth_hz):
+    from .core import positive
+
+    bandwidth = positive(bandwidth_hz)
+    return bandwidth * np.log2(1 + linear(cn0_dbhz) / bandwidth)
