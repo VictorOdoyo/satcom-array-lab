@@ -37,3 +37,9 @@ def test_energy_ratios_distinguish_symbols_from_information_bits():
     r = m.energy_ratios(80, 1e6, 2e6)
     assert r["esn0_db"] == 20
     assert r["esn0_db"] - r["ebn0_db"] == pytest.approx(10 * np.log10(2))
+
+
+def test_required_eirp_closes_the_forward_budget_without_hidden_gain_terms():
+    e = m.required_eirp(10, 2e6, 22, 600000, 20e9, 500, 2)
+    r = m.budget(e, 22, 600000, 20e9, 500, 2)
+    assert m.energy_ratios(r["cn0_dbhz"], 2e6, 2e6)["esn0_db"] == pytest.approx(10)

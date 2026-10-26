@@ -80,3 +80,20 @@ def energy_ratios(cn0_dbhz, symbol_rate_s, information_bit_rate_s):
     symbols = positive(symbol_rate_s)
     bits = positive(information_bit_rate_s)
     return {"esn0_db": carrier - 10 * np.log10(symbols), "ebn0_db": carrier - 10 * np.log10(bits)}
+
+
+def required_eirp(
+    required_esn0_db,
+    symbol_rate_s,
+    receive_gain_dbi,
+    range_m,
+    frequency_hz,
+    system_temperature_k,
+    total_loss_db=0,
+):
+    from .core import finite, positive
+
+    reference = budget(0, receive_gain_dbi, range_m, frequency_hz, system_temperature_k, total_loss_db)
+    return (
+        finite(required_esn0_db, real=True) + 10 * np.log10(positive(symbol_rate_s)) - reference["cn0_dbhz"]
+    )
