@@ -100,3 +100,11 @@ def acquire_timing(samples, pilots, samples_per_symbol, minimum_lag, maximum_lag
         score.append(float(abs(np.vdot(p, observed)) ** 2 / (np.vdot(p, p).real * power)) if power > 0 else 0)
     best = int(np.argmax(score))
     return {"lag_samples": float(lags[best]), "lags": lags, "score": np.array(score)}
+
+
+def iq_imbalance(samples, quadrature_gain=0.8, phase_error_rad=0.1, dc=0j):
+    x = finite(samples, ndim=1)
+    gain = positive(quadrature_gain)
+    phase = float(finite(phase_error_rad, real=True))
+    offset = complex(finite(dc))
+    return x.real + 1j * gain * (np.cos(phase) * x.imag + np.sin(phase) * x.real) + offset

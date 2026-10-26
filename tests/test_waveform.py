@@ -58,3 +58,10 @@ def test_pilot_timing_acquisition():
     wave = m.matched(m.shape(p, h), h)
     r = m.acquire_timing(wave, p, 8, 78, 82)
     assert abs(r["lag_samples"] - 80) <= 0.125
+
+
+def test_iq_real_matrix():
+    x = np.array([1.0, 1j])
+    y = m.iq_imbalance(x, 0.5, 0.2, 0.1 + 0.2j)
+    assert y[0] == pytest.approx(1 + 0.1 + 1j * (0.5 * np.sin(0.2) + 0.2))
+    assert y[1] == pytest.approx(0.1 + 1j * (0.5 * np.cos(0.2) + 0.2))
