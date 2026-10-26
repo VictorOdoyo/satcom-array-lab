@@ -73,3 +73,10 @@ def test_beacon_gap_coast():
     assert not np.any(r["locked"][middle])
     assert not np.any(r["offered_bit_s"][middle])
     assert np.any(r["delivered_bit_s"][t > 15] > 0)
+
+
+def test_open_loop_exposes_bias():
+    closed = m.simulate(m.Config(duration_s=80))
+    opened = m.simulate(m.Config(duration_s=80, closed_loop=False))
+    assert closed["delivered_bits"][-1] > opened["delivered_bits"][-1]
+    assert np.median(abs(closed["residual_hz"])[20:]) < np.median(abs(opened["residual_hz"])[20:]) / 10
