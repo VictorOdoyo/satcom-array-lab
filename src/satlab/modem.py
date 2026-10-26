@@ -9,3 +9,8 @@ def qpsk(bits):
         raise ValueError("even binary bit stream required")
     pair = b.reshape(-1, 2)
     return ((1 - 2 * pair[:, 0]) + 1j * (1 - 2 * pair[:, 1])) / np.sqrt(2)
+
+
+def detect(symbols):
+    s = finite(symbols, ndim=1)
+    return np.column_stack([s.real < 0, s.imag < 0]).astype(np.uint8).ravel()

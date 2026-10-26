@@ -10,3 +10,8 @@ def test_qpsk_mapping():
     assert np.allclose(symbols * np.sqrt(2), [1 + 1j, 1 - 1j, -1 - 1j, -1 + 1j])
     with pytest.raises(ValueError):
         m.qpsk([0, 2])
+
+
+def test_detect_roundtrip():
+    bits = np.random.default_rng(7).integers(0, 2, 200)
+    assert np.array_equal(m.detect(m.qpsk(bits)), bits)
