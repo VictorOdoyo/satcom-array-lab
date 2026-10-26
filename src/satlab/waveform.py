@@ -42,3 +42,11 @@ def shape(symbols, pulse, samples_per_symbol=8):
     upsampled = np.zeros((len(symbols) - 1) * sps + 1, complex)
     upsampled[::sps] = symbols
     return np.convolve(upsampled, h)
+
+
+def matched(samples, pulse):
+    x = finite(samples, ndim=1)
+    h = finite(pulse, ndim=1)
+    if len(x) == 0 or len(h) == 0:
+        raise ValueError("nonempty waveform and matched pulse required")
+    return np.convolve(x, h.conj()[::-1])
