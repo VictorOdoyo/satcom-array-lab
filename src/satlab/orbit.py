@@ -221,3 +221,27 @@ def circular_from_state(state, time_s, model=None):
     position = np.cos(phase)[..., None] * x[:3] + np.sin(phase)[..., None] * x[3:] / rate
     velocity = -rate * np.sin(phase)[..., None] * x[:3] + np.cos(phase)[..., None] * x[3:]
     return np.concatenate([position, velocity], axis=-1)
+
+
+def overhead_state(station, angle_rad, altitude_m=600000, inclination_rad=np.deg2rad(53), model=None):
+    from .core import finite, positive
+    from .earth import Earth
+    from .frames import ecef_to_eci
+
+    p = Earth() if model is None else model
+    height = positive(altitude_m)
+    inc = float(finite(inclination_rad, real=True))
+    ground = ecef_to_eci(station.ecef(p), angle_rad)
+    radial = ground / np.linalg.norm(ground)
+    longitude = np.arctan2(radial[1], radial[0])
+    latitude = np.arcsin(radial[2])
+    east = np.array([-np.sin(longitude), np.cos(longitude), 0.0])
+    north = np.cross(radial, east)
+    ratio = np.cos(inc) / max(1e-15, np.cos(latitude))
+    if not 0 <= inc <= np.pi or abs(ratio) > 1:
+        raise ValueError("inclination cannot reach station latitude")
+    direction = ratio * east + np.sqrt(max(0, 1 - ratio**2)) * north
+    radius = np.linalg.norm(ground) + height
+    position = radial * radius
+    velocity = direction * np.sqrt(p.mu_m3_s2 / radius)
+    return np.r_[position, velocity]

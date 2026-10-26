@@ -90,3 +90,12 @@ def test_analytic_circular_catalog_matches_independent_universal_propagation():
     a = m.circular_from_state(x, times)
     reference = np.array([m.propagate(x, t) for t in times])
     assert np.allclose(a, reference, atol=1e-6)
+
+
+def test_overhead_pass_setup_has_declared_range_and_orbit_inclination():
+    from satlab.geometry import Station, look
+
+    s = Station()
+    state = m.overhead_state(s, 0.4)
+    assert look(state, s, 0.4)["range_m"] == pytest.approx(600000)
+    assert m.elements(state)["inclination_rad"] == pytest.approx(np.deg2rad(53))
