@@ -181,3 +181,43 @@ def nyquist(scale=1, seed=42):
             "Finite pulse truncation retains small residual ISI rather than asserting ideal infinite-span zeros."
         ],
     )
+
+
+def image_rejection(scale=1, seed=42):
+    from .link import db
+    from .waveform import correct_iq, fit_iq, iq_imbalance, periodogram
+
+    count = 4096
+    fs = 80000.0
+    tone = np.exp(2j * np.pi * np.arange(count) / 8)
+    rx = iq_imbalance(tone, 0.6, 0.25, 0.03j)
+    fit = fit_iq(rx[:256], tone[:256])
+    corrected = correct_iq(rx, fit["coefficients"])
+    before = periodogram(rx, fs)
+    after = periodogram(corrected, fs)
+    positive = np.argmin(abs(before["frequency_hz"] - 10000))
+    negative = np.argmin(abs(before["frequency_hz"] + 10000))
+    ratio_before = float(db(before["power_per_hz"][positive] / before["power_per_hz"][negative]))
+    ratio_after = float(db(after["power_per_hz"][positive] / max(after["power_per_hz"][negative], 1e-30)))
+    return make(
+        "iq-image-rejection",
+        {"tone_hz": 10000, "quadrature_gain": 0.6, "phase_error_rad": 0.25},
+        {"image_rejection_before_db": ratio_before, "image_rejection_after_db": ratio_after},
+        {
+            "frequency_khz": before["frequency_hz"] / 1000,
+            "before_db": db(before["power_per_hz"], -160),
+            "after_db": db(after["power_per_hz"], -160),
+        },
+        [
+            curve(
+                "Conjugate image and DC calibration",
+                "frequency_khz",
+                [("before_db", "Impaired"), ("after_db", "Calibrated")],
+                "Frequency (kHz)",
+                "Power density (dB/Hz)",
+            )
+        ],
+        assumptions=[
+            "Noiseless synthetic calibration benchmark; extremely small residual image is numerical cancellation, not hardware performance."
+        ],
+    )

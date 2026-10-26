@@ -53,3 +53,8 @@ def test_clock():
 
 def test_nyquist():
     assert m.nyquist()["summary"]["maximum_off_center_isi"] < 0.02
+
+
+def test_image_rejection():
+    s = m.image_rejection()["summary"]
+    assert s["image_rejection_after_db"] > s["image_rejection_before_db"] + 60
