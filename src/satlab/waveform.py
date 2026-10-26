@@ -73,3 +73,12 @@ def fractional_delay(samples, delay_samples=0.35, taps=33):
     h = np.sinc(n - delay) * np.kaiser(count, 8.6)
     h /= sum(h)
     return {"samples": np.convolve(x, h), "integer_delay": center, "fractional_delay": delay, "taps": h}
+
+
+def clock_drift(samples, parts_per_million=0):
+    x = finite(samples, ndim=1)
+    ratio = 1 + float(finite(parts_per_million, real=True)) * 1e-6
+    if not 0.99 < ratio < 1.01:
+        raise ValueError("clock offset limited to one percent")
+    positions = np.arange(int(np.floor((len(x) - 1) / ratio)) + 1) * ratio
+    return {"samples": sample(x, positions), "source_positions": positions}

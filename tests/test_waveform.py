@@ -40,3 +40,10 @@ def test_zero_fractional_delay_is_integer_shift():
     r = m.fractional_delay(x, 0)
     assert np.allclose(r["samples"][16:20], x, atol=1e-12)
     assert sum(r["taps"]) == pytest.approx(1)
+
+
+def test_clock_grid():
+    x = np.arange(100, dtype=float) + 0j
+    r = m.clock_drift(x, 1000)
+    assert len(r["samples"]) < len(x)
+    assert np.allclose(r["samples"].real, r["source_positions"])
