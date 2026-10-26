@@ -1,3 +1,5 @@
+import numpy as np
+
 from satlab import studies_array as m
 
 
@@ -27,3 +29,12 @@ def test_quantization():
     r = m.quantization()
     assert min(r["arrays"]["bits_8"]) > -0.001
     assert min(r["arrays"]["bits_1"]) < -2
+
+
+def test_footprint_masks_exterior_not_computed_beam():
+    r = m.footprint()
+    a = r["arrays"]
+    assert np.array_equal(a["outside"], ~a["valid"])
+    assert a["outside"][0, 0]
+    assert not a["outside"][50, 50]
+    assert r["plots"][0]["mask"] == "outside"

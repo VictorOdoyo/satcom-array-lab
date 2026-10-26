@@ -24,7 +24,7 @@ def footprint(scale=1, seed=42):
         "xlabel": "East direction cosine",
         "ylabel": "North direction cosine",
         "component": "real",
-        "mask": "valid",
+        "mask": "outside",
         "colorbar": "Gain (dBi)",
         "aspect": "equal",
         "cmap": "viridis",
@@ -33,7 +33,7 @@ def footprint(scale=1, seed=42):
         "beam-footprint",
         {"elements": p.count, "command_uv": [0.3, -0.2]},
         {"peak_gain_dbi": float(max(gain[valid]))},
-        {"gain_dbi": gain, "valid": valid, "east_uv": east, "north_uv": north},
+        {"gain_dbi": gain, "valid": valid, "outside": ~valid, "east_uv": east, "north_uv": north},
         [plot],
     )
 
