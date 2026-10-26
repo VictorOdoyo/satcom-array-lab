@@ -130,3 +130,7 @@ def clipping(scale=1, seed=42):
 
 def amplifier(scale=1, seed=42):
     return solve("amplifier-waveform-compression", scale, seed, amplifier_saturation=0.18)
+
+
+def phase(scale=1, seed=42):
+    return solve("receiver-phase-noise", scale, seed, linewidth_hz=30)
