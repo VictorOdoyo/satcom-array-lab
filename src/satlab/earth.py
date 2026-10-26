@@ -52,3 +52,29 @@ def geodetic_to_ecef(latitude_rad, longitude_rad, height_m=0, model=None):
         ),
         axis=-1,
     )
+
+
+def ecef_to_geodetic(position, model=None):
+    from .core import finite
+
+    p = Earth() if model is None else model
+    r = finite(position, real=True)
+    if r.shape != (3,) or np.linalg.norm(r) < 1:
+        raise ValueError("noncentral Cartesian Earth position required")
+    x, y, z = r
+    horizontal = np.hypot(x, y)
+    longitude = np.arctan2(y, x)
+    if horizontal < 1e-8:
+        return np.array([np.sign(z) * np.pi / 2, longitude, abs(z) - p.minor_m])
+    latitude = np.arctan2(z, horizontal * (1 - p.eccentricity_squared))
+    for _ in range(15):
+        n = p.radius_m / np.sqrt(1 - p.eccentricity_squared * np.sin(latitude) ** 2)
+        height = horizontal / np.cos(latitude) - n
+        new = np.arctan2(z, horizontal * (1 - p.eccentricity_squared * n / (n + height)))
+        if abs(new - latitude) < 1e-14:
+            latitude = new
+            break
+        latitude = new
+    n = p.radius_m / np.sqrt(1 - p.eccentricity_squared * np.sin(latitude) ** 2)
+    height = horizontal / np.cos(latitude) - n
+    return np.array([latitude, longitude, height])

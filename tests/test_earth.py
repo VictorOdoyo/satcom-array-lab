@@ -16,3 +16,11 @@ def test_geodetic_coordinates_match_equator_and_pole_reference_points():
     p = m.Earth()
     assert np.allclose(m.geodetic_to_ecef(0, 0), [p.radius_m, 0, 0])
     assert np.allclose(m.geodetic_to_ecef(np.pi / 2, 0), [0, 0, p.minor_m], atol=1e-8)
+
+
+def test_geodetic_inverse_recovers_arbitrary_altitude_and_polar_height():
+    target = np.array([-0.4, 1.2, 600000.0])
+    a = m.ecef_to_geodetic(m.geodetic_to_ecef(*target))
+    assert np.allclose(a[:2], target[:2], atol=1e-12) and a[2] == pytest.approx(target[2], abs=1e-6)
+    p = m.Earth()
+    assert m.ecef_to_geodetic([0, 0, p.minor_m + 100])[2] == pytest.approx(100)
