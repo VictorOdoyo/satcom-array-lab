@@ -84,3 +84,7 @@ def solve(name, scale, seed, **changes):
             "Illustrative ACM thresholds and rain law; no FEC decoder or ITU availability claim.",
         ],
     )
+
+
+def nominal(scale=1, seed=42):
+    return solve("closed-loop-pass", scale, seed)
