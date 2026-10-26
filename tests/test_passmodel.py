@@ -63,3 +63,13 @@ def test_raw_beacon_archive():
     assert np.linalg.norm(r["true_state_eci"][15, :3] - r["nominal_state_eci"][15, :3]) == pytest.approx(
         10000
     )
+
+
+def test_beacon_gap_coast():
+    r = m.simulate(m.Config(duration_s=80, beacon_gap_s=(-10, 10)))
+    t = r["time_s"]
+    middle = (t >= -4) & (t < 10)
+    assert not np.any(r["beacon"][middle])
+    assert not np.any(r["locked"][middle])
+    assert not np.any(r["offered_bit_s"][middle])
+    assert np.any(r["delivered_bit_s"][t > 15] > 0)
