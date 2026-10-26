@@ -120,3 +120,7 @@ def gap(scale=1, seed=42):
 
 def outlier(scale=1, seed=42):
     return solve("beacon-outlier-pass", scale, seed, inject_outlier=True)
+
+
+def handover(scale=1, seed=42):
+    return solve("constellation-handover", scale, seed, duration_s=1100, pass_centers_s=[-240, 0, 240])

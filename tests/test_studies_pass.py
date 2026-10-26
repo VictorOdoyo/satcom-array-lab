@@ -64,3 +64,10 @@ def test_outlier():
     assert r["name"] == "beacon-outlier-pass"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_handover():
+    r = m.handover()
+    assert r["name"] == "constellation-handover"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
