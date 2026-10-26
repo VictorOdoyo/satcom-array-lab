@@ -1,6 +1,6 @@
 import numpy as np
 
-from .results import make
+from .results import curve, make
 
 
 def footprint(scale=1, seed=42):
@@ -36,3 +36,31 @@ def footprint(scale=1, seed=42):
         {"gain_dbi": gain, "valid": valid, "east_uv": east, "north_uv": north},
         [plot],
     )
+
+
+def squint(scale=1, seed=42):
+    from . import array, link
+
+    p = array.Aperture()
+    u = np.linspace(-0.2, 0.9, 501 * scale)
+    directions = array.from_direction_cosines(np.column_stack([u, np.zeros(len(u))]))
+    w = array.weights(array.from_direction_cosines([0.5, 0]), p)
+    arrays = {"east_uv": u}
+    plots = []
+    peaks = {}
+    for f in (16e9, 20e9, 24e9):
+        key = "gain_" + str(int(f / 1e9))
+        gain = link.db(array.response(w, directions, p, f)["snr_gain"])
+        arrays[key] = gain
+        peaks[str(f)] = float(u[np.argmax(gain)])
+    plots = [
+        curve(
+            "Fixed phase-shifter beam squint",
+            "east_uv",
+            [(k, k.replace("gain_", "") + " GHz") for k in arrays if k != "east_uv"],
+            "East direction cosine",
+            "Array SNR gain (dB)",
+            ylim=(-50, 20),
+        )
+    ]
+    return make("beam-squint", {"design_hz": 20e9, "command_uv": 0.5}, peaks, arrays, plots)
