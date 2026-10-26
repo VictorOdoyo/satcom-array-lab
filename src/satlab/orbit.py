@@ -201,3 +201,23 @@ def invariants(state, model=None, include_j2=False):
         "angular_momentum_m2_s": h,
         "eccentricity_vector": ev,
     }
+
+
+def circular_from_state(state, time_s, model=None):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    x = finite(state, real=True)
+    t = finite(time_s, real=True)
+    if x.shape != (6,) or np.linalg.norm(x[:3]) < 1:
+        raise ValueError("circular Cartesian state required")
+    radius = np.linalg.norm(x[:3])
+    speed = np.sqrt(p.mu_m3_s2 / radius)
+    rate = speed / radius
+    if abs(x[:3] @ x[3:]) > 1e-8 * radius * speed or not np.isclose(np.linalg.norm(x[3:]), speed, rtol=1e-8):
+        raise ValueError("state is not circular")
+    phase = rate * t
+    position = np.cos(phase)[..., None] * x[:3] + np.sin(phase)[..., None] * x[3:] / rate
+    velocity = -rate * np.sin(phase)[..., None] * x[:3] + np.cos(phase)[..., None] * x[3:]
+    return np.concatenate([position, velocity], axis=-1)

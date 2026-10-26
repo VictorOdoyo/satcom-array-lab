@@ -82,3 +82,11 @@ def test_two_body_propagation_conserves_energy_and_full_angular_momentum():
     b = m.invariants(m.propagate(x, 1200))
     assert b["specific_energy_j_kg"] == pytest.approx(a["specific_energy_j_kg"], rel=1e-12)
     assert np.allclose(a["angular_momentum_m2_s"], b["angular_momentum_m2_s"], rtol=1e-12)
+
+
+def test_analytic_circular_catalog_matches_independent_universal_propagation():
+    x = m.from_elements(7e6, 0, 0.7, 0.2)
+    times = np.array([-300, 0, 300])
+    a = m.circular_from_state(x, times)
+    reference = np.array([m.propagate(x, t) for t in times])
+    assert np.allclose(a, reference, atol=1e-6)
