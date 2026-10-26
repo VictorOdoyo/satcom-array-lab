@@ -128,3 +128,7 @@ def handover(scale=1, seed=42):
 
 def interference(scale=1, seed=42):
     return solve("spatial-interference-pass", scale, seed, interference_inr=100)
+
+
+def nulling(scale=1, seed=42):
+    return solve("null-steered-pass", scale, seed, interference_inr=100, null_interference=True)

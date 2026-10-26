@@ -78,3 +78,10 @@ def test_interference():
     assert r["name"] == "spatial-interference-pass"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_nulling():
+    r = m.nulling()
+    assert r["name"] == "null-steered-pass"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
