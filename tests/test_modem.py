@@ -48,3 +48,11 @@ def test_quality_analytic():
     q = m.quality(1.1 * p, p, [0, 0, 1, 1])
     assert q["bit_errors"] == 0
     assert q["evm_rms"] == pytest.approx(0.1)
+
+
+def test_wilson_zero_errors():
+    lo, hi = m.wilson(0, 100)
+    assert lo == pytest.approx(0, abs=1e-15)
+    assert 0.03 < hi < 0.04
+    with pytest.raises(ValueError):
+        m.wilson(2, 1)

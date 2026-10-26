@@ -80,3 +80,18 @@ def quality(received, known, bits):
         "ber": errors / len(b),
         "evm_rms": float(np.sqrt(np.vdot(r - p, r - p).real / np.vdot(p, p).real)),
     }
+
+
+def wilson(errors, trials, z=1.959963984540054):
+    from .core import integer, positive
+
+    n = integer(trials)
+    k = integer(errors, minimum=0)
+    if k > n:
+        raise ValueError("error count exceeds trials")
+    zz = positive(z) ** 2
+    p = k / n
+    den = 1 + zz / n
+    center = (p + zz / (2 * n)) / den
+    radius = np.sqrt(zz * (p * (1 - p) / n + zz / (4 * n * n))) / den
+    return (max(0.0, center - radius), min(1.0, center + radius))
