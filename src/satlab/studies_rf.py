@@ -152,3 +152,29 @@ def atmosphere(scale=1, seed=42):
         ],
         assumptions=["Illustrative power-law rain layer, not a complete ITU-R P.618 availability model."],
     )
+
+
+def budget(scale=1, seed=42):
+    from . import link
+
+    ranges = np.linspace(600e3, 2500e3, 101 * scale)
+    arrays = {"range_km": ranges / 1000}
+    for target in (3, 7.5, 11):
+        arrays["target_" + str(target).replace(".", "_")] = link.required_eirp(
+            target, 2e6, 22, ranges, 20e9, 350, 2
+        )
+    return make(
+        "link-budget-tradeoff",
+        {"symbol_rate_s": 2e6, "receive_gain_dbi": 22, "temperature_k": 350, "loss_db": 2},
+        {"near_range_eirp_dbw": float(arrays["target_3"][0])},
+        arrays,
+        [
+            curve(
+                "Inverse physical link budget",
+                "range_km",
+                [(k, k.replace("target_", "") + " dB Es/N0") for k in arrays if k != "range_km"],
+                "Slant range (km)",
+                "Required EIRP (dBW)",
+            )
+        ],
+    )
