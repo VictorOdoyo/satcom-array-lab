@@ -218,6 +218,11 @@ def simulate(config=None):
     out["command_enu"] = np.zeros((n, 3))
     out["actual_enu"] = np.zeros((n, 3))
     out["weights"] = np.zeros((n, p.count), complex)
+    out["measured_uv"] = np.zeros((n, 2))
+    out["measured_carrier_hz"] = np.zeros(n)
+    out["true_state_eci"] = np.zeros((n, 6))
+    out["nominal_state_eci"] = np.zeros((n, 6))
+    out["commanded_carrier_hz"] = np.zeros(n)
     outlier_used = False
     for k, time in enumerate(t):
         predictions = []
@@ -269,6 +274,8 @@ def simulate(config=None):
                 uv += np.array([0.2, -0.2])
                 measured_cfo += 2000
                 outlier_used = True
+            out["measured_uv"][k] = uv
+            out["measured_carrier_hz"][k] = measured_cfo
             pr = tracking.correct_bias(obs["point"], uv - nominal["unit_enu"][:2], 0.001 * factor)
             fr = tracking.correct_bias(obs["carrier"], measured_cfo - nominal["doppler_hz"], 20 * factor)
             accepted = bool(pr["accepted"] and fr["accepted"])
@@ -302,6 +309,9 @@ def simulate(config=None):
         out["command_enu"][k] = command
         out["actual_enu"][k] = physical["actual"]
         out["weights"][k] = physical["weights"]
+        out["true_state_eci"][k] = satellites[j]["true_state"][k]
+        out["nominal_state_eci"][k] = satellites[j]["nominal_state"][k]
+        out["commanded_carrier_hz"][k] = commanded_cfo
     out.update(service.accumulate(t, out["offered_bit_s"], out["delivered_bit_s"]))
     valid = out["satellite"] >= 0
     return {

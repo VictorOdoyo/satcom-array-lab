@@ -54,3 +54,12 @@ def test_causal_receiver_pipeline():
     assert np.all(result["delivered_bit_s"] <= result["offered_bit_s"])
     assert np.median(abs(result["residual_hz"])[30:]) < 30
     assert np.median(result["point_error_deg"][30:]) < 0.2
+
+
+def test_raw_beacon_archive():
+    r = m.simulate(m.Config(duration_s=30))
+    assert r["true_state_eci"].shape == (31, 6)
+    assert np.any(r["measured_carrier_hz"][r["beacon"].astype(bool)] != 0)
+    assert np.linalg.norm(r["true_state_eci"][15, :3] - r["nominal_state_eci"][15, :3]) == pytest.approx(
+        10000
+    )
