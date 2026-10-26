@@ -26,3 +26,23 @@ class Station:
         from .earth import enu_matrix
 
         return enu_matrix(self.latitude_rad, self.longitude_rad)
+
+
+def occulted(start_ecef, end_ecef, model=None):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    a = finite(start_ecef, real=True)
+    b = finite(end_ecef, real=True)
+    if a.shape != (3,) or b.shape != (3,):
+        raise ValueError("Cartesian segment endpoints required")
+    axes = np.array([p.radius_m, p.radius_m, p.minor_m])
+    origin = a / axes
+    delta = (b - a) / axes
+    norm = delta @ delta
+    if norm < 1e-30:
+        raise ValueError("nonzero propagation segment required")
+    time = np.clip(-(origin @ delta) / norm, 0, 1)
+    closest = origin + time * delta
+    return bool(closest @ closest < 1 - 1e-12)
