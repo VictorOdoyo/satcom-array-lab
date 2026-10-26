@@ -96,3 +96,7 @@ def open_loop(scale=1, seed=42):
 
 def rain(scale=1, seed=42):
     return solve("rain-fade-pass", scale, seed, rain_mm_h=20)
+
+
+def one_bit(scale=1, seed=42):
+    return solve("one-bit-phase-pass", scale, seed, phase_bits=1)
