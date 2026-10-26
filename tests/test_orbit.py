@@ -53,3 +53,19 @@ def test_universal_propagator_is_reversible_and_matches_circular_quarter_period(
     y = m.propagate(x, period / 4)
     assert np.allclose(y[:3], [0, radius, 0], atol=1e-6)
     assert np.allclose(m.propagate(y, -period / 4), x, atol=1e-6)
+
+
+def test_j2_acceleration_matches_independent_potential_gradient():
+    r = np.array([7e6, 2e6, 1e6])
+    h = 10.0
+    numerical = np.array(
+        [
+            -(
+                m.potential(r + np.eye(3)[k] * h, include_j2=True)
+                - m.potential(r - np.eye(3)[k] * h, include_j2=True)
+            )
+            / (2 * h)
+            for k in range(3)
+        ]
+    )
+    assert np.allclose(m.acceleration(r, include_j2=True), numerical, rtol=1e-9)

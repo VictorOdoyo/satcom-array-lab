@@ -131,3 +131,35 @@ def propagate(state, dt_s, model=None):
     fdot = root_mu / (rn * radius) * (alpha * chi**3 * s - chi)
     gdot = 1 - chi * chi * c / rn
     return np.r_[r, fdot * r0 + gdot * v0]
+
+
+def acceleration(position, model=None, include_j2=False):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    r = finite(position, real=True)
+    if r.shape != (3,) or np.linalg.norm(r) < 1 or type(include_j2) is not bool:
+        raise ValueError("noncentral position and boolean gravity option required")
+    radius = np.linalg.norm(r)
+    result = -p.mu_m3_s2 * r / radius**3
+    if include_j2:
+        ratio = r[2] ** 2 / radius**2
+        factor = 1.5 * p.j2 * p.mu_m3_s2 * p.radius_m**2 / radius**5
+        result += factor * r * np.array([5 * ratio - 1, 5 * ratio - 1, 5 * ratio - 3])
+    return result
+
+
+def potential(position, model=None, include_j2=False):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    r = finite(position, real=True)
+    radius = np.linalg.norm(r)
+    if r.shape != (3,) or radius < 1:
+        raise ValueError("noncentral gravity position required")
+    value = -p.mu_m3_s2 / radius
+    if include_j2:
+        value += p.mu_m3_s2 * p.j2 * p.radius_m**2 / (2 * radius**3) * (3 * r[2] ** 2 / radius**2 - 1)
+    return float(value)
