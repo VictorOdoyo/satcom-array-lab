@@ -71,3 +71,56 @@ class AdaptiveMode:
             self.index = best
             self.changed = time
         return self.modes[self.index]
+
+
+class Handover:
+    def __init__(self, hysteresis_db=2, minimum_dwell_s=30, confirmation_s=5):
+        from .core import positive
+
+        self.hysteresis = positive(hysteresis_db, allow_zero=True)
+        self.dwell = positive(minimum_dwell_s, allow_zero=True)
+        self.confirmation = positive(confirmation_s, allow_zero=True)
+        self.current = None
+        self.changed = None
+        self.candidate = None
+        self.candidate_since = None
+        self.time = None
+        self.handovers = 0
+
+    def update(self, time_s, predicted_scores):
+        from .core import finite
+
+        time = float(finite(time_s, real=True))
+        if self.time is not None and time < self.time:
+            raise ValueError("monotone handover clock required")
+        self.time = time
+        scores = dict(predicted_scores)
+        for name, value in scores.items():
+            if not isinstance(name, str) or not name:
+                raise ValueError("named predicted satellite scores required")
+            finite(value, real=True)
+        if not scores:
+            self.current = None
+            self.candidate = None
+            return None
+        best = max(scores, key=scores.get)
+        if self.current not in scores:
+            if self.current is not None:
+                self.handovers += 1
+            self.current = best
+            self.changed = time
+            self.candidate = None
+            return best
+        better = best != self.current and scores[best] > scores[self.current] + self.hysteresis
+        if not better:
+            self.candidate = None
+            return self.current
+        if self.candidate != best:
+            self.candidate = best
+            self.candidate_since = time
+        if time - self.changed >= self.dwell and time - self.candidate_since >= self.confirmation:
+            self.current = best
+            self.changed = time
+            self.candidate = None
+            self.handovers += 1
+        return self.current

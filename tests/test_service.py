@@ -15,3 +15,13 @@ def test_adaptive_mode_downgrades_immediately_and_guards_upgrades():
     assert r.update(6, 12) == m.MODES[2]
     assert r.update(7, 5) == m.MODES[0]
     assert r.update(8, -2) is None
+
+
+def test_handover_ignores_brief_score_chatter_and_switches_after_persistent_advantage():
+    r = m.Handover(minimum_dwell_s=10, confirmation_s=3)
+    assert r.update(0, {"a": 10, "b": 9}) == "a"
+    assert r.update(8, {"a": 10, "b": 14}) == "a"
+    assert r.update(9, {"a": 10, "b": 9}) == "a"
+    assert r.update(10, {"a": 10, "b": 14}) == "a"
+    assert r.update(13, {"a": 10, "b": 14}) == "b"
+    assert r.handovers == 1
