@@ -51,3 +51,19 @@ def state_to_eci(state, angle_rad, model=None):
     r = ecef_to_eci(x[:3], angle_rad)
     velocity = ecef_to_eci(x[3:], angle_rad) + np.cross([0, 0, p.rotation_rad_s], r)
     return np.r_[r, velocity]
+
+
+def rtn_matrix(state):
+    from .core import finite
+
+    x = finite(state, real=True)
+    if x.shape != (6,):
+        raise ValueError("orbital Cartesian state required")
+    r = x[:3]
+    h = np.cross(r, x[3:])
+    if min(np.linalg.norm(r), np.linalg.norm(h)) < 1e-10:
+        raise ValueError("orbital plane unobservable")
+    radial = r / np.linalg.norm(r)
+    normal = h / np.linalg.norm(h)
+    transverse = np.cross(normal, radial)
+    return np.vstack([radial, transverse, normal])

@@ -14,3 +14,8 @@ def test_stationary_earth_point_has_inertial_rotation_velocity_and_zero_fixed_ve
     eci = m.state_to_eci(p, 0.7)
     assert np.linalg.norm(eci[3:]) > 400
     assert np.allclose(m.state_to_ecef(eci, 0.7), p, atol=1e-9)
+
+
+def test_rtn_basis_matches_circular_equatorial_orbit():
+    matrix = m.rtn_matrix([7e6, 0, 0, 0, 7500, 0])
+    assert np.allclose(matrix, np.eye(3))
