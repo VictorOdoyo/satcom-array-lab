@@ -17,3 +17,10 @@ def test_geometry_at_center():
     k = np.argmin(abs(t))
     assert s[0]["true"][k]["range_m"] == pytest.approx(600000, rel=1e-8)
     assert s[0]["nominal"][k]["range_m"] == pytest.approx(610000, rel=1e-8)
+
+
+def test_panel_coordinates():
+    r = m.panel_rotation()
+    assert np.allclose(r.T @ r, np.eye(3))
+    assert np.linalg.det(r) == pytest.approx(1)
+    assert m.command_direction([1, 0, 0], [1, 1])[2] > 0

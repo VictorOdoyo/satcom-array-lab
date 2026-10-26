@@ -1,5 +1,7 @@
 from dataclasses import asdict, dataclass
 
+import numpy as np
+
 from .core import integer, positive
 
 
@@ -84,3 +86,25 @@ def geometry(config):
             }
         )
     return t, satellites
+
+
+def panel_rotation(roll_rad=-0.03, pitch_rad=0.05, yaw_rad=0):
+    from .frames import rz
+
+    cr, sr = np.cos(roll_rad), np.sin(roll_rad)
+    cp, sp = np.cos(pitch_rad), np.sin(pitch_rad)
+    return (
+        rz(yaw_rad)
+        @ np.array([[cp, 0, sp], [0, 1, 0], [-sp, 0, cp]])
+        @ np.array([[1, 0, 0], [0, cr, -sr], [0, sr, cr]])
+    )
+
+
+def command_direction(nominal, estimated_uv):
+    from .array import from_direction_cosines
+
+    uv = np.asarray(nominal)[:2] + np.asarray(estimated_uv)
+    norm = np.linalg.norm(uv)
+    if norm >= 0.999999:
+        uv = uv * 0.999999 / norm
+    return from_direction_cosines(uv)
