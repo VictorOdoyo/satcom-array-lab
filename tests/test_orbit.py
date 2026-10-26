@@ -74,3 +74,11 @@ def test_j2_acceleration_matches_independent_potential_gradient():
 def test_cartesian_rk4_matches_independent_universal_two_body_solution():
     x = m.from_elements(7e6, 0.05, 0.7, 0.3, 0.2, 0.1)
     assert np.allclose(m.step(x, 1), m.propagate(x, 1), atol=1e-6)
+
+
+def test_two_body_propagation_conserves_energy_and_full_angular_momentum():
+    x = m.from_elements(9e6, 0.3, 0.8, 0.2, 0.3, 0.7)
+    a = m.invariants(x)
+    b = m.invariants(m.propagate(x, 1200))
+    assert b["specific_energy_j_kg"] == pytest.approx(a["specific_energy_j_kg"], rel=1e-12)
+    assert np.allclose(a["angular_momentum_m2_s"], b["angular_momentum_m2_s"], rtol=1e-12)

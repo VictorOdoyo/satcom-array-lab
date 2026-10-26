@@ -184,3 +184,20 @@ def step(state, dt_s, model=None, include_j2=False):
     k3 = rhs(x + dt * k2 / 2, model, include_j2)
     k4 = rhs(x + dt * k3, model, include_j2)
     return x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6
+
+
+def invariants(state, model=None, include_j2=False):
+    from .core import finite
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    x = finite(state, real=True)
+    if x.shape != (6,) or np.linalg.norm(x[:3]) < 1:
+        raise ValueError("noncentral orbital state required")
+    h = np.cross(x[:3], x[3:])
+    ev = np.cross(x[3:], h) / p.mu_m3_s2 - x[:3] / np.linalg.norm(x[:3])
+    return {
+        "specific_energy_j_kg": float(x[3:] @ x[3:] / 2 + potential(x[:3], p, include_j2)),
+        "angular_momentum_m2_s": h,
+        "eccentricity_vector": ev,
+    }
