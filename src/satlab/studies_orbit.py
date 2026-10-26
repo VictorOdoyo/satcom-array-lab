@@ -68,3 +68,66 @@ def convergence(scale=1, seed=42):
             )
         ],
     )
+
+
+def precession(scale=1, seed=42):
+    from . import orbit
+    from .earth import Earth
+
+    p = Earth()
+    a = p.radius_m + 600000
+    inc = 0.9
+    dt = 15 / scale
+    t = np.arange(round(18000 / dt) + 1) * dt
+    state = orbit.from_elements(a, 0.01, inc)
+    nodes = []
+    energy = []
+    hz = []
+    for _ in t:
+        nodes.append(orbit.elements(state)["raan_rad"])
+        inv = orbit.invariants(state, include_j2=True)
+        energy.append(inv["specific_energy_j_kg"])
+        hz.append(inv["angular_momentum_m2_s"][2])
+        state = orbit.step(state, dt, include_j2=True)
+    node = np.unwrap(nodes)
+    predicted = (
+        -1.5 * p.j2 * np.sqrt(p.mu_m3_s2 / a**3) * (p.radius_m / (a * (1 - 0.01**2))) ** 2 * np.cos(inc)
+    )
+    measured = np.polyfit(t, node, 1)[0]
+    er = (np.array(energy) - energy[0]) / abs(energy[0])
+    hr = (np.array(hz) - hz[0]) / abs(hz[0])
+    return make(
+        "j2-precession",
+        {"step_s": dt, "duration_s": float(t[-1])},
+        {
+            "measured_raan_rad_s": float(measured),
+            "secular_raan_rad_s": float(predicted),
+            "max_energy_relative": float(max(abs(er))),
+            "max_hz_relative": float(max(abs(hr))),
+        },
+        {
+            "time_s": t,
+            "node_deg": np.rad2deg(node - node[0]),
+            "reference_deg": np.rad2deg(predicted * t),
+            "energy_error": er,
+            "hz_error": hr,
+        },
+        [
+            curve(
+                "J2 node regression",
+                "time_s",
+                [("node_deg", "Osculating RK4"), ("reference_deg", "First-order secular")],
+                "Time (s)",
+                "RAAN change (deg)",
+            ),
+            curve(
+                "Axisymmetric gravity conservation",
+                "time_s",
+                [("energy_error", "Energy"), ("hz_error", "Axial angular momentum")],
+                "Time (s)",
+                "Relative error",
+                ylim=(-1e-7, 1e-7),
+            ),
+        ],
+        assumptions=["First-order secular formula is approximate; osculating node includes periodic terms."],
+    )
