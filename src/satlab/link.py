@@ -17,3 +17,13 @@ def linear(decibels):
     if not np.isfinite(value).all():
         raise ValueError("decibel conversion exceeds finite range")
     return value
+
+
+def free_space_loss(range_m, frequency_hz):
+    from .core import finite, positive
+    from .earth import C
+
+    r = finite(range_m, real=True)
+    if np.any(r <= 0):
+        raise ValueError("positive propagation ranges required")
+    return 20 * np.log10(4 * np.pi * r * positive(frequency_hz) / C)
