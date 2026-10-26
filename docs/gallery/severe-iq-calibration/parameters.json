@@ -1,0 +1,10 @@
+{
+  "iq_phase_rad": 0.3,
+  "offset_hz": 0,
+  "pilot_symbols": 128,
+  "quadrature_gain": 0.4,
+  "rrc_rolloff": 0.25,
+  "samples_per_symbol": 8,
+  "seed": 42,
+  "symbol_rate_s": 10000
+}
