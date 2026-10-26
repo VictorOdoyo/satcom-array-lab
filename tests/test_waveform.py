@@ -33,3 +33,10 @@ def test_fractional_samples_of_polynomial():
     assert np.allclose(m.sample(x, positions), positions**3 + 1j * positions**2)
     with pytest.raises(ValueError):
         m.sample(x, [-1])
+
+
+def test_zero_fractional_delay_is_integer_shift():
+    x = np.array([1.0, 2, 3, 4])
+    r = m.fractional_delay(x, 0)
+    assert np.allclose(r["samples"][16:20], x, atol=1e-12)
+    assert sum(r["taps"]) == pytest.approx(1)

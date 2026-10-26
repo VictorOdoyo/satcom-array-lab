@@ -60,3 +60,16 @@ def sample(samples, positions):
     if len(x) < 4 or np.any(t < 0) or np.any(t > len(x) - 1):
         raise ValueError("interpolation positions must remain inside the waveform")
     return CubicSpline(np.arange(len(x)), x)(t)
+
+
+def fractional_delay(samples, delay_samples=0.35, taps=33):
+    x = finite(samples, ndim=1)
+    count = integer(taps, 5)
+    delay = float(finite(delay_samples, real=True))
+    if count % 2 == 0 or abs(delay) > count // 2 - 2:
+        raise ValueError("odd delay-filter length and interior fractional delay required")
+    center = count // 2
+    n = np.arange(count) - center
+    h = np.sinc(n - delay) * np.kaiser(count, 8.6)
+    h /= sum(h)
+    return {"samples": np.convolve(x, h), "integer_delay": center, "fractional_delay": delay, "taps": h}
