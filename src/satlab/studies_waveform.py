@@ -134,3 +134,7 @@ def amplifier(scale=1, seed=42):
 
 def phase(scale=1, seed=42):
     return solve("receiver-phase-noise", scale, seed, linewidth_hz=30)
+
+
+def clock(scale=1, seed=42):
+    return solve("receiver-clock-drift", scale, seed, clock_ppm=1500)

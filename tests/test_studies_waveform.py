@@ -43,3 +43,9 @@ def test_phase():
     r = m.phase()
     assert 0 <= r["summary"]["ber"] <= 1
     assert np.isfinite(r["arrays"]["recovered_symbols"]).all()
+
+
+def test_clock():
+    r = m.clock()
+    assert 0 <= r["summary"]["ber"] <= 1
+    assert np.isfinite(r["arrays"]["recovered_symbols"]).all()
