@@ -1,6 +1,6 @@
 import numpy as np
 
-from .core import finite, integer
+from .core import finite, integer, positive
 
 
 def rrc(samples_per_symbol=8, span_symbols=10, rolloff=0.25):
@@ -82,3 +82,21 @@ def clock_drift(samples, parts_per_million=0):
         raise ValueError("clock offset limited to one percent")
     positions = np.arange(int(np.floor((len(x) - 1) / ratio)) + 1) * ratio
     return {"samples": sample(x, positions), "source_positions": positions}
+
+
+def acquire_timing(samples, pilots, samples_per_symbol, minimum_lag, maximum_lag, step_samples=0.125):
+    x = finite(samples, ndim=1)
+    p = finite(pilots, ndim=1)
+    sps = integer(samples_per_symbol, 2)
+    step = positive(step_samples)
+    low, high = finite([minimum_lag, maximum_lag], real=True)
+    if low < 0 or high < low or len(p) < 8 or high + (len(p) - 1) * sps > len(x) - 1:
+        raise ValueError("bounded pilot timing search required")
+    lags = np.arange(low, high + step * 0.25, step)
+    score = []
+    for lag in lags:
+        observed = sample(x, lag + np.arange(len(p)) * sps)
+        power = np.vdot(observed, observed).real
+        score.append(float(abs(np.vdot(p, observed)) ** 2 / (np.vdot(p, p).real * power)) if power > 0 else 0)
+    best = int(np.argmax(score))
+    return {"lag_samples": float(lags[best]), "lags": lags, "score": np.array(score)}

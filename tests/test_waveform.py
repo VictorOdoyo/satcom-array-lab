@@ -47,3 +47,14 @@ def test_clock_grid():
     r = m.clock_drift(x, 1000)
     assert len(r["samples"]) < len(x)
     assert np.allclose(r["samples"].real, r["source_positions"])
+
+
+def test_pilot_timing_acquisition():
+    from satlab.modem import qpsk
+
+    bits = np.random.default_rng(3).integers(0, 2, 256)
+    p = qpsk(bits)
+    h = m.rrc()
+    wave = m.matched(m.shape(p, h), h)
+    r = m.acquire_timing(wave, p, 8, 78, 82)
+    assert abs(r["lag_samples"] - 80) <= 0.125
