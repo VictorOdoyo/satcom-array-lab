@@ -46,3 +46,12 @@ def steering(unit_enu, model=None, frequency_hz=None):
     if u.shape[-1] != 3 or not np.allclose(np.linalg.norm(u, axis=-1), 1, atol=1e-8):
         raise ValueError("unit ENU propagation direction required")
     return np.exp(2j * np.pi * frequency / C * (u @ p.positions().T))
+
+
+def from_direction_cosines(east_north):
+    from .core import finite
+
+    u = finite(east_north, real=True)
+    if u.shape[-1] != 2 or np.any(np.sum(u * u, axis=-1) > 1 + 1e-12):
+        raise ValueError("front-hemisphere direction cosine pair required")
+    return np.concatenate([u, np.sqrt(np.maximum(0, 1 - np.sum(u * u, axis=-1)))[..., None]], axis=-1)

@@ -18,3 +18,9 @@ def test_broadside_receive_manifold_has_equal_phase():
     assert np.allclose(a, 1)
     with pytest.raises(ValueError):
         m.steering([0, 0, 2])
+
+
+def test_direction_cosines_avoid_azimuth_singularity_at_zenith():
+    assert np.allclose(m.from_direction_cosines([0, 0]), [0, 0, 1])
+    a = m.from_direction_cosines([0.3, 0.4])
+    assert np.linalg.norm(a) == pytest.approx(1)
