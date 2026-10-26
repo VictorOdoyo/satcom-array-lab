@@ -64,3 +64,33 @@ def squint(scale=1, seed=42):
         )
     ]
     return make("beam-squint", {"design_hz": 20e9, "command_uv": 0.5}, peaks, arrays, plots)
+
+
+def tapers(scale=1, seed=42):
+    from . import array, link
+
+    p = array.Aperture()
+    u = np.linspace(-1, 1, 1001 * scale)
+    directions = array.from_direction_cosines(np.column_stack([u, np.zeros(len(u))]))
+    arrays = {"east_uv": u}
+    summary = {}
+    for taper in ("uniform", "hann", "hamming"):
+        gain = array.response(array.weights([0, 0, 1], p, taper), directions, p)["snr_gain"]
+        arrays[taper] = link.db(gain)
+        summary[taper + "_peak_dbi"] = float(max(arrays[taper]))
+    return make(
+        "aperture-tapers",
+        {"elements": p.count},
+        summary,
+        arrays,
+        [
+            curve(
+                "Gain and sidelobe tradeoff",
+                "east_uv",
+                [(x, x) for x in ("uniform", "hann", "hamming")],
+                "East direction cosine",
+                "Array SNR gain (dB)",
+                ylim=(-60, 20),
+            )
+        ],
+    )

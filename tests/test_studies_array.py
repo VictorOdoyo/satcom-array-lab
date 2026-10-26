@@ -11,3 +11,8 @@ def test_squint():
     r = m.squint()
     assert abs(r["summary"][str(16e9)] - 0.625) < 0.003
     assert abs(r["summary"][str(24e9)] - 5 / 12) < 0.003
+
+
+def test_tapers():
+    r = m.tapers()
+    assert r["summary"]["uniform_peak_dbi"] > r["summary"]["hann_peak_dbi"]
