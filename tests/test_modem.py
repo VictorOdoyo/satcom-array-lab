@@ -63,3 +63,14 @@ def test_burst_recovery():
     assert result["ber"] < 0.005
     assert abs(result["residual_offset_hz"]) < 1
     assert result["evm_rms"] < 0.2
+
+
+def test_qpsk_analytic_ber_consistency():
+    from satlab.link import qpsk_ber
+
+    rng = np.random.default_rng(73)
+    bits = rng.integers(0, 2, 300000)
+    received = m.awgn(m.qpsk(bits), 6, rng)
+    count = int(np.count_nonzero(m.detect(received) != bits))
+    lo, hi = m.wilson(count, len(bits), z=4)
+    assert lo < float(qpsk_ber(6)) < hi
