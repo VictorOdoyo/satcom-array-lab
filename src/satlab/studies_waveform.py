@@ -114,3 +114,7 @@ def nominal(scale=1, seed=42):
 
 def uncalibrated(scale=1, seed=42):
     return solve("uncalibrated-waveform", scale, seed, calibrated=False)
+
+
+def timing(scale=1, seed=42):
+    return solve("fractional-timing-acquisition", scale, seed, fractional_samples=3.5)
