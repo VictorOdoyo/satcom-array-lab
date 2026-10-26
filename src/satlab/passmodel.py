@@ -37,6 +37,12 @@ class Config:
             positive(getattr(self, key), allow_zero=True)
         integer(self.phase_bits)
         integer(self.seed, 0)
+        if self.seed >= 2**32:
+            raise ValueError("32-bit seed required")
+        if self.beacon_gap_s:
+            from .core import finite
+
+            finite(self.beacon_gap_s, real=True)
         if self.phase_bits > 16 or not 0 <= self.failed_fraction <= 1 or not self.pass_centers_s:
             raise ValueError("bounded phase precision and failure fraction required")
         if self.altitude_m + self.ephemeris_altitude_bias_m <= 0:

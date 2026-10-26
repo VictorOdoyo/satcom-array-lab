@@ -104,3 +104,9 @@ def test_seed_reproduction():
     c = m.simulate(m.Config(duration_s=10, phase_std_rad=0.2, seed=23))
     assert np.array_equal(a["weights"], b["weights"])
     assert not np.array_equal(a["weights"], c["weights"])
+
+
+@pytest.mark.parametrize("changes", [{"beacon_gap_s": (float("nan"), 4)}, {"seed": 2**32}, {"seed": True}])
+def test_config_fails_before_large_capture(changes):
+    with pytest.raises(ValueError):
+        m.Config(**changes)
