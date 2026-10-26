@@ -88,3 +88,7 @@ def solve(name, scale, seed, **changes):
 
 def nominal(scale=1, seed=42):
     return solve("closed-loop-pass", scale, seed)
+
+
+def open_loop(scale=1, seed=42):
+    return solve("ephemeris-only-pass", scale, seed, closed_loop=False)
