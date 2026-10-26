@@ -84,3 +84,11 @@ def test_iq_inverse():
     rx = m.iq_imbalance(p, 0.7, 0.3, 0.04j)
     fit = m.fit_iq(rx, p)
     assert np.allclose(m.correct_iq(rx, fit["coefficients"]), p)
+
+
+def test_amplifier_preserves_phase_and_limits_envelope():
+    x = np.array([0.001, 1, 10]) * np.exp(0.4j)
+    r = m.rapp(x, 0.5)
+    assert np.allclose(np.angle(r), 0.4)
+    assert max(abs(r)) <= 0.5
+    assert abs(r[0] / x[0] - 1) < 1e-8

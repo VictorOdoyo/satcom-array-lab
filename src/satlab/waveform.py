@@ -133,3 +133,10 @@ def correct_iq(samples, coefficients):
         raise ValueError("IQ axes are not invertible")
     centered = x - dc
     return (a.conjugate() * centered - b * centered.conj()) / det
+
+
+def rapp(samples, saturation=0.4, smoothness=2):
+    x = finite(samples, ndim=1)
+    sat = positive(saturation)
+    p = positive(smoothness)
+    return x / (1 + (abs(x) / sat) ** (2 * p)) ** (1 / (2 * p))
