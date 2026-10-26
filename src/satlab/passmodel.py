@@ -169,3 +169,145 @@ def channel(look, command, config, aperture, phase_errors, healthy):
         "weights": w,
         "actual": actual,
     }
+
+
+def simulate(config=None):
+    from . import array, link, service, tracking
+    from .core import stream
+
+    c = Config() if config is None else config
+    t, satellites = geometry(c)
+    p = array.Aperture(design_hz=c.carrier_hz)
+    rng = stream(c.seed, "beacon")
+    hardware = stream(c.seed, "hardware")
+    phase = hardware.normal(0, c.phase_std_rad, p.count)
+    healthy = hardware.random(p.count) >= c.failed_fraction
+    receivers = [
+        {
+            "point": tracking.BiasTracker(2, 0.05, 0.001, 1e-8),
+            "carrier": tracking.BiasTracker(1, 10000, 1000, 100),
+            "lock": tracking.Lock(),
+            "snr": -200.0,
+            "acm": service.AdaptiveMode(),
+        }
+        for _ in satellites
+    ]
+    handover = service.Handover()
+    n = len(t)
+    scalar = (
+        "satellite",
+        "range_m",
+        "elevation_deg",
+        "doppler_hz",
+        "cn0_dbhz",
+        "esn0_db",
+        "estimated_esn0_db",
+        "residual_hz",
+        "point_error_deg",
+        "offered_bit_s",
+        "delivered_bit_s",
+        "mode",
+        "beacon",
+        "accepted",
+        "locked",
+        "nis",
+    )
+    out = {key: np.zeros(n) for key in scalar}
+    out["satellite"].fill(-1)
+    out["mode"].fill(-1)
+    out["command_enu"] = np.zeros((n, 3))
+    out["actual_enu"] = np.zeros((n, 3))
+    out["weights"] = np.zeros((n, p.count), complex)
+    outlier_used = False
+    for k, time in enumerate(t):
+        predictions = []
+        for obs in receivers:
+            predictions.append((obs["point"].predict(time), obs["carrier"].predict(time)[0]))
+        scores = {}
+        for j, sat in enumerate(satellites):
+            score = forecast(sat["nominal"][k], c, p)
+            if score is not None and score >= 60:
+                scores[str(j)] = score
+        selected = handover.update(time, scores)
+        if selected is None:
+            for obs in receivers:
+                obs["lock"].update(time, False)
+            continue
+        j = int(selected)
+        obs = receivers[j]
+        real = satellites[j]["true"][k]
+        nominal = satellites[j]["nominal"][k]
+        pb, fb = predictions[j]
+        command = command_direction(nominal["unit_enu"], pb if c.closed_loop else np.zeros(2))
+        physical = channel(real, command, c, p, phase, healthy)
+        true_cfo = real["doppler_hz"] + 300 + 0.2 * (time - t[0])
+        commanded_cfo = nominal["doppler_hz"] + (fb if c.closed_loop else 0)
+        residual = true_cfo - commanded_cfo
+        esn0 = (
+            physical["cn0_dbhz"]
+            - 10 * np.log10(c.symbol_rate_s)
+            + float(link.db(link.coherent_gain(residual, 0.001)))
+        )
+        locked = obs["lock"].available_at(time)
+        mode = obs["acm"].update(time, obs["snr"], available=locked)
+        offered = 0 if mode is None else service.information_rate(mode, c.symbol_rate_s)
+        delivered = (
+            offered if mode is not None and physical["available"] and esn0 >= mode.threshold_esn0_db else 0
+        )
+        old_snr = obs["snr"]
+        gap = bool(c.beacon_gap_s and c.beacon_gap_s[0] <= time < c.beacon_gap_s[1])
+        beacon = bool(
+            physical["available"] and physical["cn0_dbhz"] >= 60 and abs(residual) < 6000 and not gap
+        )
+        accepted = False
+        nis = 0
+        if beacon:
+            factor = float(np.clip(10 ** ((70 - physical["cn0_dbhz"]) / 20), 0.3, 3))
+            uv = physical["actual"][:2] + rng.normal(0, 0.001 * factor, 2)
+            measured_cfo = true_cfo + rng.normal(0, 20 * factor)
+            if c.inject_outlier and not outlier_used and time >= 0:
+                uv += np.array([0.2, -0.2])
+                measured_cfo += 2000
+                outlier_used = True
+            pr = tracking.correct_bias(obs["point"], uv - nominal["unit_enu"][:2], 0.001 * factor)
+            fr = tracking.correct_bias(obs["carrier"], measured_cfo - nominal["doppler_hz"], 20 * factor)
+            accepted = bool(pr["accepted"] and fr["accepted"])
+            nis = max(pr["nis"], fr["nis"])
+            if accepted:
+                obs["snr"] = esn0 + rng.normal(0, 0.3)
+        obs["lock"].update(time, accepted)
+        for other in range(len(receivers)):
+            if other != j:
+                receivers[other]["lock"].update(time, False)
+        values = [
+            j,
+            real["range_m"],
+            np.rad2deg(real["elevation_rad"]),
+            real["doppler_hz"],
+            physical["cn0_dbhz"],
+            esn0,
+            old_snr,
+            residual,
+            np.rad2deg(np.arccos(np.clip(command @ physical["actual"], -1, 1))),
+            offered,
+            delivered,
+            -1 if mode is None else service.MODES.index(mode),
+            int(beacon),
+            int(accepted),
+            int(locked),
+            nis,
+        ]
+        for key, value in zip(scalar, values, strict=True):
+            out[key][k] = value
+        out["command_enu"][k] = command
+        out["actual_enu"][k] = physical["actual"]
+        out["weights"][k] = physical["weights"]
+    out.update(service.accumulate(t, out["offered_bit_s"], out["delivered_bit_s"]))
+    valid = out["satellite"] >= 0
+    return {
+        "time_s": t,
+        **out,
+        "selected": valid,
+        "handovers": handover.handovers,
+        "configuration": c.to_dict(),
+    }

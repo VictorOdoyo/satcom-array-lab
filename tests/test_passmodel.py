@@ -45,3 +45,12 @@ def test_failed_aperture_unavailable():
     )
     assert not result["available"]
     assert not np.any(result["weights"])
+
+
+def test_causal_receiver_pipeline():
+    result = m.simulate(m.Config(duration_s=80, step_s=1))
+    assert result["delivered_bits"][-1] > 0
+    assert result["offered_bit_s"][0] == 0
+    assert np.all(result["delivered_bit_s"] <= result["offered_bit_s"])
+    assert np.median(abs(result["residual_hz"])[30:]) < 30
+    assert np.median(result["point_error_deg"][30:]) < 0.2
