@@ -126,3 +126,7 @@ def iq(scale=1, seed=42):
 
 def clipping(scale=1, seed=42):
     return solve("receiver-adc-clipping", scale, seed, adc_bits=5, adc_rail=0.12)
+
+
+def amplifier(scale=1, seed=42):
+    return solve("amplifier-waveform-compression", scale, seed, amplifier_saturation=0.18)

@@ -31,3 +31,9 @@ def test_clipping():
     r = m.clipping()
     assert 0 <= r["summary"]["ber"] <= 1
     assert np.isfinite(r["arrays"]["recovered_symbols"]).all()
+
+
+def test_amplifier():
+    r = m.amplifier()
+    assert 0 <= r["summary"]["ber"] <= 1
+    assert np.isfinite(r["arrays"]["recovered_symbols"]).all()
