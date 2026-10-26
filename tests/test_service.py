@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 from satlab import service as m
@@ -25,3 +26,9 @@ def test_handover_ignores_brief_score_chatter_and_switches_after_persistent_adva
     assert r.update(10, {"a": 10, "b": 14}) == "a"
     assert r.update(13, {"a": 10, "b": 14}) == "b"
     assert r.handovers == 1
+
+
+def test_service_integral_does_not_credit_missing_blocks_or_zero_padding():
+    r = m.accumulate([0, 1, 3], [10, 20, 100], [10, 0, 0])
+    assert np.allclose(r["offered_bits"], [0, 10, 50])
+    assert np.allclose(r["delivered_bits"], [0, 10, 10])

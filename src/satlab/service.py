@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+import numpy as np
+
 
 @dataclass(frozen=True)
 class Mode:
@@ -124,3 +126,23 @@ class Handover:
             self.candidate = None
             self.handovers += 1
         return self.current
+
+
+def accumulate(time_s, offered_bit_s, delivered_bit_s):
+    from .core import finite, timebase
+
+    t = timebase(time_s)
+    offered = finite(offered_bit_s, real=True, ndim=1)
+    delivered = finite(delivered_bit_s, real=True, ndim=1)
+    if (
+        offered.shape != t.shape
+        or delivered.shape != t.shape
+        or np.any(delivered < 0)
+        or np.any(offered < delivered)
+    ):
+        raise ValueError("aligned nonnegative offered and delivered service rates required")
+    dt = np.diff(t)
+    return {
+        "offered_bits": np.r_[0, np.cumsum(offered[:-1] * dt)],
+        "delivered_bits": np.r_[0, np.cumsum(delivered[:-1] * dt)],
+    }
