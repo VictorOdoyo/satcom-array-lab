@@ -11,7 +11,7 @@
       "provenance": {
         "configuration_sha256": "a9276dd566e986684d2bc6e3103b05d4751bc065f563374670495c9c908c27f6",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -40,7 +40,7 @@
       "provenance": {
         "configuration_sha256": "683bf4f019ecf341fffbf0b50e96a2ffefe67ae5d9e144b1960dc430efc0f82a",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -69,7 +69,7 @@
       "provenance": {
         "configuration_sha256": "da0c547ea386a721db199660932845736dd30fa01a8ddaa189391a1f1359b715",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -98,7 +98,7 @@
       "provenance": {
         "configuration_sha256": "aee1220a08971063d6dca81399ed88fb979d164512ccdd2fd8372b920f6beda2",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -127,7 +127,7 @@
       "provenance": {
         "configuration_sha256": "2b5652a903534b05a4d8463e20d35051b9083d6b31da2976843064058ec49b73",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -156,7 +156,7 @@
       "provenance": {
         "configuration_sha256": "36eebe83128a5ffa3723eebb68c511b03d0905322b2ccc0313e7dc908ab9c605",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -185,7 +185,7 @@
       "provenance": {
         "configuration_sha256": "83efd4919017fc4319fffc03d51cf47959c800c175ef4f07f9d54833ea97f6b4",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -214,7 +214,7 @@
       "provenance": {
         "configuration_sha256": "8bd39f52fb46050c69bfb51a4cc53b958b60f0e141d8697cbd40cae56bf91cae",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -243,7 +243,7 @@
       "provenance": {
         "configuration_sha256": "6f27177e05bf8168d7cb28e7872950ef19a32b07c49d225abed8488618c08e4e",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -272,7 +272,7 @@
       "provenance": {
         "configuration_sha256": "c1ed8c66f6644c7484a43669bfd4174ab99993493bb29d017c3ec31a967c4d0b",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -301,7 +301,7 @@
       "provenance": {
         "configuration_sha256": "311c4a0f17030236180131464f2adecfddb9bc659e58c2e549ffb4ccc0ae0270",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -330,7 +330,7 @@
       "provenance": {
         "configuration_sha256": "9fd49a27f02037c831e6c97f64d4cbc6c648fd8482989e9883c161fb2df78c6e",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -359,7 +359,7 @@
       "provenance": {
         "configuration_sha256": "13c180d8f6e349f178e2ad6059690bea8f8ba7eb14960213e1a661aa9c364f4a",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -384,7 +384,7 @@
       "provenance": {
         "configuration_sha256": "b4d5c398723da419d4060f385d2986798c155eb5cc7ae00f77f4d490fb63332b",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -409,7 +409,7 @@
       "provenance": {
         "configuration_sha256": "dcaa950fd67914bca53e051e4a3c794b4b4df5f1e4b21e9f0025ae9ae7e28fc9",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -436,7 +436,7 @@
       "provenance": {
         "configuration_sha256": "007ce2fb65e1bb646569a1a15a9a5061397d82394852b5464445131e64029b4e",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -460,7 +460,7 @@
       "provenance": {
         "configuration_sha256": "c7c93dffde24e22a3b82dd7bf8bb1558fd805a044e391810ebca3143e942d30c",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -484,7 +484,7 @@
       "provenance": {
         "configuration_sha256": "d97175b445cb87cb56ccccef8f256625e7aac2915c1ae94c72a00f4b178b7fc0",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -508,7 +508,7 @@
       "provenance": {
         "configuration_sha256": "3b610a520983ce71f525a42556e85f790a82d43ece93bb2aef480026d9c0ced3",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -534,7 +534,7 @@
       "provenance": {
         "configuration_sha256": "0b38cc851f21ca66baf82f11e73ba9170d16bdc09d9fce929d39f41e8807b8b3",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -560,7 +560,7 @@
       "provenance": {
         "configuration_sha256": "071d4ca7966e54908bff132aa17cf42bc5d66340c6b9d7f15f19ef1626afaadb",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -585,7 +585,7 @@
       "provenance": {
         "configuration_sha256": "0893b75ad456e89e402918f46ef97b3d995b1add6531d4f681ef454d3f7ef52c",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -609,7 +609,7 @@
       "provenance": {
         "configuration_sha256": "d8ec5122e52483c65b7089b70c7ac573c471d15a674aa56aa34f0970715cdf89",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -633,7 +633,7 @@
       "provenance": {
         "configuration_sha256": "2e1b00b0c43afb83520e39e846aed534aa68602831e29ddd9651a500dd39503c",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -662,7 +662,7 @@
       "provenance": {
         "configuration_sha256": "e71b62745bb34845fbfd7731586d12f37606b71819d6d61fd08479e3bca2b9da",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -686,7 +686,7 @@
       "provenance": {
         "configuration_sha256": "ba985abafc66a853edb28d16fa2749010c70678377a773a7aaabbe5fb33c2977",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -710,7 +710,7 @@
       "provenance": {
         "configuration_sha256": "aca9993489ed9fd035954d3d8908e8493d1d0e8a4570cd3105e7818a45e7b33a",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -734,7 +734,7 @@
       "provenance": {
         "configuration_sha256": "807dde9f174aeed1ba7dbf814ddd8e1f1301435e7043a9312f8134fff277e822",
         "git_dirty": false,
-        "git_revision": "9a21824463bee585d4ba8354070cc9108436346d",
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -745,6 +745,344 @@
       },
       "summary": {
         "mode_changes": 5
+      }
+    },
+    {
+      "archive": "oversampled-qpsk-receiver/fields.npz",
+      "case": "oversampled-qpsk-receiver",
+      "configuration": {
+        "case": "oversampled-qpsk-receiver",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "822afca2bd3863e44873304e719cc09f3b90dc44f9f345198bbebb803d57abbb",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "4fff36c94c52ad27ee26eae339e9107a17021f85b74cf1dd6cb041747c8c7dfe",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.0,
+        "bit_errors": 0,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 352.75,
+        "estimated_offset_hz": 39.715359599039786,
+        "evm_rms": 0.15287737309706723
+      }
+    },
+    {
+      "archive": "uncalibrated-waveform/fields.npz",
+      "case": "uncalibrated-waveform",
+      "configuration": {
+        "case": "uncalibrated-waveform",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "e6d971fa4c8c3572f41bb555024735da040f35c852adacd24a95a50275980280",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "c31b79be8069d359832c274cf84e5ade62a3bc5b762e3d2857bac8fcce153784",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.4912109375,
+        "bit_errors": 503,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 352.75,
+        "estimated_offset_hz": 0.0,
+        "evm_rms": 1.9662710928708194
+      }
+    },
+    {
+      "archive": "fractional-timing-acquisition/fields.npz",
+      "case": "fractional-timing-acquisition",
+      "configuration": {
+        "case": "fractional-timing-acquisition",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "eb3f64c3047dcffc591aebd4eee29e59568f535e4b0a06fa4c77dc2254c69364",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "77272cb0a077e124f105c382723ddbef856d5f6ee11c9bc195bec8c1236efc48",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.0,
+        "bit_errors": 0,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 356.0,
+        "estimated_offset_hz": 39.46897707316905,
+        "evm_rms": 0.2016783149942033
+      }
+    },
+    {
+      "archive": "severe-iq-calibration/fields.npz",
+      "case": "severe-iq-calibration",
+      "configuration": {
+        "case": "severe-iq-calibration",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "fde227909264591e8386de54aaf3894b41f9356e10b0042222a3021b3bcff72a",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "c8012d15cd443da960f83f887926be2d80cf503d436785d8cbf2518b2f5b9dd9",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.0,
+        "bit_errors": 0,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 352.375,
+        "estimated_offset_hz": -0.019308308586778008,
+        "evm_rms": 0.20090478915593513
+      }
+    },
+    {
+      "archive": "receiver-adc-clipping/fields.npz",
+      "case": "receiver-adc-clipping",
+      "configuration": {
+        "case": "receiver-adc-clipping",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "045c01ac3fbf01191d9b0ed4a7771f56921768c0153579f5e7d7992eb6053b2d",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "7e019a9b0614f5474a81f0c921ff791369a47f91f6773c90167e1452ebfa8ee3",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.03515625,
+        "bit_errors": 36,
+        "bits": 1024,
+        "clipped_samples": 5292,
+        "estimated_lag_samples": 352.875,
+        "estimated_offset_hz": 41.97150948718904,
+        "evm_rms": 0.4808685107621555
+      }
+    },
+    {
+      "archive": "amplifier-waveform-compression/fields.npz",
+      "case": "amplifier-waveform-compression",
+      "configuration": {
+        "case": "amplifier-waveform-compression",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "9dba1915600bf3bc131a134122c7b158611943cac4454af3256c3d6ecc12a4e3",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "04f528ea22cb355ee6fd51a3383fb7f4bfc4dffffeceff2cb89005305240b551",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.001953125,
+        "bit_errors": 2,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 352.75,
+        "estimated_offset_hz": 39.45719254525209,
+        "evm_rms": 0.294939762880923
+      }
+    },
+    {
+      "archive": "receiver-phase-noise/fields.npz",
+      "case": "receiver-phase-noise",
+      "configuration": {
+        "case": "receiver-phase-noise",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "c25e0ef247d86b54188efa009ca58a8c9abdbd1d1e203fa5adb9a3c58c4b7c16",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "0b1e3fdea0ef2c518174c3e4b8862d76ed106ddd39adf474b6cca649e130bde0",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.4091796875,
+        "bit_errors": 419,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 352.875,
+        "estimated_offset_hz": 41.89076430795875,
+        "evm_rms": 1.428305445966507
+      }
+    },
+    {
+      "archive": "receiver-clock-drift/fields.npz",
+      "case": "receiver-clock-drift",
+      "configuration": {
+        "case": "receiver-clock-drift",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "2094ce66da732324e12c4d5bf924863461f01c1eb9a212b801351fd3d1b4d4d1",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "bc870760ebfa8255eedf2404ecb851a384516f292bab87b11bd82145f5aacb2d",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "ber": 0.275390625,
+        "bit_errors": 282,
+        "bits": 1024,
+        "clipped_samples": 0,
+        "estimated_lag_samples": 351.625,
+        "estimated_offset_hz": 39.1389649358513,
+        "evm_rms": 0.9355642411263704
+      }
+    },
+    {
+      "archive": "rrc-nyquist-pulse/fields.npz",
+      "case": "rrc-nyquist-pulse",
+      "configuration": {
+        "case": "rrc-nyquist-pulse",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "bd9a3f63401faf3bfa7df3bcbf6551058feb2846e30296996fef002c194a4b0a",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "6a2d0f030bda74c81e7d00172d047345d04426994f1e71a2337600cf8bea8b8e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_off_center_isi": 0.006675028162977193
+      }
+    },
+    {
+      "archive": "iq-image-rejection/fields.npz",
+      "case": "iq-image-rejection",
+      "configuration": {
+        "case": "iq-image-rejection",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "7d9097044cf32ad2ae36efd43b95f9e752fb6b1550453734d0a98227a3d79025",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "c165fa09d1fc361d17ab89b247a38dd0cb416fb85b889e69ea40a38c8e080954",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "image_rejection_after_db": 287.0926996097583,
+        "image_rejection_before_db": 11.067264324068661
+      }
+    },
+    {
+      "archive": "matched-filter-noise/fields.npz",
+      "case": "matched-filter-noise",
+      "configuration": {
+        "case": "matched-filter-noise",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "81861c625f5565baa043cdb4a04e8d7f32db95b26f3a4846b11696960d20c2b6",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "3a264f04625ee76539a618ca8e1ac4e00d68690b5d2c7361b8c084baa852984f",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "observed_variance": 0.09825742095102868
+      }
+    },
+    {
+      "archive": "pilot-carrier-search-limit/fields.npz",
+      "case": "pilot-carrier-search-limit",
+      "configuration": {
+        "case": "pilot-carrier-search-limit",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "24ddf645dcde77d1e649ba194996194c5dbdee378a16c1d93a441501fe020181",
+        "git_dirty": false,
+        "git_revision": "05231131f921489a3886ccbb7412a65087ae53f6",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "ca505793e985ef307aa10cea9f3e4b76da9e9834a1e1ad75a51b2313c4273a1e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; ECI/ECEF and ENU coordinates; positive receding range rate gives negative Doppler; unit-norm receive weights; Es/N0 per complex symbol",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_inside_error_hz": 0.0,
+        "maximum_outside_error_hz": 113.97286407894758
       }
     }
   ],

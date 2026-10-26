@@ -1,8 +1,8 @@
 {
-  "case_count": 28,
+  "case_count": 40,
   "request_defaults": {
     "resolution_scale": 1,
     "seed": 42
   },
-  "source_revision": "9a21824463bee585d4ba8354070cc9108436346d"
+  "source_revision": "05231131f921489a3886ccbb7412a65087ae53f6"
 }
