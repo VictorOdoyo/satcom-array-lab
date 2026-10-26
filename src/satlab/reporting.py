@@ -265,7 +265,7 @@ def plot_result(result, path):
         ax.set(title=plot["title"], xlabel=plot["xlabel"], ylabel=plot["ylabel"])
     for ax in list(axes.flat)[len(panels) :]:
         ax.set_axis_off()
-    fig.suptitle(result["name"] + " | FMCW radar perception", fontsize=14)
+    fig.suptitle(result["name"] + " | satellite orbit, array and receiver", fontsize=14)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=150)
@@ -308,7 +308,7 @@ def write_report(result, directory):
 <style>body{{font:16px system-ui;max-width:1300px;margin:3rem auto;padding:0 1rem;color:#172033}}
 img{{width:100%;height:auto}}table{{border-collapse:collapse;width:100%}}td,th{{padding:.55rem;border-bottom:1px solid #dce1ea;text-align:left}}
 code{{overflow-wrap:anywhere}}a{{color:#164ac4}}</style>
-<h1>{title}</h1><p>Reproducible FMCW radar perception. Units and field components are printed on the
+<h1>{title}</h1><p>Reproducible satellite orbit, array and receiver. Units and field components are printed on the
 scientific axes. peak d-q quantities use exp(+i omega t); terminal currents point into the protected line.</p>
 <p><a href="fields.npz">Sealed numeric archive</a> | <a href="summary.csv">Summary CSV</a> |
 <a href="parameters.json">Physical parameters</a> | <a href="configuration.json">Run request</a> |
