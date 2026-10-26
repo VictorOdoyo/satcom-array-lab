@@ -122,3 +122,7 @@ def timing(scale=1, seed=42):
 
 def iq(scale=1, seed=42):
     return solve("severe-iq-calibration", scale, seed, quadrature_gain=0.4, iq_phase_rad=0.3, offset_hz=0)
+
+
+def clipping(scale=1, seed=42):
+    return solve("receiver-adc-clipping", scale, seed, adc_bits=5, adc_rail=0.12)
