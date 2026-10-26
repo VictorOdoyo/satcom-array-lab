@@ -34,3 +34,15 @@ class Aperture:
         y = (np.arange(self.north_count) - (self.north_count - 1) / 2) * spacing
         xx, yy = np.meshgrid(x, y)
         return np.column_stack([xx.ravel(), yy.ravel(), np.zeros(self.count)])
+
+
+def steering(unit_enu, model=None, frequency_hz=None):
+    from .core import finite, positive
+    from .earth import C
+
+    p = Aperture() if model is None else model
+    u = finite(unit_enu, real=True)
+    frequency = p.design_hz if frequency_hz is None else positive(frequency_hz)
+    if u.shape[-1] != 3 or not np.allclose(np.linalg.norm(u, axis=-1), 1, atol=1e-8):
+        raise ValueError("unit ENU propagation direction required")
+    return np.exp(2j * np.pi * frequency / C * (u @ p.positions().T))
