@@ -36,3 +36,8 @@ def test_julian_date_matches_j2000_and_rejects_implicit_host_timezone():
     assert m.julian_date("2000-01-01T12:00:00Z") == 2451545.0
     with pytest.raises(ValueError):
         m.julian_date("2000-01-01T12:00:00")
+
+
+def test_gmst_j2000_matches_independent_sidereal_reference():
+    hours = float(m.gmst(2451545)) * 12 / np.pi
+    assert hours == pytest.approx(18.697374558, abs=1e-6)

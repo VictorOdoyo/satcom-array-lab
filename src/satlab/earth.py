@@ -99,3 +99,25 @@ def julian_date(epoch):
     if not isinstance(value, datetime) or value.tzinfo is None:
         raise ValueError("timezone-aware civil epoch required")
     return value.astimezone(UTC).timestamp() / 86400 + 2440587.5
+
+
+def gmst(julian_ut1, julian_tt=None):
+    from .core import finite
+
+    jd = finite(julian_ut1, real=True)
+    tt = jd if julian_tt is None else finite(julian_tt, real=True)
+    midnight = np.floor(jd - 0.5) + 0.5
+    hours = 24 * (jd - midnight)
+    dut = midnight - 2451545.0
+    centuries = (tt - 2451545.0) / 36525
+    if julian_tt is None:
+        mean = 6.697375 + 0.065709824279 * dut + 1.0027379 * hours + 0.0000258 * centuries**2
+    else:
+        mean = (
+            6.697375
+            + 0.065707485828 * dut
+            + 1.0027379 * hours
+            + 0.0854103 * centuries
+            + 0.0000258 * centuries**2
+        )
+    return np.mod(mean, 24) * np.pi / 12
