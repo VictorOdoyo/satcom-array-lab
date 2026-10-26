@@ -245,3 +245,21 @@ def overhead_state(station, angle_rad, altitude_m=600000, inclination_rad=np.deg
     position = radial * radius
     velocity = direction * np.sqrt(p.mu_m3_s2 / radius)
     return np.r_[position, velocity]
+
+
+def hohmann(initial_radius_m, final_radius_m, model=None):
+    from .core import positive
+    from .earth import Earth
+
+    p = Earth() if model is None else model
+    r1 = positive(initial_radius_m)
+    r2 = positive(final_radius_m)
+    a = (r1 + r2) / 2
+    dv1 = np.sqrt(p.mu_m3_s2 / r1) * (np.sqrt(2 * r2 / (r1 + r2)) - 1)
+    dv2 = np.sqrt(p.mu_m3_s2 / r2) * (1 - np.sqrt(2 * r1 / (r1 + r2)))
+    return {
+        "first_tangential_m_s": float(dv1),
+        "second_tangential_m_s": float(dv2),
+        "total_delta_v_m_s": float(abs(dv1) + abs(dv2)),
+        "transfer_s": float(np.pi * np.sqrt(a**3 / p.mu_m3_s2)),
+    }

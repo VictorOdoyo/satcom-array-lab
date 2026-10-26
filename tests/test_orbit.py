@@ -99,3 +99,11 @@ def test_overhead_pass_setup_has_declared_range_and_orbit_inclination():
     state = m.overhead_state(s, 0.4)
     assert look(state, s, 0.4)["range_m"] == pytest.approx(600000)
     assert m.elements(state)["inclination_rad"] == pytest.approx(np.deg2rad(53))
+
+
+def test_hohmann_reverse_transfer_preserves_cost_and_changes_impulse_sign():
+    a = m.hohmann(7e6, 8e6)
+    b = m.hohmann(8e6, 7e6)
+    assert a["total_delta_v_m_s"] == pytest.approx(b["total_delta_v_m_s"])
+    assert a["first_tangential_m_s"] > 0 > b["first_tangential_m_s"]
+    assert a["transfer_s"] == pytest.approx(b["transfer_s"])
