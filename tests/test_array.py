@@ -85,3 +85,16 @@ def test_polarization_overlap_matches_linear_and_circular_references():
     assert m.polarization_overlap([1, 0], [0, 1]) == pytest.approx(0)
     assert m.polarization_overlap([1, 0], [1, 1j]) == pytest.approx(0.5)
     assert m.polarization_overlap([1, 1j], [1, -1j]) == pytest.approx(0)
+
+
+def test_colored_noise_mvdr_reference():
+    p = m.Aperture(east_count=4, north_count=4)
+    desired = m.from_direction_cosines([0.2, 0.1])
+    jammer = m.from_direction_cosines([0.5, -0.1])
+    covariance = m.interference_covariance(jammer, 8, p)
+    a = m.steering(desired, p)
+    inverse = np.linalg.solve(covariance, a)
+    reference = inverse / np.vdot(a, inverse)
+    actual = m.constrained_weights([desired], [1], p, covariance)
+    assert np.allclose(actual, reference)
+    assert np.vdot(actual, a) == pytest.approx(1)
