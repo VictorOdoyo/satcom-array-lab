@@ -43,3 +43,10 @@ def test_failures():
     assert r["name"] == "element-failure-pass"
     assert r["summary"]["delivered_mbit"] >= 0
     assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])
+
+
+def test_outage():
+    r = m.outage()
+    assert r["name"] == "aperture-outage-pass"
+    assert r["summary"]["delivered_mbit"] >= 0
+    assert np.all(r["arrays"]["delivered_bits"] <= r["arrays"]["offered_bits"])

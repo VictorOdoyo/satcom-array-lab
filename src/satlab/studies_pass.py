@@ -108,3 +108,7 @@ def calibration(scale=1, seed=42):
 
 def failures(scale=1, seed=42):
     return solve("element-failure-pass", scale, seed, failed_fraction=0.5)
+
+
+def outage(scale=1, seed=42):
+    return solve("aperture-outage-pass", scale, seed, failed_fraction=1)
