@@ -21,3 +21,9 @@ def test_tapers():
 def test_null():
     r = m.null()
     assert r["summary"]["null_sinr"] > r["summary"]["conventional_sinr"] * 10
+
+
+def test_quantization():
+    r = m.quantization()
+    assert min(r["arrays"]["bits_8"]) > -0.001
+    assert min(r["arrays"]["bits_1"]) < -2

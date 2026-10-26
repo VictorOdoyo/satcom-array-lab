@@ -132,3 +132,33 @@ def null(scale=1, seed=42):
             )
         ],
     )
+
+
+def quantization(scale=1, seed=42):
+    from . import array, link
+
+    p = array.Aperture()
+    u = np.linspace(0, 0.8, 81 * scale)
+    arrays = {"east_uv": u}
+    for bits in (1, 2, 3, 4, 8):
+        gains = []
+        for x in u:
+            direction = array.from_direction_cosines([x, 0])
+            w = array.quantize_phase(array.weights(direction, p), bits)
+            gains.append(float(array.response(w, direction, p)["snr_gain"]))
+        arrays["bits_" + str(bits)] = link.db(np.array(gains) / p.count)
+    return make(
+        "phase-quantization",
+        {"elements": p.count},
+        {"worst_one_bit_loss_db": float(min(arrays["bits_1"]))},
+        arrays,
+        [
+            curve(
+                "Quantized receive scan loss",
+                "east_uv",
+                [(k, k.replace("bits_", "") + " bits") for k in arrays if k != "east_uv"],
+                "East direction cosine",
+                "Loss from ideal (dB)",
+            )
+        ],
+    )
