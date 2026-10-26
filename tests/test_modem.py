@@ -21,3 +21,9 @@ def test_awgn_variance():
     noise = m.awgn(np.zeros(100000, dtype=complex), 10, np.random.default_rng(4))
     assert np.mean(abs(noise) ** 2) == pytest.approx(0.1, rel=0.015)
     assert abs(np.mean(noise)) < 0.004
+
+
+def test_carrier_clock():
+    s = m.carrier(np.ones(4), 8, 2, np.pi / 2)
+    assert np.allclose(s, [1j, -1, -1j, 1])
+    assert np.allclose(m.carrier(np.ones(2), 8, 2, start_s=0.5), s[:2] / 1j)
