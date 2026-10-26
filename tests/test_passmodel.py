@@ -89,3 +89,10 @@ def test_outlier_gating():
     assert r["accepted"][k] == 0
     assert r["nis"][k] > 9
     assert r["locked"][k + 1] == 1
+
+
+def test_rain_degrades_service():
+    clear = m.simulate(m.Config(duration_s=80))
+    rain = m.simulate(m.Config(duration_s=80, rain_mm_h=20))
+    assert np.mean(rain["cn0_dbhz"]) < np.mean(clear["cn0_dbhz"])
+    assert rain["delivered_bits"][-1] < clear["delivered_bits"][-1]
