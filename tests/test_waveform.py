@@ -92,3 +92,10 @@ def test_amplifier_preserves_phase_and_limits_envelope():
     assert np.allclose(np.angle(r), 0.4)
     assert max(abs(r)) <= 0.5
     assert abs(r[0] / x[0] - 1) < 1e-8
+
+
+def test_adc_rails():
+    r = m.quantize(np.array([-2 - 2j, 0, 2 + 2j]), 8, 1)
+    assert r["samples"][0] == pytest.approx(-1 - 1j)
+    assert r["samples"][-1] == pytest.approx(1 + 1j)
+    assert np.array_equal(r["clipped"], [True, False, True])

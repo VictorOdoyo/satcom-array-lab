@@ -140,3 +140,16 @@ def rapp(samples, saturation=0.4, smoothness=2):
     sat = positive(saturation)
     p = positive(smoothness)
     return x / (1 + (abs(x) / sat) ** (2 * p)) ** (1 / (2 * p))
+
+
+def quantize(samples, bits=12, full_scale=1):
+    x = finite(samples, ndim=1)
+    integer(bits)
+    rail = positive(full_scale)
+    if bits > 24:
+        raise ValueError("bounded ADC precision required")
+    step = 2 * rail / (2**bits - 1)
+    clipped = (abs(x.real) > rail) | (abs(x.imag) > rail)
+    i = -rail + np.rint((np.clip(x.real, -rail, rail) + rail) / step) * step
+    q = -rail + np.rint((np.clip(x.imag, -rail, rail) + rail) / step) * step
+    return {"samples": i + 1j * q, "clipped": clipped, "lsb": step}
