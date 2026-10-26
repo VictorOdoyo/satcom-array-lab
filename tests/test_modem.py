@@ -41,3 +41,10 @@ def test_pilot_gain_phase():
     fit = m.pilot_fit(gain * p, p)
     assert fit["gain"] == pytest.approx(gain)
     assert np.allclose(fit["equalized"], p)
+
+
+def test_quality_analytic():
+    p = m.qpsk([0, 0, 1, 1])
+    q = m.quality(1.1 * p, p, [0, 0, 1, 1])
+    assert q["bit_errors"] == 0
+    assert q["evm_rms"] == pytest.approx(0.1)

@@ -65,3 +65,18 @@ def pilot_fit(received, known):
     if abs(gain) < 1e-15:
         raise ValueError("unobservable pilot channel")
     return {"gain": complex(gain), "equalized": r / gain}
+
+
+def quality(received, known, bits):
+    r = finite(received, ndim=1)
+    p = finite(known, ndim=1)
+    b = finite(bits, real=True, ndim=1)
+    if r.shape != p.shape or len(b) != 2 * len(p) or not len(p):
+        raise ValueError("aligned nonempty QPSK reference required")
+    errors = int(np.count_nonzero(detect(r) != b))
+    return {
+        "bit_errors": errors,
+        "bits": len(b),
+        "ber": errors / len(b),
+        "evm_rms": float(np.sqrt(np.vdot(r - p, r - p).real / np.vdot(p, p).real)),
+    }
