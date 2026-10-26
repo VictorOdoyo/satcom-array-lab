@@ -27,3 +27,29 @@ class BiasTracker:
         self.state = f @ self.state
         self.covariance = f @ self.covariance @ f.T + q
         return self.state[: self.dimension].copy()
+
+
+def correct_bias(tracker, measured_bias, standard_deviation, gate=9):
+    from .core import finite, positive
+
+    d = tracker.dimension
+    z = finite(measured_bias, real=True)
+    std = finite(standard_deviation, real=True)
+    z = np.atleast_1d(z)
+    std = np.broadcast_to(std, (d,))
+    if z.shape != (d,) or np.any(std <= 0):
+        raise ValueError("one measured offset and positive uncertainty per tracked dimension required")
+    p = tracker.covariance
+    variance = np.diag(std * std)
+    residual = z - tracker.state[:d]
+    s = p[:d, :d] + variance
+    nis = float(residual @ np.linalg.solve(s, residual))
+    if nis > positive(gate):
+        return {"accepted": False, "nis": nis}
+    gain = np.linalg.solve(s, p[:, :d].T).T
+    h = np.column_stack([np.eye(d), np.zeros((d, d))])
+    j = np.eye(2 * d) - gain @ h
+    tracker.state += gain @ residual
+    tracker.covariance = j @ p @ j.T + gain @ variance @ gain.T
+    tracker.covariance = (tracker.covariance + tracker.covariance.T) / 2
+    return {"accepted": True, "nis": nis}
