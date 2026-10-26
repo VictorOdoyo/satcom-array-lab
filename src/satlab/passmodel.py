@@ -56,3 +56,31 @@ class Config:
 
     def to_dict(self):
         return asdict(self)
+
+
+def geometry(config):
+    from . import earth, orbit
+    from . import geometry as geo
+    from .core import timeline
+
+    station = geo.Station()
+    t = timeline(config.duration_s, config.step_s) - config.duration_s / 2
+    theta = earth.gmst(earth.julian_date(config.epoch)) + earth.Earth().rotation_rad_s * t
+    satellites = []
+    for center in config.pass_centers_s:
+        anchor = theta[0] + earth.Earth().rotation_rad_s * (center - t[0])
+        true = orbit.overhead_state(station, anchor, config.altitude_m)
+        nominal = orbit.overhead_state(station, anchor, config.altitude_m + config.ephemeris_altitude_bias_m)
+        ts = orbit.circular_from_state(true, t - center)
+        ns = orbit.circular_from_state(nominal, t - center)
+        satellites.append(
+            {
+                "true_state": ts,
+                "nominal_state": ns,
+                "true": [geo.look(s, station, a, config.carrier_hz) for s, a in zip(ts, theta, strict=True)],
+                "nominal": [
+                    geo.look(s, station, a, config.carrier_hz) for s, a in zip(ns, theta, strict=True)
+                ],
+            }
+        )
+    return t, satellites
