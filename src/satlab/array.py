@@ -55,3 +55,30 @@ def from_direction_cosines(east_north):
     if u.shape[-1] != 2 or np.any(np.sum(u * u, axis=-1) > 1 + 1e-12):
         raise ValueError("front-hemisphere direction cosine pair required")
     return np.concatenate([u, np.sqrt(np.maximum(0, 1 - np.sum(u * u, axis=-1)))[..., None]], axis=-1)
+
+
+def normalize(weights, allow_zero=False):
+    from .core import finite
+
+    w = finite(weights, ndim=1)
+    norm = np.linalg.norm(w)
+    if norm < 1e-15:
+        if allow_zero:
+            return np.zeros_like(w)
+        raise ValueError("nonzero receive aperture required")
+    return w / norm
+
+
+def weights(unit_enu, model=None, taper="uniform"):
+    p = Aperture() if model is None else model
+    if taper == "uniform":
+        amplitude = np.ones(p.count)
+    elif taper in ("hann", "hamming"):
+        window = np.hanning if taper == "hann" else np.hamming
+        amplitude = np.outer(window(p.north_count), window(p.east_count)).ravel()
+    else:
+        raise ValueError("known aperture taper required")
+    a = steering(unit_enu, p)
+    if a.ndim != 1:
+        raise ValueError("one commanded beam direction required")
+    return normalize(a * amplitude)

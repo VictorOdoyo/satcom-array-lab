@@ -24,3 +24,10 @@ def test_direction_cosines_avoid_azimuth_singularity_at_zenith():
     assert np.allclose(m.from_direction_cosines([0, 0]), [0, 0, 1])
     a = m.from_direction_cosines([0.3, 0.4])
     assert np.linalg.norm(a) == pytest.approx(1)
+
+
+def test_uniform_receiver_weights_have_unit_noise_gain_and_coherent_signal_gain():
+    w = m.weights([0, 0, 1])
+    a = m.steering([0, 0, 1])
+    assert np.vdot(w, w).real == pytest.approx(1)
+    assert abs(np.vdot(w, a)) ** 2 == pytest.approx(64)
