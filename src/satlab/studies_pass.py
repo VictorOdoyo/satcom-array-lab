@@ -92,3 +92,7 @@ def nominal(scale=1, seed=42):
 
 def open_loop(scale=1, seed=42):
     return solve("ephemeris-only-pass", scale, seed, closed_loop=False)
+
+
+def rain(scale=1, seed=42):
+    return solve("rain-fade-pass", scale, seed, rain_mm_h=20)
