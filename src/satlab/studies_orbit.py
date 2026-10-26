@@ -34,3 +34,37 @@ def invariants(scale=1, seed=42):
             )
         ],
     )
+
+
+def convergence(scale=1, seed=42):
+    from . import orbit
+    from .earth import Earth
+
+    x = orbit.from_elements(Earth().radius_m + 600000, 0.02, 0.9)
+    duration = 1800.0
+    reference = orbit.propagate(x, duration)
+    steps = np.array([60.0, 30.0, 15.0, 7.5]) / scale
+    errors = []
+    for dt in steps:
+        state = x.copy()
+        for _ in range(round(duration / dt)):
+            state = orbit.step(state, dt)
+        errors.append(np.linalg.norm(state[:3] - reference[:3]))
+    order = float(np.log2(errors[0] / errors[1]))
+    return make(
+        "rk4-convergence",
+        {"duration_s": duration},
+        {"observed_order": order, "finest_position_error_m": errors[-1]},
+        {"step_s": steps, "error_m": np.array(errors)},
+        [
+            curve(
+                "Independent propagation convergence",
+                "step_s",
+                [("error_m", "Position error")],
+                "Step (s)",
+                "Position error (m)",
+                xscale="log",
+                yscale="log",
+            )
+        ],
+    )
