@@ -21,3 +21,12 @@ def test_bias_filter_recovers_frequency_offset_and_rejects_large_outlier():
         m.correct_bias(r, [300 + 0.2 * t], 10)
     assert abs(r.state[0] - (300 + 0.2 * 29)) < 1 and abs(r.state[1] - 0.2) < 0.1
     assert not m.correct_bias(r, [100000], 10)["accepted"]
+
+
+def test_tracking_lock_requires_dwell_then_expires_through_observation_gap():
+    r = m.Lock(2, 5)
+    assert not r.update(0, True)
+    assert not r.update(1, True)
+    assert r.update(2, True)
+    assert r.update(4, False) and not r.available_at(7)
+    assert not r.update(8, True) and r.update(10, True)

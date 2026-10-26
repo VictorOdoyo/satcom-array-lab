@@ -53,3 +53,38 @@ def correct_bias(tracker, measured_bias, standard_deviation, gate=9):
     tracker.covariance = j @ p @ j.T + gain @ variance @ gain.T
     tracker.covariance = (tracker.covariance + tracker.covariance.T) / 2
     return {"accepted": True, "nis": nis}
+
+
+class Lock:
+    def __init__(self, acquisition_dwell_s=2, coast_s=5):
+        from .core import positive
+
+        self.dwell = positive(acquisition_dwell_s, allow_zero=True)
+        self.coast = positive(coast_s)
+        self.first = None
+        self.last_good = None
+        self.time = None
+        self.locked = False
+
+    def available_at(self, time_s):
+        return bool(self.locked and self.last_good is not None and time_s - self.last_good < self.coast)
+
+    def update(self, time_s, accepted):
+        from .core import finite
+
+        time = float(finite(time_s, real=True))
+        if type(accepted) is not bool or (self.time is not None and time < self.time):
+            raise ValueError("boolean tracking observation and monotone clock required")
+        self.time = time
+        if self.last_good is not None and time - self.last_good >= self.coast:
+            self.locked = False
+            self.first = None
+        if accepted:
+            if self.first is None:
+                self.first = time
+            self.last_good = time
+            if time - self.first >= self.dwell:
+                self.locked = True
+        else:
+            self.first = None
+        return self.available_at(time)
