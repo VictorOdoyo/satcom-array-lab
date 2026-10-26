@@ -28,3 +28,8 @@ def test_budget():
     r = m.budget()
     assert np.all(np.diff(r["arrays"]["target_3"]) > 0)
     assert np.allclose(r["arrays"]["target_11"] - r["arrays"]["target_3"], 8)
+
+
+def test_adaptation():
+    r = m.adaptation()
+    assert not np.any(r["arrays"]["rate_mbit_s"][~r["arrays"]["available"]])

@@ -178,3 +178,48 @@ def budget(scale=1, seed=42):
             )
         ],
     )
+
+
+def adaptation(scale=1, seed=42):
+    from .core import stream
+    from .service import AdaptiveMode, information_rate
+
+    t = np.arange(0, 120, 1 / scale)
+    snr = 8 + 4 * np.sin(t / 18) + stream(seed, "acm").normal(0, 0.4, len(t))
+    available = ~((t >= 55) & (t < 65))
+    acm = AdaptiveMode()
+    rates = []
+    modes = []
+    for time, value, ok in zip(t, snr, available, strict=True):
+        mode = acm.update(time, value, bool(ok))
+        rates.append(0 if mode is None else information_rate(mode, 2e6))
+        modes.append(-1 if mode is None else acm.modes.index(mode))
+    return make(
+        "adaptive-mode-hysteresis",
+        {"symbol_rate_s": 2e6, "upgrade_margin_db": 1, "dwell_s": 5},
+        {"mode_changes": int(np.count_nonzero(np.diff(modes)))},
+        {
+            "time_s": t,
+            "pilot_esn0_db": snr,
+            "rate_mbit_s": np.array(rates) / 1e6,
+            "mode": np.array(modes),
+            "available": available,
+        },
+        [
+            curve(
+                "Noisy pilot energy estimates",
+                "time_s",
+                [("pilot_esn0_db", "Measured estimate")],
+                "Time (s)",
+                "Es/N0 (dB)",
+            ),
+            curve(
+                "Selected information rate",
+                "time_s",
+                [("rate_mbit_s", "ACM service")],
+                "Time (s)",
+                "Rate (Mbit/s)",
+            ),
+        ],
+        assumptions=["Threshold-based service policy; no coded-frame error-rate simulation."],
+    )
