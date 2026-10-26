@@ -75,3 +75,12 @@ def test_iq_pilot_fit():
     fit = m.fit_iq(r, p)
     assert max(abs(fit["residual"])) < 1e-12
     assert fit["coefficients"][2] == pytest.approx(0.04 + 0.02j)
+
+
+def test_iq_inverse():
+    from satlab.modem import qpsk
+
+    p = qpsk(np.tile([0, 0, 0, 1, 1, 0, 1, 1], 10))
+    rx = m.iq_imbalance(p, 0.7, 0.3, 0.04j)
+    fit = m.fit_iq(rx, p)
+    assert np.allclose(m.correct_iq(rx, fit["coefficients"]), p)

@@ -120,3 +120,16 @@ def fit_iq(received, pilots):
         raise ValueError("pilot constellation cannot identify IQ and DC")
     coefficients = np.linalg.lstsq(design, r, rcond=None)[0]
     return {"coefficients": coefficients, "residual": r - design @ coefficients}
+
+
+def correct_iq(samples, coefficients):
+    x = finite(samples, ndim=1)
+    c = finite(coefficients)
+    if c.shape != (3,):
+        raise ValueError("three complex IQ calibration coefficients required")
+    a, b, dc = c
+    det = abs(a) ** 2 - abs(b) ** 2
+    if abs(det) < 1e-10:
+        raise ValueError("IQ axes are not invertible")
+    centered = x - dc
+    return (a.conjugate() * centered - b * centered.conj()) / det
