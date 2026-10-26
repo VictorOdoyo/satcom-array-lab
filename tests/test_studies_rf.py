@@ -1,3 +1,5 @@
+import numpy as np
+
 from satlab import studies_rf as m
 
 
@@ -14,3 +16,9 @@ def test_burst():
 def test_coherent():
     r = m.coherent()
     assert r["summary"]["max_power_difference"] < 1e-5
+
+
+def test_atmosphere():
+    r = m.atmosphere()
+    assert np.all(r["arrays"]["rain_k"] > r["arrays"]["clear_k"])
+    assert np.all(r["arrays"]["rain_k"] < 280)

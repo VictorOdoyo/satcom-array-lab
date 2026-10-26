@@ -115,3 +115,40 @@ def coherent(scale=1, seed=42):
             )
         ],
     )
+
+
+def atmosphere(scale=1, seed=42):
+    from . import link
+
+    el = np.deg2rad(np.linspace(10, 90, 161 * scale))
+    clear = link.atmosphere(el)
+    rain = link.atmosphere(el, rain_rate_mm_h=20)
+    return make(
+        "atmosphere-noise",
+        {"rain_rate_mm_h": 20, "receiver_k": 300},
+        {"zenith_rain_attenuation_db": float(rain["attenuation_db"][-1])},
+        {
+            "elevation_deg": np.rad2deg(el),
+            "clear_db": clear["attenuation_db"],
+            "rain_db": rain["attenuation_db"],
+            "clear_k": clear["sky_temperature_k"],
+            "rain_k": rain["sky_temperature_k"],
+        },
+        [
+            curve(
+                "Illustrative slant loss",
+                "elevation_deg",
+                [("clear_db", "Clear"), ("rain_db", "Rain")],
+                "Elevation (deg)",
+                "Attenuation (dB)",
+            ),
+            curve(
+                "Atmospheric noise brightness",
+                "elevation_deg",
+                [("clear_k", "Clear"), ("rain_k", "Rain")],
+                "Elevation (deg)",
+                "Sky temperature (K)",
+            ),
+        ],
+        assumptions=["Illustrative power-law rain layer, not a complete ITU-R P.618 availability model."],
+    )
