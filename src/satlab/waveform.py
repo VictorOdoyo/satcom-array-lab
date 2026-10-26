@@ -31,3 +31,14 @@ def rrc(samples_per_symbol=8, span_symbols=10, rolloff=0.25):
                     np.sin(np.pi * value * (1 - beta)) + 4 * beta * value * np.cos(np.pi * value * (1 + beta))
                 ) / (np.pi * value * (1 - (4 * beta * value) ** 2))
     return h / np.linalg.norm(h)
+
+
+def shape(symbols, pulse, samples_per_symbol=8):
+    symbols = finite(symbols, ndim=1)
+    h = finite(pulse, ndim=1)
+    sps = integer(samples_per_symbol, 2)
+    if len(symbols) == 0 or len(h) == 0:
+        raise ValueError("nonempty symbols and pulse required")
+    upsampled = np.zeros((len(symbols) - 1) * sps + 1, complex)
+    upsampled[::sps] = symbols
+    return np.convolve(upsampled, h)
