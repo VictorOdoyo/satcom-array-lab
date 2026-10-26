@@ -94,3 +94,41 @@ def tapers(scale=1, seed=42):
             )
         ],
     )
+
+
+def null(scale=1, seed=42):
+    from . import array, link
+
+    p = array.Aperture()
+    desired = array.from_direction_cosines([0.2, 0])
+    jammer = array.from_direction_cosines([0.4, 0])
+    u = np.linspace(-1, 1, 801 * scale)
+    directions = array.from_direction_cosines(np.column_stack([u, np.zeros(len(u))]))
+    conventional = array.weights(desired, p)
+    constrained = array.normalize(array.constrained_weights(np.array([desired, jammer]), [1, 0], p))
+    r = array.interference_covariance(jammer, 100, p)
+    ratios = {}
+    for name, w in (("conventional", conventional), ("null", constrained)):
+        ratios[name + "_sinr"] = float(
+            abs(np.vdot(w, array.steering(desired, p))) ** 2 / array.noise_gain(w, r)
+        )
+    return make(
+        "constrained-null",
+        {"interferer_inr_per_element": 100},
+        ratios,
+        {
+            "east_uv": u,
+            "conventional_db": link.db(array.response(conventional, directions, p)["snr_gain"]),
+            "null_db": link.db(array.response(constrained, directions, p)["snr_gain"]),
+        },
+        [
+            curve(
+                "Spatial interference rejection",
+                "east_uv",
+                [("conventional_db", "Conventional"), ("null_db", "Constrained")],
+                "East direction cosine",
+                "Array gain (dB)",
+                ylim=(-80, 20),
+            )
+        ],
+    )

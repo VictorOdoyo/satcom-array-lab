@@ -16,3 +16,8 @@ def test_squint():
 def test_tapers():
     r = m.tapers()
     assert r["summary"]["uniform_peak_dbi"] > r["summary"]["hann_peak_dbi"]
+
+
+def test_null():
+    r = m.null()
+    assert r["summary"]["null_sinr"] > r["summary"]["conventional_sinr"] * 10
