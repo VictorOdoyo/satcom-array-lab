@@ -172,3 +172,38 @@ def doppler(scale=1, seed=42):
             ),
         ],
     )
+
+
+def transfer(scale=1, seed=42):
+    from . import orbit
+    from .earth import Earth
+
+    start = Earth().radius_m + 400000
+    altitude = np.linspace(410000, 2000000, 100 * scale)
+    values = [orbit.hohmann(start, Earth().radius_m + h) for h in altitude]
+    return make(
+        "hohmann-transfer",
+        {"initial_altitude_m": 400000},
+        {"largest_delta_v_m_s": values[-1]["total_delta_v_m_s"]},
+        {
+            "altitude_km": altitude / 1000,
+            "delta_v_m_s": np.array([v["total_delta_v_m_s"] for v in values]),
+            "transfer_min": np.array([v["transfer_s"] / 60 for v in values]),
+        },
+        [
+            curve(
+                "Orbit raising cost",
+                "altitude_km",
+                [("delta_v_m_s", "Two impulses")],
+                "Final altitude (km)",
+                "Delta-v (m/s)",
+            ),
+            curve(
+                "Half-ellipse transfer time",
+                "altitude_km",
+                [("transfer_min", "Time of flight")],
+                "Final altitude (km)",
+                "Time (min)",
+            ),
+        ],
+    )

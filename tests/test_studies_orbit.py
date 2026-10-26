@@ -1,3 +1,5 @@
+import numpy as np
+
 from satlab import studies_orbit as m
 
 
@@ -22,3 +24,8 @@ def test_precession():
 def test_doppler():
     r = m.doppler()
     assert r["summary"]["interior_max_error_hz"] < 2
+
+
+def test_transfer():
+    r = m.transfer()
+    assert np.all(np.diff(r["arrays"]["delta_v_m_s"]) > 0)
